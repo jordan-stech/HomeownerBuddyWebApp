@@ -30,6 +30,13 @@
             </div>
         </form>
 
+        @{ 
+                var error = @ViewBag.error;
+        }
+
+        <div class="error">
+            @error
+        </div>
 
         <div>
             <a asp-action="Index">Back to List</a>

@@ -56,6 +56,14 @@ namespace HOB_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([Bind("Id,Username,Password")] UserModel userModel)
         {
+
+            if (IsUserNameTaken(userModel.Username))
+            {
+                ViewBag.Error = "Username already  taken";
+                return View(userModel);
+            }
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(userModel);
@@ -142,12 +150,20 @@ namespace HOB_WebApp.Controllers
             var userModel = await _context.UserModel.FindAsync(id);
             _context.UserModel.Remove(userModel);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool UserModelExists(int id)
         {
             return _context.UserModel.Any(e => e.Id == id);
+        }
+
+        [NonAction]
+        public bool IsUserNameTaken(string username)
+        {
+            var found = _context.UserModel.Where(a => a.Username == username).FirstOrDefault();
+            return found != null;
         }
     }
 }
