@@ -60,7 +60,7 @@ namespace HOB_WebApp.Controllers
             {
                 _context.Add(userModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View("~/Views/Home/Index.cshtml");
             }
             return View(userModel);
         }
