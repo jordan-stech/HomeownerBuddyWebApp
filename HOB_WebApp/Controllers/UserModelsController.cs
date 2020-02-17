@@ -43,18 +43,18 @@ namespace HOB_WebApp.Controllers
             return View(userModel);
         }
 
-        // GET: UserModels/Create
-        public IActionResult Create()
+        // GET: UserModels/Register
+        public IActionResult Register()
         {
             return View();
         }
 
-        // POST: UserModels/Create
+        // POST: UserModels/Register
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Username,Password")] UserModel userModel)
+        public async Task<IActionResult> Register([Bind("Id,Username,Password")] UserModel userModel)
         {
             if (ModelState.IsValid)
             {
