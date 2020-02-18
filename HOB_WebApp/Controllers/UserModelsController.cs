@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HOB_WebApp.Data;
 using HOB_WebApp.Models;
 using System.Web;
-using System.Web.SessionState;
+using Microsoft.AspNetCore.Http;
 
 namespace HOB_WebApp.Controllers
 {
@@ -97,7 +97,7 @@ namespace HOB_WebApp.Controllers
 
             if (userModel.Password == password)
             {
-               
+                //HttpContext.Session.SetString("username", username);
                 return View("~/Views/Home/Index.cshtml");
             } else
             {
