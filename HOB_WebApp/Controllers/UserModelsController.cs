@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HOB_WebApp.Data;
 using HOB_WebApp.Models;
+using System.Web;
+using System.Web.SessionState;
 
 namespace HOB_WebApp.Controllers
 {
@@ -68,9 +70,40 @@ namespace HOB_WebApp.Controllers
             {
                 _context.Add(userModel);
                 await _context.SaveChangesAsync();
+             
                 return View("~/Views/Home/Index.cshtml");
             }
             return View(userModel);
+        }
+
+        // GET: UserModels/Login
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        // POST: UserModels/Login/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(String username, String password)
+        {
+            var userModel = await _context.UserModel
+                .FirstOrDefaultAsync(m => m.Username == username);
+            if (userModel == null)
+            {
+                ViewBag.Error = "Username does not exist";
+                return View(userModel);
+            }
+
+            if (userModel.Password == password)
+            {
+               
+                return View("~/Views/Home/Index.cshtml");
+            } else
+            {
+                ViewBag.Error = "Incorrect Password";
+                return View(userModel);
+            }
         }
 
         // GET: UserModels/Edit/5
