@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HOB_WebApp.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace HOB_WebApp.Controllers
 {
@@ -32,6 +33,18 @@ namespace HOB_WebApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public String getUsername()
+        {
+            String username = HttpContext.Session.GetString("username");
+            if (username != null)
+            {
+                return username;
+            } else
+            {
+                return "";
+            }
         }
     }
 }
