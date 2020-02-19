@@ -13,3 +13,11 @@
     border: 5px solid #005691;
 }
 
+.error {
+    color: red;
+}
+
+.img {
+    margin-top: 1em;
+}
+
