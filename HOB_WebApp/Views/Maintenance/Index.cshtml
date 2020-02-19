@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+    <html>
+        <h1>Maintenance Reminders</h1>
+      
+        <form asp-controller="Movies" asp-action="Index">
+            <p>
+                Home Owner ID: <input type="text" name="SearchString">
+                <input type="submit" value="Search" />
+            </p>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                       Home owner ID
+                    </th>
+                    <th>
+                        Reminder
+                    </th>
+                    <th>
+                        Sent
+                    </th>
+                    <th>
+                        Completed
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+              
+                    <tr>
+                        <td>
+                          124245426
+                        </td>
+                        <td>
+                           Gutters mate
+                        </td>
+                        <td>
+                           4/19/20
+                        </td>
+                        <td>
+                           Not
+                        </td>
+                    </tr>
+                
+            </tbody>
+        </table>
+
+</html>
