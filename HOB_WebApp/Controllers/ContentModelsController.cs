@@ -25,6 +25,12 @@ namespace HOB_WebApp.Controllers
             return View(await _context.ContentModel.ToListAsync());
         }
 
+        // GET: ContentModels/CreateIssue
+        public IActionResult CreateIssue()
+        {
+            return View();
+        }
+
         // GET: ContentModels/Details/5
         public async Task<IActionResult> Details(int? id)
         {

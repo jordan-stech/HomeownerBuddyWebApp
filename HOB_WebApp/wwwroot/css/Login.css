@@ -21,3 +21,8 @@
     margin-top: 1em;
 }
 
+.align {
+    position: relative;
+    width: 100%;
+}
+
