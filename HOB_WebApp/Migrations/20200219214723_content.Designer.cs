@@ -3,14 +3,16 @@ using HOB_WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HOB_WebApp.Migrations
 {
     [DbContext(typeof(HOB_WebAppContext))]
-    partial class HOB_WebAppContextModelSnapshot : ModelSnapshot
+    [Migration("20200219214723_content")]
+    partial class content
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
