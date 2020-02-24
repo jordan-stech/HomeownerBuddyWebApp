@@ -30,8 +30,8 @@
             </div>
         </form>
 
-        @{ 
-                var error = @ViewBag.error;
+        @{
+            var error = @ViewBag.error;
         }
 
         <div class="error">
@@ -39,9 +39,11 @@
         </div>
 
         <div>
+            <a asp-area="" asp-controller="UserModels" asp-action="Register">Create new account</a>
+        </div>
+        <div>
             <a asp-action="Index">Back to List</a>
         </div>
-
 
     </div>
 </body>
