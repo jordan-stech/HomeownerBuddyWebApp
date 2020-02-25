@@ -10,28 +10,28 @@ using HOB_WebApp.Models;
 
 namespace HOB_WebApp.Controllers
 {
-    public class ContentModelsController : Controller
+    public class ActionPlanController : Controller
     {
         private readonly HOB_WebAppContext _context;
 
-        public ContentModelsController(HOB_WebAppContext context)
+        public ActionPlanController(HOB_WebAppContext context)
         {
             _context = context;
         }
 
-        // GET: ContentModels
+        // GET: ActionPlan
         public async Task<IActionResult> Index()
         {
             return View(await _context.ContentModel.ToListAsync());
         }
 
-        // GET: ContentModels/CreateIssue
-        public IActionResult CreateIssue()
+        // GET: ActionPlan/CreateActionPlan
+        public IActionResult CreateActionPlan()
         {
             return View();
         }
 
-        // GET: ContentModels/Details/5
+        // GET: ActionPlan/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,13 +49,13 @@ namespace HOB_WebApp.Controllers
             return View(contentModel);
         }
 
-        // GET: ContentModels/Create
+        // GET: ActionPlan/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ContentModels/Create
+        // POST: ActionPlan/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -71,7 +71,7 @@ namespace HOB_WebApp.Controllers
             return View(contentModel);
         }
 
-        // GET: ContentModels/Edit/5
+        // GET: ActionPlan/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,7 +87,7 @@ namespace HOB_WebApp.Controllers
             return View(contentModel);
         }
 
-        // POST: ContentModels/Edit/5
+        // POST: ActionPlan/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -122,7 +122,7 @@ namespace HOB_WebApp.Controllers
             return View(contentModel);
         }
 
-        // GET: ContentModels/Delete/5
+        // GET: ActionPlan/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,7 +140,7 @@ namespace HOB_WebApp.Controllers
             return View(contentModel);
         }
 
-        // POST: ContentModels/Delete/5
+        // POST: ActionPlan/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
