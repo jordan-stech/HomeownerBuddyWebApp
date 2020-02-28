@@ -9,16 +9,21 @@ using HOB_WebApp.Data;
 
 namespace HOB_WebApp.Controllers
 {
+    //specific address is: api/ServiceProviderAPI
     [Route("api/[controller]")]
 
     public class ServiceProviderAPIController : Controller
     {
         private readonly HOB_WebAppContext _context;
 
+
+        //Get the DB context
         public ServiceProviderAPIController(HOB_WebAppContext context)
         {
             _context = context;
         }
+
+        //When a "GET" request received, return all Service Providers
         [HttpGet]
         // GET: Issue
         public IActionResult Index()
