@@ -10,8 +10,7 @@ namespace HOB_WebApp.Migrations
                 name: "ContentModel",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false).Annotation("SqlServer:Identity", "1, 1"),
                     Link = table.Column<string>(nullable: false),
                     Steps = table.Column<string>(nullable: false),
                     Category = table.Column<string>(nullable: false)
