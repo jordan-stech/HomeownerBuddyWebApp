@@ -12,7 +12,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200302234825_CreateIdentitySchema.cs" />
+    <Compile Remove="Migrations\20200302234825_CreateIdentitySchema.Designer.cs" />
+    <Compile Remove="Migrations\20200302235249_CreateIdentityUser.cs" />
+    <Compile Remove="Migrations\20200302235249_CreateIdentityUser.Designer.cs" />
+    <Compile Remove="Migrations\20200303000148_CreateIdentitySchema.cs" />
+    <Compile Remove="Migrations\20200303000148_CreateIdentitySchema.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1">
