@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HOB_WebApp.Migrations
 {
-    public partial class update : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,51 @@ namespace HOB_WebApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContentModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Link = table.Column<string>(nullable: false),
+                    Steps = table.Column<string>(nullable: false),
+                    Category = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContentModel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MobileUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FName = table.Column<string>(nullable: true),
+                    Lname = table.Column<string>(nullable: true),
+                    HomeCode = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MobileUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ServiceProviderModel",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(nullable: false),
+                    service = table.Column<string>(nullable: true),
+                    phone_number = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiceProviderModel", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,6 +253,15 @@ namespace HOB_WebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "ContentModel");
+
+            migrationBuilder.DropTable(
+                name: "MobileUsers");
+
+            migrationBuilder.DropTable(
+                name: "ServiceProviderModel");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

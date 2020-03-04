@@ -15,8 +15,6 @@ namespace HOB_WebApp.Data
         {
         }
 
-        public DbSet<HOB_WebApp.Models.UserModel> UserModel { get; set; }
-
         public DbSet<HOB_WebApp.Models.ContentModel> ContentModel { get; set; }
 
         public DbSet<HOB_WebApp.Models.ServiceProviderModel> ServiceProviderModel { get; set; }
