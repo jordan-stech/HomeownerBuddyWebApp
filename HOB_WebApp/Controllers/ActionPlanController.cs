@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HOB_WebApp.Data;
+using HOB_WebApp.Models;
 
 namespace HOB_WebApp.Models
 {
