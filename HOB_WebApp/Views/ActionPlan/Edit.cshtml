@@ -5,27 +5,19 @@
 }
 
 <h1>Edit</h1>
+
+<h4>ContentModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            Select Category:
-            <select asp-for="Category" id="category" name="category" value="Select A Category">
-                <option value="kitchen">Kitchen</option>
-                <option value="plumbing">Plumbing</option>
-                <option value="electrical">Electrical</option>
-                <option value="hvac">HVAC</option>
-                <option value="livingRoom">Living Room</option>
-                <option value="bathroom">Bathroom</option>
-                <option value="closet">Closet</option>
-                <option value="laundry">Laundry</option>
-                <option value="hallway">Hallway</option>
-                <option value="exterior">Exterior</option>
-                <option value="bedroom">Bedroom</option>
-                <option value="misc">Misc.</option>
-            </select>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Link" class="control-label"></label>
                 <input asp-for="Link" class="form-control" />
@@ -35,6 +27,16 @@
                 <label asp-for="Steps" class="control-label"></label>
                 <input asp-for="Steps" class="form-control" />
                 <span asp-validation-for="Steps" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <input asp-for="Category" class="form-control" />
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <input asp-for="Tags" class="form-control" />
+                <span asp-validation-for="Tags" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

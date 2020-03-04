@@ -10,11 +10,17 @@ namespace HOB_WebApp.Models
     {
         public int Id { get; set; }
 
+
+        [Required]
+        public string Title { get; set; }
         [Required]
         public string Link { get; set; }
         [Required]
         public string Steps { get; set; }
         [Required]
         public string Category { get; set; }
+
+        public string Tags { get; set; }
+
     }
 }

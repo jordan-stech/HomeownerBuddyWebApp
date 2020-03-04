@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HOB_WebApp.Data;
-using HOB_WebApp.Models;
 
-namespace HOB_WebApp.Controllers
+namespace HOB_WebApp.Models
 {
     public class ActionPlanController : Controller
     {
@@ -23,12 +22,6 @@ namespace HOB_WebApp.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.ContentModel.ToListAsync());
-        }
-
-        // GET: ActionPlan/CreateActionPlan
-        public IActionResult CreateActionPlan()
-        {
-            return View();
         }
 
         // GET: ActionPlan/Details/5
@@ -60,7 +53,7 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Link,Steps,Category")] ContentModel contentModel)
+        public async Task<IActionResult> Create([Bind("Id,Title,Link,Steps,Category,Tags")] ContentModel contentModel)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +85,7 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Link,Steps,Category")] ContentModel contentModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Link,Steps,Category,Tags")] ContentModel contentModel)
         {
             if (id != contentModel.Id)
             {
