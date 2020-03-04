@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HOB_WebApp.Data;
 using HOB_WebApp.Models;
 
-namespace HOB_WebApp.Models
+namespace HOB_WebApp.Controllers
 {
     public class ActionPlanController : Controller
     {
@@ -23,6 +23,12 @@ namespace HOB_WebApp.Models
         public async Task<IActionResult> Index()
         {
             return View(await _context.ContentModel.ToListAsync());
+        }
+
+        // GET: ActionPlan/CreateActionPlan
+        public IActionResult CreateActionPlan()
+        {
+            return View();
         }
 
         // GET: ActionPlan/Details/5
