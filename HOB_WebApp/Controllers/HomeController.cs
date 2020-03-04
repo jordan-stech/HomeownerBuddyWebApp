@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HOB_WebApp.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
