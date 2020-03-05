@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HOB_WebApp.Migrations
 {
     [DbContext(typeof(HOB_WebAppContext))]
-    [Migration("20200304221810_Initial")]
-    partial class Initial
+    [Migration("20200305155530_login")]
+    partial class login
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,13 @@ namespace HOB_WebApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Steps")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tags")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
