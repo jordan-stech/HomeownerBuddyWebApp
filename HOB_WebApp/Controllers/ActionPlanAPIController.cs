@@ -24,6 +24,10 @@ namespace HOB_WebApp.Controllers
             _context = context;
         }
 
+
+        /**
+         * This is what we call to return a JSON of every Action Plan in the DB
+         **/
         // GET: api/ActionPlanAPI
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ContentModel>>> GetContentModel()
@@ -31,6 +35,12 @@ namespace HOB_WebApp.Controllers
             return await _context.ContentModel.ToListAsync();
         }
 
+
+        /**
+         * This is what we call to return a specific Action Plan 
+         * The "5" that they use in the sample url below is the id of a specific action plan in the db
+         * In order for this to work, you must know the particular action plan ID ahead of time
+         **/
         // GET: api/ActionPlanAPI/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ContentModel>> GetContentModel(int id)
@@ -45,6 +55,11 @@ namespace HOB_WebApp.Controllers
             return contentModel;
         }
 
+        /**
+         * This is a PUT request. I do not think we will need it, but I will leave it in just in case. 
+         * The "5" that they use in the sample url below is the id of a specific action plan in the db
+         * In order for this to work, you must know the particular action plan ID ahead of time
+         **/
         // PUT: api/ActionPlanAPI/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -77,6 +92,12 @@ namespace HOB_WebApp.Controllers
             return NoContent();
         }
 
+
+        /**
+         * This is a POST request. I do not think we will need it, but I will leave it in just in case. 
+         * The "5" that they use in the sample url below is the id of a specific action plan in the db
+         * In order for this to work, you must know the particular action plan ID ahead of time
+         **/
         // POST: api/ActionPlanAPI
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -89,6 +110,11 @@ namespace HOB_WebApp.Controllers
             return CreatedAtAction("GetContentModel", new { id = contentModel.Id }, contentModel);
         }
 
+        /**
+         * This is a DELETE request. I do not think we will need it, but I will leave it in just in case. 
+         * The "5" that they use in the sample url below is the id of a specific action plan in the db
+         * In order for this to work, you must know the particular action plan ID ahead of time
+         **/
         // DELETE: api/ActionPlanAPI/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ContentModel>> DeleteContentModel(int id)

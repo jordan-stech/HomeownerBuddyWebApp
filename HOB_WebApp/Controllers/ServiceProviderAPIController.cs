@@ -24,6 +24,10 @@ namespace HOB_WebApp.Controllers
             _context = context;
         }
 
+
+        /**
+         * This is what we call to return a JSON of every Service Provider in the DB
+         **/
         //When a "GET" request received, return all Service Providers
         [HttpGet]
         // GET: Issue

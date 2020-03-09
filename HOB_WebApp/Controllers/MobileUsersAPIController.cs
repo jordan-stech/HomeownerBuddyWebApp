@@ -21,14 +21,25 @@ namespace HOB_WebApp.Controllers
             _context = context;
         }
 
-        // GET: api/MobileUsers1
+        /**
+         * This is what we call to return a JSON of every Mobile User in the DB
+         * We will probably not use this
+         **/
+        // GET: api/MobileUsersAPI
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MobileUsers>>> GetMobileUsers()
         {
             return await _context.MobileUsers.ToListAsync();
         }
 
-        // GET: api/MobileUsers1/5
+
+        /**
+         * This is what we call to return a specific Mobile User
+         * The "5" that they use in the sample url below is the id of a specific mobile user in the db
+         * In order for this to work, you must know the particular mobile user ID ahead of time
+         * We will probably not use this
+         **/
+        // GET: api/MobileUsersAPI/5
         [HttpGet("{id}")]
         public async Task<ActionResult<MobileUsers>> GetMobileUsers(int id)
         {
@@ -42,7 +53,12 @@ namespace HOB_WebApp.Controllers
             return mobileUsers;
         }
 
-        // PUT: api/MobileUsers1/5
+        /**
+         * This is a PUT request. I do not think we will need it, but I will leave it in just in case. 
+         * The "5" that they use in the sample url below is the id of a specific mobile user in the db
+         * In order for this to work, you must know the particular mobile user ID ahead of time
+         **/
+        // PUT: api/MobileUsersAPI/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
@@ -74,7 +90,14 @@ namespace HOB_WebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/MobileUsers1
+
+        /**
+         * This is a POST request. 
+         * This will be called to create a new user
+         * The "5" that they use in the sample url below is the id of a specific mobile user in the db
+         * In order for this to work, you must know the particular mobile user ID ahead of time
+         **/
+        // POST: api/MobileUsersAPI
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
@@ -86,7 +109,14 @@ namespace HOB_WebApp.Controllers
             return CreatedAtAction("GetMobileUsers", new { id = mobileUsers.Id }, mobileUsers);
         }
 
-        // DELETE: api/MobileUsers1/5
+
+        /**
+         * This is a DELETE request. 
+         * This will be called when an account needs to be deleted
+         * The "5" that they use in the sample url below is the id of a specific mobile user in the db
+         * In order for this to work, you must know the particular mobile user ID ahead of time
+         **/
+        // DELETE: api/MobileUsersAPI/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<MobileUsers>> DeleteMobileUsers(int id)
         {
