@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HOB_WebApp.Data;
 using HOB_WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HOB_WebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    [AllowAnonymous]
     public class MobileUsersAPIController : ControllerBase
     {
         private readonly HOB_WebAppContext _context;
