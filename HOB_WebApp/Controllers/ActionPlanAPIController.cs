@@ -37,15 +37,19 @@ namespace HOB_WebApp.Controllers
 
 
         /**
-         * This is what we call to return a specific Action Plan 
-         * The "5" that they use in the sample url below is the id of a specific action plan in the db
-         * In order for this to work, you must know the particular action plan ID ahead of time
+         * This is what we are calling in the mobile app. 
+         * To get all plumbing issues, do api/ActionPlanAPI/plumbing
+         * 
+         * 
+         * 
+         * Returns a list of all action plans 
+         * This is what we call to return a specific set of Action Plan 
          **/
-        // GET: api/ActionPlanAPI/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ContentModel>> GetContentModel(int id)
+        // GET: api/ActionPlanAPI/laundry
+        [HttpGet("{Category}")]
+        public async Task<ActionResult<IEnumerable<ContentModel>>> GetContentModel(String category)
         {
-            var contentModel = await _context.ContentModel.FindAsync(id);
+            var contentModel = await _context.ContentModel.Where(m => m.Category == category).ToListAsync();
 
             if (contentModel == null)
             {

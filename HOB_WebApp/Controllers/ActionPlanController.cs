@@ -64,6 +64,12 @@ namespace HOB_WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Change YouTube link to embedded link
+                String url = contentModel.Link;
+                url = url.Split("v=")[1];
+                url = "https://www.youtube.com/embed/" + url;
+                contentModel.Link = url;
+
                 _context.Add(contentModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
