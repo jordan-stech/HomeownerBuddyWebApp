@@ -46,17 +46,19 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Steps" class="control-label"></label>
-                        <textarea asp-for="Steps" rows="5" class="form-control"></textarea>
+                        <textarea asp-for="Steps" rows="6" class="form-control" style="resize:none"></textarea>
                         <span asp-validation-for="Steps" class="text-danger"></span>
                     </div>
                     <div class="form-group2" name="tags">
                         <label asp-for="Tags" class="control-label"></label>
-                        <button id="btnAddTag" type="button">Add Tag</button>
                         <input asp-for="Tags" class="form-control" />
                         <span asp-validation-for="Tags" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create Issue" class="btn btn-primary" />
+                        <button id="btnAddTag" type="button">Add Tag</button>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create Action Plan" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
