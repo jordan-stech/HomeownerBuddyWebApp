@@ -40,24 +40,9 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Steps" class="control-label"></label>
-<<<<<<< Updated upstream
                         <input asp-for="Steps" class="form-control" />
                         <span asp-validation-for="Steps" class="text-danger"></span>
                     </div>
-=======
-                        <p>Enter steps, pressing enter after each Step</p>
-                        <textarea id="steps" asp-for="Steps" rows="6" class="form-control" style="resize:none"></textarea>
-                        <span asp-validation-for="Steps" class="text-danger"></span>
-                    </div>
-                    <div class="form-group2" name="tags">
-                        <label asp-for="Tags" class="control-label"></label>
-                        <input id="Tags" asp-for="Tags" class="form-control" />
-                        <span asp-validation-for="Tags" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <button id="btnAddTag" type="button">Add Tag</button>
-                    </div>
->>>>>>> Stashed changes
                     <div class="form-group">
                         <input type="submit" value="Create Issue" class="btn btn-primary" />
                     </div>
@@ -65,29 +50,10 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="~/js/actionPlan.js"></script>
 </body>
 
 </html>
 
 @section Scripts {
-<<<<<<< Updated upstream
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-=======
-  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            //Runs when "add tag" button is clicked
-            $('#btnAddTag').click(function (e) {
-                //Adds another tag input to the HTML
-                $('.form-group2').append('<input class="form-control" type="text" id="Tags" name="Tags" value="">');
-            });
-        });     
-    </script>
-
->>>>>>> Stashed changes
 }
