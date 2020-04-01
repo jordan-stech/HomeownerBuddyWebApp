@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HOB_WebApp.Migrations
 {
-    public partial class Initial : Migration
+    public partial class login : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,9 +52,11 @@ namespace HOB_WebApp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: false),
                     Link = table.Column<string>(nullable: false),
                     Steps = table.Column<string>(nullable: false),
-                    Category = table.Column<string>(nullable: false)
+                    Category = table.Column<string>(nullable: false),
+                    Tags = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

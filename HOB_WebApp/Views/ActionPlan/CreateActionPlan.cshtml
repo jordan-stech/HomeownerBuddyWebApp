@@ -17,18 +17,24 @@
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
                         Select a Category:
                         <select asp-for="Category" id="category" name="category" value="Select A Category">
-                            <option value="kitchen">Kitchen</option>
                             <option value="plumbing">Plumbing</option>
                             <option value="electrical">Electrical</option>
                             <option value="hvac">HVAC</option>
+                            <option value="exterior">Exterior</option>
+                            <option value="basement">Basement</option>
                             <option value="livingRoom">Living Room</option>
+                            <option value="kitchen">Kitchen</option>
                             <option value="bathroom">Bathroom</option>
                             <option value="closet">Closet</option>
                             <option value="laundry">Laundry</option>
                             <option value="hallway">Hallway</option>
-                            <option value="exterior">Exterior</option>
                             <option value="bedroom">Bedroom</option>
                             <option value="misc">Misc.</option>
                         </select>
@@ -40,11 +46,20 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Steps" class="control-label"></label>
-                        <input asp-for="Steps" class="form-control" />
+                        <p>Enter numbered steps, pressing enter after each Step</p>
+                        <textarea asp-for="Steps" rows="6" class="form-control" style="resize:none"></textarea>
                         <span asp-validation-for="Steps" class="text-danger"></span>
                     </div>
+                    <div class="form-group2" name="tags">
+                        <label asp-for="Tags" class="control-label"></label>
+                        <input asp-for="Tags" class="form-control" />
+                        <span asp-validation-for="Tags" class="text-danger"></span>
+                    </div>
                     <div class="form-group">
-                        <input type="submit" value="Create Issue" class="btn btn-primary" />
+                        <button id="btnAddTag" type="button">Add Tag</button>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create Action Plan" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
@@ -54,6 +69,22 @@
 
 </html>
 
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //Runs when "add tag" button is clicked
+            $('#btnAddTag').click(function (e) {
+                //Adds another tag input to the HTML
+                $('.form-group2').append('<input class="form-control" type="text" id="Tags" name="Tags" value="">');
+            });
+        });
+
+    </script>
+
 }

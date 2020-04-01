@@ -60,10 +60,21 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Link,Steps,Category")] ContentModel contentModel)
+        public async Task<IActionResult> Create([Bind("Id,Title,Link,Steps,Category,Tags")] ContentModel contentModel)
         {
             if (ModelState.IsValid)
             {
+                // Change YouTube link to embedded link
+                String url = contentModel.Link;
+                url = url.Split("v=")[1];
+                url = "https://www.youtube.com/embed/" + url;
+                contentModel.Link = url;
+
+                //replace the currect tag (only the first Tag) with the String of every tag retreived from the model state
+                contentModel.Tags = ModelState.Root.Children[1].AttemptedValue;
+                //Edit string to add space between tags
+                contentModel.Tags = contentModel.Tags.Replace(",", ", ");
+
                 _context.Add(contentModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -92,7 +103,7 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Link,Steps,Category")] ContentModel contentModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Link,Steps,Category,Tags")] ContentModel contentModel)
         {
             if (id != contentModel.Id)
             {
