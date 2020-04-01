@@ -130,3 +130,21 @@ body {
 .loginButton:hover .loginButton {
     background-color: #3e8e41;
 }
+
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+td.Title, td.Link, td.Category, td.Tags, td.Edit {
+    width: 15%;
+}
+
+td.Steps {
+    width: 25%;
+}

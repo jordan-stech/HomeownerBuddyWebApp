@@ -31,8 +31,8 @@
                                 <div class="dropdown">
                                     <button class="dropbtn">Action Plan</button>
                                     <div class="dropdown-content">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="ActionPlan" asp-action="Index">View Action Plan</a>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="ActionPlan" asp-action="CreateActionPlan">Create Action Plan</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="ActionPlan" asp-action="Index">View Action Plans</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="ActionPlan" asp-action="CreateActionPlan">Create New Action Plan</a>
                                     </div>
                                 </div>
                             </li>
@@ -40,8 +40,8 @@
                                 <div class="dropdown">
                                     <button class="dropbtn">Trusted Service Providers</button>
                                     <div class="dropdown-content">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="ServiceProviderModels" asp-action="Index">View Trusted Service Provider</a>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="ServiceProviderModels" asp-action="Create">Create Trusted Service Provider</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="ServiceProviderModels" asp-action="Index">View Trusted Service Providers</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="ServiceProviderModels" asp-action="Create">Create New Trusted Service Provider</a>
                                     </div>
                                 </div>
                             </li>
@@ -72,6 +72,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

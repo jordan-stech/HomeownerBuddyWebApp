@@ -70,6 +70,11 @@ namespace HOB_WebApp.Controllers
                 url = "https://www.youtube.com/embed/" + url;
                 contentModel.Link = url;
 
+                //replace the currect tag (only the first Tag) with the String of every tag retreived from the model state
+                contentModel.Tags = ModelState.Root.Children[1].AttemptedValue;
+                //Edit string to add space between tags
+                contentModel.Tags = contentModel.Tags.Replace(",", ", ");
+
                 _context.Add(contentModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
