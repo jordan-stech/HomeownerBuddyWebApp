@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HOB_WebApp.Data;
+using HOB_WebApp.Models;
 
-namespace HOB_WebApp.Models
+namespace HOB_WebApp.Controllers
 {
     public class ServiceProviderModelsController : Controller
     {
@@ -53,7 +54,7 @@ namespace HOB_WebApp.Models
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name,service,phone_number")] ServiceProviderModel serviceProviderModel)
+        public async Task<IActionResult> Create([Bind("id,name,service,phone_number,url")] ServiceProviderModel serviceProviderModel)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +86,7 @@ namespace HOB_WebApp.Models
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,name,service,phone_number")] ServiceProviderModel serviceProviderModel)
+        public async Task<IActionResult> Edit(int id, [Bind("id,name,service,phone_number,url")] ServiceProviderModel serviceProviderModel)
         {
             if (id != serviceProviderModel.id)
             {
