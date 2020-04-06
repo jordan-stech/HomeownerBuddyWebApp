@@ -7,25 +7,32 @@
 <h1>Details</h1>
 
 <div>
+    <h4>ServiceProviderModel</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.name)
+           Name
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.service)
+            Type of Service
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.service)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.phone_number)
+            Phone Number
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.phone_number)
+        </dd>
+        <dt class = "col-sm-2">
+            Website Link
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.url)
         </dd>
     </dl>
 </div>
