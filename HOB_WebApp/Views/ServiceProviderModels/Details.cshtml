@@ -31,8 +31,10 @@
         <dt class = "col-sm-2">
             Website Link
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.url)
+        <dd class="col-sm-10">
+            <a href=@Html.DisplayFor(model => model.url) target="_blank" rel="noopener noreferrer">
+                @Html.DisplayFor(model => model.url)
+            </a>
         </dd>
     </dl>
 </div>
