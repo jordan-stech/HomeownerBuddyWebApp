@@ -118,7 +118,7 @@ namespace HOB_WebApp.Controllers
                 return CreatedAtAction("GetMobileUsers", new { id = mobileUsers.Id }, mobileUsers);
             } else
             {
-                return mobileUsers;
+                return NotFound();
             }
         }
 
