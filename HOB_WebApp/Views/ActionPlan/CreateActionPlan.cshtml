@@ -50,9 +50,8 @@
                         <textarea asp-for="Steps" rows="6" class="form-control" style="resize:none"></textarea>
                         <span asp-validation-for="Steps" class="text-danger"></span>
                     </div>
-
-                    <label asp-for="Tags" class="control-label"></label>
-                    <div class="form-group2" id="tagGroup" name="tags">
+                    <div class="form-group2" name="tags">
+                        <label asp-for="Tags" class="control-label"></label>
                         <input asp-for="Tags" class="form-control" />
                         <span asp-validation-for="Tags" class="text-danger"></span>
                     </div>
@@ -82,30 +81,9 @@
             //Runs when "add tag" button is clicked
             $('#btnAddTag').click(function (e) {
                 //Adds another tag input to the HTML
-                newInput();
+                $('.form-group2').append('<input class="form-control" type="text" id="Tags" name="Tags" value="">');
             });
-
-            function newInput() {
-                $('.form-group2').prepend('<input class="form-control" type="text" id="Tags" name="Tags" value="">');
-            }
-
-            var input = document.getElementById('tagGroup');
-            // Execute a function when the user releases a key on the keyboard
-            input.addEventListener("keydown", function(event) {
-            // Number 13 is the "Enter" key on the keyboard
-                if (event.keyCode === 13) {
-                // Cancel the default action, if needed
-                 event.preventDefault();
-                // Trigger the button element with a click
-                    document.getElementById("btnAddTag").click();
-                    //input = document.getElementById("Tags");
-                    
-                    document.getElementById("Tags").focus();
-                    document.getElementById("Tags").select();
-            }
         });
-
-    });
 
     </script>
 

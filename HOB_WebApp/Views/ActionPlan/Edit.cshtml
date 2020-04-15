@@ -18,6 +18,17 @@
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Link" class="control-label"></label>
+                <input asp-for="Link" class="form-control" />
+                <span asp-validation-for="Link" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Steps" class="control-label"></label>
+                <input asp-for="Steps" class="form-control" />
+                <span asp-validation-for="Steps" class="text-danger"></span>
+            </div>
+            Select Category:
             <select asp-for="Category" id="category" name="category" value="Select A Category">
                 <option value="plumbing">Plumbing</option>
                 <option value="electrical">Electrical</option>
@@ -34,23 +45,9 @@
                 <option value="misc">Misc.</option>
             </select>
             <div class="form-group">
-                <label asp-for="Link" class="control-label"></label>
-                <input asp-for="Link" class="form-control" />
-                <span asp-validation-for="Link" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Steps" class="control-label"></label>
-                <p>Enter numbered steps, pressing enter after each Step</p>
-                <textarea asp-for="Steps" rows="6" class="form-control" style="resize:none"></textarea>
-                <span asp-validation-for="Steps" class="text-danger"></span>
-            </div>
-
-            <div class="form-group-tag" name="tags">
                 <label asp-for="Tags" class="control-label"></label>
+                <input asp-for="Tags" class="form-control" />
                 <span asp-validation-for="Tags" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button id="btnAddTag" type="button">Add Tag</button>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -65,39 +62,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            //Runs when "add tag" button is clicked
-            $('#btnAddTag').click(function (e) {
-                //Adds another tag input to the HTML
-                $('.form-group-tag').append('<input class="form-control" type="text" id="Tags" name="Tags" value="">');
-            });
-        });
-
-    </script>
-    <script type="text/javascript">
-        //Runs when page is loaded
-        $(document).ready(function () {
-
-            //Retrieve tags from controller
-            var bag = String('@ViewBag.Tags');
-
-            //Split tag string retrieved from the controller into an array
-            var tagArray = bag.split(", ");
-
-            //Adds tags to the HTML
-             tagArray.forEach(tagDisplay);
-        });
-
-        function tagDisplay(name) {
-            //Creates an input field with the tag automattically filled
-            $('.form-group-tag').append('<input class="form-control" type="text" id="Tags" name="Tags" value="'+name+'">');
-        }
-
-    </script>
-
 }
