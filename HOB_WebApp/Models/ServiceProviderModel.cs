@@ -11,5 +11,7 @@ namespace HOB_WebApp.Models
         public string service { get; set; }
         [Required]
         public string phone_number { get; set; }
+
+        public string url { get; set; }
     }
 }

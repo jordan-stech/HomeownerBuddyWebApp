@@ -106,10 +106,20 @@ namespace HOB_WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult<MobileUsers>> PostMobileUsers(MobileUsers mobileUsers)
         {
-            _context.MobileUsers.Add(mobileUsers);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMobileUsers", new { id = mobileUsers.Id }, mobileUsers);
+            var homeCode = await _context.HomeCodes.Where(m => m.Code == mobileUsers.Code).ToListAsync();
+            if (homeCode.Count() != 0)
+            {
+                HomeCodes hc =  homeCode.Find(m => m.Code == mobileUsers.Code);
+                mobileUsers.address = hc.Address;
+                _context.MobileUsers.Add(mobileUsers);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetMobileUsers", new { id = mobileUsers.Id }, mobileUsers);
+            } else
+            {
+                return NotFound();
+            }
         }
 
 

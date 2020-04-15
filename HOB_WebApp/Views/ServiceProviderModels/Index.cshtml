@@ -13,10 +13,13 @@
                 Name
             </th>
             <th>
-                Service Type
+                Type of Service
             </th>
             <th>
-                Phone Number
+                 Phone Number
+            </th>
+            <th>
+                Website Link
             </th>
             <th></th>
         </tr>
@@ -32,6 +35,11 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.phone_number)
+            </td>
+            <td>
+                <a href=@Html.DisplayFor(modelItem => item.url) target="_blank" rel="noopener noreferrer">
+                    @Html.DisplayFor(modelItem => item.url)
+                </a>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |

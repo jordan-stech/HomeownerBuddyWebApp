@@ -20,5 +20,7 @@ namespace HOB_WebApp.Data
         public DbSet<HOB_WebApp.Models.ServiceProviderModel> ServiceProviderModel { get; set; }
 
         public DbSet<HOB_WebApp.Models.MobileUsers> MobileUsers { get; set; }
+
+        public DbSet<HOB_WebApp.Models.HomeCodes> HomeCodes { get; set; }
     }
 }

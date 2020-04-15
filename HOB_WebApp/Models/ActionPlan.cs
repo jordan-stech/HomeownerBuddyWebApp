@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace HOB_WebApp.Models
 {
@@ -18,6 +19,8 @@ namespace HOB_WebApp.Models
         [Required]
         public string Link { get; set; }
         //The steps required to complete action plan
+
+        private string steps = string.Empty;
         [Required]
         public string Steps { get; set; }
         //The category of matinence the action plan falls under
@@ -25,6 +28,5 @@ namespace HOB_WebApp.Models
         public string Category { get; set; }
         //Discriptive words about the action plan
         public string Tags { get; set; }
-
     }
 }

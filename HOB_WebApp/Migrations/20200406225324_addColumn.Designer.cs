@@ -4,14 +4,16 @@ using HOB_WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HOB_WebApp.Migrations
 {
     [DbContext(typeof(HOB_WebAppContext))]
-    partial class HOB_WebAppContextModelSnapshot : ModelSnapshot
+    [Migration("20200406225324_addColumn")]
+    partial class addColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,24 +52,6 @@ namespace HOB_WebApp.Migrations
                     b.ToTable("ContentModel");
                 });
 
-            modelBuilder.Entity("HOB_WebApp.Models.HomeCodes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("HomeCodes");
-                });
-
             modelBuilder.Entity("HOB_WebApp.Models.MobileUsers", b =>
                 {
                     b.Property<int>("Id")
@@ -75,16 +59,13 @@ namespace HOB_WebApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Lname")
+                    b.Property<string>("HomeCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("address")
+                    b.Property<string>("Lname")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

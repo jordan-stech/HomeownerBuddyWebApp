@@ -29,6 +29,7 @@ a {
 html {
   font-size: 14px;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -36,7 +37,7 @@ html {
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
 .border-bottom {
   border-bottom: 1px solid #e5e5e5;
@@ -129,4 +130,43 @@ body {
 
 .loginButton:hover .loginButton {
     background-color: #3e8e41;
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 1400px;
+    }
+}
+
+table {
+    width: 100%;
+}
+
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+td.Title {
+    width: 15%;
+}
+
+td.Link {
+    width: 10%;
+}
+
+td.Category {
+    width: 5%;
+}
+
+td.Tags {
+    width: 10%;
+}
+
+td.Edit {
+    width: 15%;
+}
+
+.multline {
+    white-space: pre-line;
 }

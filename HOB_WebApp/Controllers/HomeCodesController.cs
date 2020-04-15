@@ -10,22 +10,22 @@ using HOB_WebApp.Models;
 
 namespace HOB_WebApp.Controllers
 {
-    public class ServiceProviderModelsController : Controller
+    public class HomeCodesController : Controller
     {
         private readonly HOB_WebAppContext _context;
 
-        public ServiceProviderModelsController(HOB_WebAppContext context)
+        public HomeCodesController(HOB_WebAppContext context)
         {
             _context = context;
         }
 
-        // GET: ServiceProviderModels
+        // GET: HomeCodes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ServiceProviderModel.ToListAsync());
+            return View(await _context.HomeCodes.ToListAsync());
         }
 
-        // GET: ServiceProviderModels/Details/5
+        // GET: HomeCodes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace HOB_WebApp.Controllers
                 return NotFound();
             }
 
-            var serviceProviderModel = await _context.ServiceProviderModel
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (serviceProviderModel == null)
+            var homeCodes = await _context.HomeCodes
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (homeCodes == null)
             {
                 return NotFound();
             }
 
-            return View(serviceProviderModel);
+            return View(homeCodes);
         }
 
-        // GET: ServiceProviderModels/Create
+        // GET: HomeCodes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ServiceProviderModels/Create
+        // POST: HomeCodes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name,service,phone_number,url")] ServiceProviderModel serviceProviderModel)
+        public async Task<IActionResult> Create([Bind("Id,Code,Address")] HomeCodes homeCodes)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(serviceProviderModel);
+                _context.Add(homeCodes);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(serviceProviderModel);
+            return View(homeCodes);
         }
 
-        // GET: ServiceProviderModels/Edit/5
+        // GET: HomeCodes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace HOB_WebApp.Controllers
                 return NotFound();
             }
 
-            var serviceProviderModel = await _context.ServiceProviderModel.FindAsync(id);
-            if (serviceProviderModel == null)
+            var homeCodes = await _context.HomeCodes.FindAsync(id);
+            if (homeCodes == null)
             {
                 return NotFound();
             }
-            return View(serviceProviderModel);
+            return View(homeCodes);
         }
 
-        // POST: ServiceProviderModels/Edit/5
+        // POST: HomeCodes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,name,service,phone_number,url")] ServiceProviderModel serviceProviderModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Address")] HomeCodes homeCodes)
         {
-            if (id != serviceProviderModel.id)
+            if (id != homeCodes.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace HOB_WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(serviceProviderModel);
+                    _context.Update(homeCodes);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ServiceProviderModelExists(serviceProviderModel.id))
+                    if (!HomeCodesExists(homeCodes.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace HOB_WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(serviceProviderModel);
+            return View(homeCodes);
         }
 
-        // GET: ServiceProviderModels/Delete/5
+        // GET: HomeCodes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace HOB_WebApp.Controllers
                 return NotFound();
             }
 
-            var serviceProviderModel = await _context.ServiceProviderModel
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (serviceProviderModel == null)
+            var homeCodes = await _context.HomeCodes
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (homeCodes == null)
             {
                 return NotFound();
             }
 
-            return View(serviceProviderModel);
+            return View(homeCodes);
         }
 
-        // POST: ServiceProviderModels/Delete/5
+        // POST: HomeCodes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var serviceProviderModel = await _context.ServiceProviderModel.FindAsync(id);
-            _context.ServiceProviderModel.Remove(serviceProviderModel);
+            var homeCodes = await _context.HomeCodes.FindAsync(id);
+            _context.HomeCodes.Remove(homeCodes);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ServiceProviderModelExists(int id)
+        private bool HomeCodesExists(int id)
         {
-            return _context.ServiceProviderModel.Any(e => e.id == id);
+            return _context.HomeCodes.Any(e => e.Id == id);
         }
     }
 }
