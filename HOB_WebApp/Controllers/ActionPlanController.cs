@@ -95,6 +95,12 @@ namespace HOB_WebApp.Controllers
             {
                 return NotFound();
             }
+
+            //Change tags into a form easier to parse in edit
+            string Tags = contentModel.Tags;
+            //Put the tags into ViewData, which is visable in the view
+            ViewBag.Tags = Tags;
+
             return View(contentModel);
         }
 
@@ -112,6 +118,11 @@ namespace HOB_WebApp.Controllers
 
             if (ModelState.IsValid)
             {
+
+                //replace the currect tags with the String of every tag retreived from the model state
+                contentModel.Tags = ModelState.Root.Children[2].AttemptedValue;
+                //Edit string to add space between tags
+                contentModel.Tags = contentModel.Tags.Replace(",", ", ");
                 try
                 {
                     _context.Update(contentModel);
@@ -130,6 +141,12 @@ namespace HOB_WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            //Change tags into a form easier to parse in edit
+            string Tags = contentModel.Tags;
+            //Put the tags into ViewData, which is visable in the view
+            ViewBag.Tags = Tags;
+
             return View(contentModel);
         }
 
