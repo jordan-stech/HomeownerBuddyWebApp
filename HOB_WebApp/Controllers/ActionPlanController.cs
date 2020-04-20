@@ -70,10 +70,19 @@ namespace HOB_WebApp.Controllers
                 url = "https://www.youtube.com/embed/" + url;
                 contentModel.Link = url;
 
-                //replace the currect tag (only the first Tag) with the String of every tag retreived from the model state
-                contentModel.Tags = ModelState.Root.Children[1].AttemptedValue;
-                //Edit string to add space between tags
-                contentModel.Tags = contentModel.Tags.Replace(",", ", ");
+
+                //Get tags from view
+                String newTags = ModelState.Root.Children[1].AttemptedValue;
+                //Split tags into array
+                String[] beforeTitle = newTags.Split(",");
+                //Puncuation list, used to remove non alphanumeric characters from title
+                char[] puncuation = { ' ', '.', ',', '\"', '{', '}', '[', ']', '(', ')', '<', '>' };
+                //Grab title from view and split it into an array, removing characters from the puncuation list
+                String[] titleTags = ModelState.Root.Children[3].AttemptedValue.Split(puncuation, StringSplitOptions.RemoveEmptyEntries);
+                //Put the tiags and title together
+                String[] afterTitle = beforeTitle.Union(titleTags).ToArray();
+                //Changes tags to the inputted tags + title
+                contentModel.Tags = String.Join(", ", afterTitle);
 
                 _context.Add(contentModel);
                 await _context.SaveChangesAsync();
@@ -118,11 +127,19 @@ namespace HOB_WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-
-                //replace the currect tags with the String of every tag retreived from the model state
-                contentModel.Tags = ModelState.Root.Children[2].AttemptedValue;
-                //Edit string to add space between tags
-                contentModel.Tags = contentModel.Tags.Replace(",", ", ");
+                //Get tags from view
+                String newTags = ModelState.Root.Children[2].AttemptedValue; 
+                //Split tags into array
+                String[] beforeTitle = newTags.Split(",");
+                //Puncuation list, used to remove non alphanumeric characters from title
+                char[] puncuation = {' ', '.', ',', '\"', '{', '}', '[', ']', '(', ')', '<', '>' };
+                //Grab title from view and split it into an array, removing characters from the puncuation list
+                String[] titleTags = ModelState.Root.Children[4].AttemptedValue.Split(puncuation, StringSplitOptions.RemoveEmptyEntries);
+                //Put the tiags and title together
+                String[] afterTitle = beforeTitle.Union(titleTags).ToArray();
+                //Changes tags to the inputted tags + title
+                contentModel.Tags = String.Join(", ",afterTitle);
+               
                 try
                 {
                     _context.Update(contentModel);
@@ -142,10 +159,6 @@ namespace HOB_WebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            //Change tags into a form easier to parse in edit
-            string Tags = contentModel.Tags;
-            //Put the tags into ViewData, which is visable in the view
-            ViewBag.Tags = Tags;
 
             return View(contentModel);
         }
