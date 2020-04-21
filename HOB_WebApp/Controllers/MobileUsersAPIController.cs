@@ -110,7 +110,7 @@ namespace HOB_WebApp.Controllers
             var homeCode = await _context.HomeCodes.Where(m => m.Code == mobileUsers.Code).ToListAsync();
             if (homeCode.Count() != 0 && user.Count() == 0)
             {
-                HomeCodes hc =  homeCode.Find(m => m.Code == mobileUsers.Code);
+                HomeCodes hc = homeCode.Find(m => m.Code == mobileUsers.Code);
                 mobileUsers.address = hc.Address;
                 _context.MobileUsers.Add(mobileUsers);
                 await _context.SaveChangesAsync();
@@ -118,7 +118,9 @@ namespace HOB_WebApp.Controllers
                 return CreatedAtAction("GetMobileUsers", new { id = mobileUsers.Id }, mobileUsers);
             } else if (homeCode.Count() != 0 && user.Count() != 0)
             {
-                return CreatedAtAction("GetMobileUsers", user.First().Code, user.First());
+                //User is already created, send back a message stating so
+                mobileUsers.Id = -1;
+                return CreatedAtAction("GetMobileUsers", new { id = "-1" }, mobileUsers);
             } else { 
                 return NotFound();
             }
