@@ -79,7 +79,10 @@ namespace HOB_WebApp.Controllers
                 char[] puncuation = { ' ', '.', ',', '\"', '{', '}', '[', ']', '(', ')', '<', '>' };
                 //Grab title from view and split it into an array, removing characters from the puncuation list
                 String[] titleTags = ModelState.Root.Children[3].AttemptedValue.Split(puncuation, StringSplitOptions.RemoveEmptyEntries);
-                //Put the tiags and title together
+                //set all tags to lowercase
+                titleTags = titleTags.Select(s => s.ToLowerInvariant()).ToArray();
+                beforeTitle = beforeTitle.Select(s => s.ToLowerInvariant()).ToArray();
+                //Put the tags and title together
                 String[] afterTitle = beforeTitle.Union(titleTags).ToArray();
                 //Changes tags to the inputted tags + title
                 contentModel.Tags = String.Join(", ", afterTitle);
@@ -135,6 +138,9 @@ namespace HOB_WebApp.Controllers
                 char[] puncuation = {' ', '.', ',', '\"', '{', '}', '[', ']', '(', ')', '<', '>' };
                 //Grab title from view and split it into an array, removing characters from the puncuation list
                 String[] titleTags = ModelState.Root.Children[4].AttemptedValue.Split(puncuation, StringSplitOptions.RemoveEmptyEntries);
+                //set all tags to lowercase
+                titleTags = titleTags.Select(s => s.ToLowerInvariant()).ToArray();
+                beforeTitle = beforeTitle.Select(s => s.ToLowerInvariant()).ToArray();
                 //Put the tiags and title together
                 String[] afterTitle = beforeTitle.Union(titleTags).ToArray();
                 //Changes tags to the inputted tags + title
