@@ -26,3 +26,15 @@
     width: 100%;
 }
 
+.tagGroup {
+    width: 300px;
+    height: 25px;
+    position: relative;
+}
+
+.button {
+    position: relative;
+    right: -220px;
+    top: -34px;
+}
+

@@ -1,0 +1,11 @@
+﻿.tagGroup {
+    width: 300px;
+    height: 25px;
+    position: relative;
+}
+
+.button {
+    position: relative;
+    right: -440px;
+    top: -34px;
+}
