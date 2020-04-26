@@ -1,0 +1,45 @@
+﻿tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+tr:hover {
+    background-color: #eeeeee;
+}
+
+td {
+    vertical-align: middle !important;
+}
+
+.service-provider-container {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.service-provider-header {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.custom-td-name {
+    width: 550px;
+}
+
+.custom-td-service {
+    width: 300px;
+}
+
+.custom-td-phone-number {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 250px;
+}
+
+.custom-td-link {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 200px;
+}
+
+.delete-service-provider {
+    color: #DC3545 !important;
+}

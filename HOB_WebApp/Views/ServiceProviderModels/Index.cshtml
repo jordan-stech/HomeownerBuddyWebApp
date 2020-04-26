@@ -4,49 +4,60 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Service Providers</h1>
+    <html>
+    <head>
+        <link rel="stylesheet" href="~/css/serviceProvider.css">
+    </head>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Type of Service
-            </th>
-            <th>
-                 Phone Number
-            </th>
-            <th>
-                Website Link
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.service)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.phone_number)
-            </td>
-            <td>
-                <a href=@Html.DisplayFor(modelItem => item.url) target="_blank" rel="noopener noreferrer">
-                    @Html.DisplayFor(modelItem => item.url)
-                </a>
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <body>
+        <div class="service-provider-container">
+            <h1 class="service-provider-header">Service Providers</h1>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th class="text-center">
+                            Type of Service
+                        </th>
+                        <th class="text-center">
+                            Phone Number
+                        </th>
+                        <th class="text-center">
+                            Website Link
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="custom-td-name">
+                                @Html.DisplayFor(modelItem => item.name)
+                            </td>
+                            <td class="custom-td-service text-center">
+                                @Html.DisplayFor(modelItem => item.service)
+                            </td>
+                            <td class="custom-td-phone-number text-center">
+                                @Html.DisplayFor(modelItem => item.phone_number)
+                            </td>
+                            <td class="custom-td-link">
+                                <a href=@Html.DisplayFor(modelItem => item.url) target="_blank" rel="noopener noreferrer">
+                                    @Html.DisplayFor(modelItem => item.url)
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.id" class="delete-service-provider">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

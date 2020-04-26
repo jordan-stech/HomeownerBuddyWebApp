@@ -4,49 +4,60 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Action Plans</h1>
+<html>
+    <head>
+        <link rel="stylesheet" href="~/css/actionPlan.css">
+    </head>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Link)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tags)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                <a href=@Html.DisplayFor(modelItem => item.Link) target="_blank" rel="noopener noreferrer">
-                    @Html.DisplayFor(modelItem => item.Link)
-                </a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tags)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">View Steps</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <body>
+        <div class="action-plan-container">
+            <h1 class="action-plan-header">Action Plans</h1>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Title
+                        </th>
+                        <th class="text-center">
+                            Link
+                        </th>
+                        <th class="text-center">
+                            Category
+                        </th>
+                        <th class="text-center">
+                           Tags
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="custom-td-title">
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td class="custom-td-link">
+                                <a href=@Html.DisplayFor(modelItem => item.Link) target="_blank" rel="noopener noreferrer">
+                                    @Html.DisplayFor(modelItem => item.Link)
+                                </a>
+                            </td>
+                            <td class="text-center custom-td-category">
+                                @Html.DisplayFor(modelItem => item.Category)
+                            </td>
+                            <td class="text-center custom-td-tags">
+                                @Html.DisplayFor(modelItem => item.Tags)
+                            </td>
+                            <td class="custom-td-buttons">
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">View Steps</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="delete-action-plan">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
