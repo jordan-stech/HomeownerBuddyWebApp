@@ -5,7 +5,9 @@
 }
 
 <head>
-    <link rel="stylesheet" href="~/css/edit.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="~/css/editActionPlan.css">
 </head>
 
 <h1>Edit</h1>
@@ -53,9 +55,11 @@
                 <span asp-validation-for="Tags" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <button id="btnAddTag" type="button">Add Tag</button>
+                <button id="btnAddTag" type="button" class="add-tag-button">
+                    <i class="fa fa-plus-circle icon"></i>Add Tag
+                </button>
             </div>
-            <i style="color:red">Title will automatically be added to tags</i>
+            <i class="automatically-add-title-tags">Title will automatically be added to tags</i>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -102,13 +106,13 @@
             //iterate tagNumber
              tagNumber++;
             //Adds another tag input to the HTML
-            $('.form-group-tag').prepend('<div class="inputGroup" id="group' + tagNumber + '"><input class="form-control" type="text" id="Tags' + String(tagNumber) + '" name="Tags" value="' + name + '"><button  id="' + String(tagNumber) + '" onclick="closeAction(this)" class="button" type="button">Delete</button></div>');
+            $('.form-group-tag').prepend('<div class="inputGroup" id="group' + tagNumber + '"><input class="form-control" type="text" id="Tags' + String(tagNumber) + '" name="Tags" value="' + name + '"><button  id="' + String(tagNumber) + '" onclick="closeAction(this)" class="button delete-tag-button" type="button">Delete</button></div>');
         });
 
 
         function tagDisplay(name, ins) {
             //Creates an input field with the tag automattically filled
-            $('.form-group-tag').prepend('<div class="inputGroup" id="group' + ins + '"><input class="form-control" type="text" id="Tags' + String(ins) + '" name="Tags" value="' + name + '"><button  id="' + String(ins) + '" onclick="closeAction(this)" class="button" type="button">Delete</button></div>');
+            $('.form-group-tag').prepend('<div class="inputGroup" id="group' + ins + '"><input class="form-control" type="text" id="Tags' + String(ins) + '" name="Tags" value="' + name + '"><button  id="' + String(ins) + '" onclick="closeAction(this)" class="button delete-tag-button" type="button">Delete</button></div>');
         }
 
         var input = document.getElementById('tagGroup');

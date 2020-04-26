@@ -1,6 +1,10 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+.text-dark {
+    font-weight: 600;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -153,6 +157,10 @@ td {
 
 .multline {
     white-space: pre-line;
+}
+
+.text-danger {
+    color: #DC3545;
 }
 
 @media (min-width: 992px) and (max-width: 1300px) {

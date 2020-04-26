@@ -5,76 +5,77 @@
 }
 
 <html>
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="~/css/edit.css">
-    <link rel="stylesheet" href="~/css/Login.css">
-    <link rel="stylesheet" href="~/css/createActionPlan.css" />
-</head>
+        <link rel="stylesheet" href="~/css/edit.css">
+        <link rel="stylesheet" href="~/css/Login.css">
+        <link rel="stylesheet" href="~/css/createActionPlan.css" />
+    </head>
 
-<body class="background">
-    <div class="main-container">
-        <h1>Create an Issue</h1>
-        <div class="row">
-            <div class="align">
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
+    <body class="background">
+        <div class="main-container">
+            <h1 class="create-action-plan-header">Create Action Plan</h1>
+            <div class="row">
+                <div class="align">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
-                            <label asp-for="Title" class="control-label"></label>
-                            <input asp-for="Title" class="form-control" />
-                            <span asp-validation-for="Title" class="text-danger"></span>
+                            <div class="form-group">
+                                <label asp-for="Title" class="control-label"></label>
+                                <input asp-for="Title" class="form-control" />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            Select a Category:
+                            <select asp-for="Category" id="category" name="category" value="Select a Category">
+                                <option value="plumbing">Plumbing</option>
+                                <option value="electrical">Electrical</option>
+                                <option value="hvac">HVAC</option>
+                                <option value="exterior">Exterior</option>
+                                <option value="basement">Basement</option>
+                                <option value="livingRoom">Living Room</option>
+                                <option value="kitchen">Kitchen</option>
+                                <option value="bathroom">Bathroom</option>
+                                <option value="closet">Closet</option>
+                                <option value="laundry">Laundry</option>
+                                <option value="hallway">Hallway</option>
+                                <option value="bedroom">Bedroom</option>
+                                <option value="misc">Misc.</option>
+                            </select>
                         </div>
-                        Select a Category:
-                        <select asp-for="Category" id="category" name="category" value="Select A Category">
-                            <option value="plumbing">Plumbing</option>
-                            <option value="electrical">Electrical</option>
-                            <option value="hvac">HVAC</option>
-                            <option value="exterior">Exterior</option>
-                            <option value="basement">Basement</option>
-                            <option value="livingRoom">Living Room</option>
-                            <option value="kitchen">Kitchen</option>
-                            <option value="bathroom">Bathroom</option>
-                            <option value="closet">Closet</option>
-                            <option value="laundry">Laundry</option>
-                            <option value="hallway">Hallway</option>
-                            <option value="bedroom">Bedroom</option>
-                            <option value="misc">Misc.</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Link" class="control-label"></label>
-                        <input asp-for="Link" class="form-control" />
-                        <span asp-validation-for="Link" class="text-danger"></span>
-                    </div>
-                    <div id="steps" class="form-group">
-                        <label asp-for="Steps" class="control-label"></label>
-                        <p>
-                            <i style="color:red">Enter steps, pressing enter after each one</i>
-                        </p>
-                        <textarea asp-for="Steps" rows="6" class="form-control" style="resize:none"></textarea>
-                        <span asp-validation-for="Steps" class="text-danger"></span>
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="Link" class="control-label"></label>
+                            <input asp-for="Link" class="form-control" />
+                            <span asp-validation-for="Link" class="text-danger"></span>
+                        </div>
+                        <div id="steps" class="form-group">
+                            <label asp-for="Steps" class="control-label"></label>
+                            <p>
+                                <i>Enter steps, pressing enter after each one</i>
+                            </p>
+                            <textarea asp-for="Steps" rows="6" class="form-control" style="resize:none"></textarea>
+                            <span asp-validation-for="Steps" class="text-danger"></span>
+                        </div>
 
-                    <label asp-for="Tags" class="control-label"></label>
-                    <div class="form-group2" id="tagGroup" name="tags">
-                        <span asp-validation-for="Tags" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <button id="btnAddTag" type="button" class="add-tag-button">Add Tag</button>
-                    </div>
-                    <i style="color:red">Title will automatically be added to tags</i>
-                    <div class="form-group">
-                        <input type="submit" value="Create Action Plan" class="btn btn-primary" />
-                    </div>
-                </form>
+                        <label asp-for="Tags" class="control-label"></label>
+                        <div class="form-group2" id="tagGroup" name="tags">
+                            <span asp-validation-for="Tags" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <button id="btnAddTag" type="button" class="add-tag-button">
+                                <i class="fa fa-plus-circle icon"></i>Add Tag
+                            </button>
+                        </div>
+                        <i class="automatically-add-title-tags">Title will automatically be added to tags</i>
+                        <div class="form-group">
+                            <input type="submit" value="Create Action Plan" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <script type="text/javascript" src="~/js/actionPlan.js"></script>
-</body>
-
+        <script type="text/javascript" src="~/js/actionPlan.js"></script>
+    </body>
 </html>
 
 
@@ -105,7 +106,7 @@
 
             
             function newInput() {
-                $('.form-group2').prepend('<div class="inputGroup" id="group' + tagNumber + '"><input class="form-control" type="text" id="Tags' + String(tagNumber) + '" name="Tags" value="' + name + '"><button  id="' + String(tagNumber) + '" onclick="closeAction(this)" class="button delete-tag-button" type="button">Delete</button></div>');
+                $('.form-group2').prepend('<div class="form-group" id="group' + tagNumber + '"><input class="input-tags" type="text" id="Tags' + String(tagNumber) + '" name="Tags" value="' + name + '"><button  id="' + String(tagNumber) + '" onclick="closeAction(this)" class="button delete-tag-button" type="button">Delete</button></div>');
             }
 
             var input = document.getElementById('tagGroup');
