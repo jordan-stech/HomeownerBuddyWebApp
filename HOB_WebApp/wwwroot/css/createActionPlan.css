@@ -1,0 +1,20 @@
+﻿/* Delete Button */
+.delete-tag-button {
+    height: 38px;
+    background-color: #F60057;
+    border-color: #F60057;
+    border-radius: 5px;
+    font-weight: 600;
+    color: white;
+    top: -38px;
+}
+
+/* Add Tag Button */
+.add-tag-button {
+    height: 38px;
+    background-color: #82C91E;
+    border-color: #82C91E;
+    border-radius: 5px;
+    font-weight: 600;
+    color: white;
+}
