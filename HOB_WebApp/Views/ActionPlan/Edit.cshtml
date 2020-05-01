@@ -4,8 +4,15 @@
     ViewData["Title"] = "Edit";
 }
 
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="~/css/editActionPlan.css">
+</head>
+
 <h1>Edit</h1>
 
+<h4>Action Plan</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -17,18 +24,6 @@
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Link" class="control-label"></label>
-                <input asp-for="Link" class="form-control" />
-                <span asp-validation-for="Link" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Steps" class="control-label"></label>
-                <p>Enter steps, pressing enter after each Step</p>
-                <textarea id ="steps" asp-for="Steps" rows="6" class="form-control" style="resize:none"></textarea>
-                <span asp-validation-for="Steps" class="text-danger"></span>
-            </div>
-            Select Category:
             <select asp-for="Category" id="category" name="category" value="Select A Category">
                 <option value="plumbing">Plumbing</option>
                 <option value="electrical">Electrical</option>
@@ -45,10 +40,26 @@
                 <option value="misc">Misc.</option>
             </select>
             <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
-                <input asp-for="Tags" class="form-control" />
+                <label asp-for="Link" class="control-label"></label>
+                <input asp-for="Link" class="form-control" />
+                <span asp-validation-for="Link" class="text-danger"></span>
+            </div>
+            <div id="steps" class="form-group">
+                <label asp-for="Steps" class="control-label"></label>
+                <p>Enter numbered steps, pressing enter after each Step</p>
+                <textarea asp-for="Steps" rows="6" class="form-control" style="resize:none"></textarea>
+                <span asp-validation-for="Steps" class="text-danger"></span>
+            </div>
+            <label asp-for="Tags" class="control-label"></label>
+            <div id="tagGroup" class="form-group-tag" name="tags">
                 <span asp-validation-for="Tags" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <button id="btnAddTag" type="button" class="add-tag-button">
+                    <i class="fa fa-plus-circle icon"></i>Add Tag
+                </button>
+            </div>
+            <i class="automatically-add-title-tags">Title will automatically be added to tags</i>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -63,4 +74,62 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+
+    <script type="text/javascript">
+
+        //variable used to make individual tags
+            var tagNumber = 0;
+        //Runs when page is loaded
+        $(document).ready(function () {
+
+            //Retrieve tags from controller
+            var bag = String('@ViewBag.Tags');
+            //Split tag string retrieved from the controller into an array
+            var tagArray = bag.split(", ");
+            //Adds tags to the HTML
+            for (tagNumber = 0; tagNumber < tagArray.length; tagNumber++){
+                tagDisplay(tagArray[tagNumber], tagNumber);
+            }
+        });
+
+
+        function closeAction(button) {
+            var element = document.getElementById("group" + button.id);
+            element.parentNode.removeChild(element);
+        }
+
+        //Runs when "add tag" button is clicked
+        $('#btnAddTag').click(function (e) {
+            //iterate tagNumber
+             tagNumber++;
+            //Adds another tag input to the HTML
+            $('.form-group-tag').prepend('<div class="inputGroup" id="group' + tagNumber + '"><input class="form-control" type="text" id="Tags' + String(tagNumber) + '" name="Tags" value="' + name + '"><button  id="' + String(tagNumber) + '" onclick="closeAction(this)" class="button delete-tag-button" type="button">Delete</button></div>');
+        });
+
+
+        function tagDisplay(name, ins) {
+            //Creates an input field with the tag automattically filled
+            $('.form-group-tag').prepend('<div class="inputGroup" id="group' + ins + '"><input class="form-control" type="text" id="Tags' + String(ins) + '" name="Tags" value="' + name + '"><button  id="' + String(ins) + '" onclick="closeAction(this)" class="button delete-tag-button" type="button">Delete</button></div>');
+        }
+
+        var input = document.getElementById('tagGroup');
+        // Execute a function when the user releases a key on the keyboard
+        input.addEventListener("keydown", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("btnAddTag").click();
+                //input = document.getElementById("Tags");
+
+                document.getElementById("Tags"+tagNumber).focus();
+                document.getElementById("Tags"+tagNumber).select();
+                }
+            });
+    </script>
+
 }

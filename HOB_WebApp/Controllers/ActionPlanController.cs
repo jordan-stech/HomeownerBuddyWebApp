@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HOB_WebApp.Data;
 using HOB_WebApp.Models;
+using System.Diagnostics;
 
 namespace HOB_WebApp.Controllers
 {
@@ -70,10 +71,29 @@ namespace HOB_WebApp.Controllers
                 url = "https://www.youtube.com/embed/" + url;
                 contentModel.Link = url;
 
-                //replace the currect tag (only the first Tag) with the String of every tag retreived from the model state
-                contentModel.Tags = ModelState.Root.Children[1].AttemptedValue;
-                //Edit string to add space between tags
-                contentModel.Tags = contentModel.Tags.Replace(",", ", ");
+                String newTags = "";
+                //if there are no tags don't try to get them from the modelstate
+                if(contentModel.Tags!=null)
+                //Get tags from view
+                newTags = ModelState.Root.Children[1].AttemptedValue;
+                //Split tags into array
+                String[] beforeTitle = newTags.Split(",");
+                //Puncuation list, used to remove non alphanumeric characters from title
+                char[] puncuation = { ' ', '.', ',', '\"', '{', '}', '[', ']', '(', ')', '<', '>' };
+                //Grab title from view and split it into an array, removing characters from the puncuation list
+                String[] titleTags = contentModel.Title.Split(puncuation, StringSplitOptions.RemoveEmptyEntries);
+                //set all tags to lowercase
+                titleTags = titleTags.Select(s => s.ToLowerInvariant()).ToArray();
+                beforeTitle = beforeTitle.Select(s => s.ToLowerInvariant()).ToArray();
+                //Put the tags and title together
+                String[] afterTitle = beforeTitle.Union(titleTags).ToArray();
+                //if there are no tags inputed and title was noly one word
+                if (afterTitle.Length <= 1)
+                    //set tags to the only word
+                    contentModel.Tags = afterTitle[0];
+                else
+                    //Changes tags to the inputted tags + title
+                    contentModel.Tags = String.Join(", ", afterTitle.Where(s => !string.IsNullOrEmpty(s)));
 
                 _context.Add(contentModel);
                 await _context.SaveChangesAsync();
@@ -95,6 +115,12 @@ namespace HOB_WebApp.Controllers
             {
                 return NotFound();
             }
+
+            //Change tags into a form easier to parse in edit
+            string Tags = contentModel.Tags;
+            //Put the tags into ViewData, which is visable in the view
+            ViewBag.Tags = Tags;
+
             return View(contentModel);
         }
 
@@ -112,6 +138,39 @@ namespace HOB_WebApp.Controllers
 
             if (ModelState.IsValid)
             {
+                if (!contentModel.Link.Contains("embed")) {
+                    // Change YouTube link to embedded link
+                    String url = contentModel.Link;
+                    url = url.Split("v=")[1];
+                    url = "https://www.youtube.com/embed/" + url;
+                    contentModel.Link = url;
+                }
+
+                String newTags = "";
+                //check to see if the tag child exists (if it doesn't then "Steps" will be [2])
+                if (ModelState.Root.Children[2].AttemptedValue!=contentModel.Steps) {
+                    //Get tags from view
+                    newTags = ModelState.Root.Children[2].AttemptedValue;
+                }
+                //Split tags into array
+                String[] beforeTitle = newTags.Split(",");
+                //Puncuation list, used to remove non alphanumeric characters from title
+                char[] puncuation = { ' ', '.', ',', '\"', '{', '}', '[', ']', '(', ')', '<', '>' };
+                //Grab title from view and split it into an array, removing characters from the puncuation list
+                String[] titleTags = contentModel.Title.Split(puncuation, StringSplitOptions.RemoveEmptyEntries);
+                //set all tags to lowercase
+                titleTags = titleTags.Select(s => s.ToLowerInvariant()).ToArray();
+                beforeTitle = beforeTitle.Select(s => s.ToLowerInvariant()).ToArray();
+                //Put the tags and title together
+                String[] afterTitle = beforeTitle.Union(titleTags).ToArray();
+                //if there are no tags inputed and title was noly one word
+                if (afterTitle.Length <= 1) 
+                //set tags to the only word
+                    contentModel.Tags = afterTitle[0];
+                else
+                //Changes tags to the inputted tags + title
+                    contentModel.Tags = String.Join(", ", afterTitle.Where(s => !string.IsNullOrEmpty(s)));
+
                 try
                 {
                     _context.Update(contentModel);
@@ -130,6 +189,8 @@ namespace HOB_WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+
             return View(contentModel);
         }
 

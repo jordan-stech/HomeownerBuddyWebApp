@@ -1,6 +1,10 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+.text-dark {
+    font-weight: 600;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -24,10 +28,14 @@ a {
   border-color: #1861ac;
 }
 
+.nav-bar-img {
+    margin-top: 0px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -52,11 +60,16 @@ button.accept-policy {
   line-height: inherit;
 }
 
+.footer-div {
+    text-align: center;
+    font-size: 12px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
@@ -68,7 +81,7 @@ body {
   bottom: 0;
   width: 100%;
   white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+  line-height: 40px; /* Vertically center the text there */
 }
 
 .dropbtn {
@@ -100,23 +113,23 @@ body {
     display: none;
     position: absolute;
     background-color: #f1f1f1;
-    min-width: 160px;
+    width: 250px !important;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
 
-    /* Links inside the dropdown */
-    .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
 
-        /* Change color of dropdown links on hover */
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
@@ -132,14 +145,9 @@ body {
     background-color: #3e8e41;
 }
 
-@media (min-width: 992px) {
-    .container {
-        max-width: 1400px;
-    }
-}
-
 table {
     width: 100%;
+    table-layout: fixed;
 }
 
 td {
@@ -147,26 +155,28 @@ td {
     text-overflow: ellipsis;
 }
 
-td.Title {
-    width: 15%;
-}
-
-td.Link {
-    width: 10%;
-}
-
-td.Category {
-    width: 5%;
-}
-
-td.Tags {
-    width: 10%;
-}
-
-td.Edit {
-    width: 15%;
-}
-
 .multline {
     white-space: pre-line;
+}
+
+.text-danger {
+    color: #DC3545;
+}
+
+@media (min-width: 992px) and (max-width: 1300px) {
+    .container {
+        max-width: 1200px;
+    }
+}
+
+@media (min-width: 1350px) and (max-width: 1550px) {
+    .container {
+        max-width: 1400px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1800px;
+    }
 }
