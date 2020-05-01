@@ -138,6 +138,14 @@ namespace HOB_WebApp.Controllers
 
             if (ModelState.IsValid)
             {
+                if (!contentModel.Link.Contains("embed")) {
+                    // Change YouTube link to embedded link
+                    String url = contentModel.Link;
+                    url = url.Split("v=")[1];
+                    url = "https://www.youtube.com/embed/" + url;
+                    contentModel.Link = url;
+                }
+
                 String newTags = "";
                 //check to see if the tag child exists (if it doesn't then "Steps" will be [2])
                 if (ModelState.Root.Children[2].AttemptedValue!=contentModel.Steps) {
