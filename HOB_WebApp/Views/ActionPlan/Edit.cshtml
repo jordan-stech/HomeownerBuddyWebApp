@@ -95,7 +95,7 @@
             }
         });
 
-
+        //Gives an element the ability to destroy itself
         function closeAction(button) {
             var element = document.getElementById("group" + button.id);
             element.parentNode.removeChild(element);
@@ -124,8 +124,8 @@
                 event.preventDefault();
                 // Trigger the button element with a click
                 document.getElementById("btnAddTag").click();
-                //input = document.getElementById("Tags");
-
+               
+                //Selects new input
                 document.getElementById("Tags"+tagNumber).focus();
                 document.getElementById("Tags"+tagNumber).select();
                 }

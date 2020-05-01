@@ -74,6 +74,7 @@
                 </div>
             </div>
         </div>
+        <!--Script for generating new number lines-->
         <script type="text/javascript" src="~/js/actionPlan.js"></script>
     </body>
 </html>
@@ -104,7 +105,7 @@
                 newInput();
             });
 
-            
+            //Creates new input and delete button
             function newInput() {
                 $('.form-group2').prepend('<div class="form-group" id="group' + tagNumber + '"><input class="input-tags" type="text" id="Tags' + String(tagNumber) + '" name="Tags" value="' + name + '"><button  id="' + String(tagNumber) + '" onclick="closeAction(this)" class="button delete-tag-button" type="button">Delete</button></div>');
             }
@@ -118,8 +119,7 @@
                     event.preventDefault();
                     // Trigger the button element with a click
                     document.getElementById("btnAddTag").click();
-                    //input = document.getElementById("Tags");
-
+                    //select the new input
                     document.getElementById("Tags" + tagNumber).focus();
                     document.getElementById("Tags" + tagNumber).select();
                 }
