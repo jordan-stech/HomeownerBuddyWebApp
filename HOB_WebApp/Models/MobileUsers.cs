@@ -17,6 +17,6 @@ namespace HOB_WebApp.Models
         //The address of the homecode
         public string address { get; set; }
         //The date that the user registered
-        public string RegDate { get; set; }
+        public string date { get; set; }
     }
 }
