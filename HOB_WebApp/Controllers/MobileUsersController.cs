@@ -54,7 +54,7 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FName,Lname,Code,address")] MobileUsers mobileUsers)
+        public async Task<IActionResult> Create([Bind("Id,FName,Lname,Code,address,RegDate")] MobileUsers mobileUsers)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FName,Lname,Code,address")] MobileUsers mobileUsers)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FName,Lname,Code,address,RegDate")] MobileUsers mobileUsers)
         {
             if (id != mobileUsers.Id)
             {

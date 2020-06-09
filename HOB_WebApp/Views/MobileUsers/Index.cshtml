@@ -28,6 +28,9 @@
                         <th>
                             Address
                         </th>
+                        <th>
+                            Move-In Date
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
@@ -46,6 +49,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.address)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RegDate)
                             </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

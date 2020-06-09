@@ -10,32 +10,38 @@
 <div>
     <h4>MobileUsers</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Lname)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Lname)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Code)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Code)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.address)
-        </dd>
-    </dl>
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.FName)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.FName)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Lname)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Lname)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Code)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Code)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.address)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.address)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.RegDate)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.RegDate)
+		</dd>
+	</dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
