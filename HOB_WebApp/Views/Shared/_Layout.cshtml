@@ -27,43 +27,52 @@
                         </button>
                         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                             <partial name="_LoginPartial" />
-                            <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <div class="dropdown">
-                                        <button class="dropbtn">Action Plan</button>
-                                        <div class="dropdown-content">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="ActionPlan" asp-action="Index">View Action Plans</a>
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="ActionPlan" asp-action="CreateActionPlan">Create New Action Plan</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="nav-item">
-                                    <div class="dropdown">
-                                        <button class="dropbtn">Service Providers</button>
-                                        <div class="dropdown-content">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="ServiceProviderModels" asp-action="Index">View Service Providers</a>
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="ServiceProviderModels" asp-action="Create">Create New Service Provider</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="nav-item">
-                                    <div class="dropdown">
-                                        <button class="dropbtn">Home Codes</button>
-                                        <div class="dropdown-content">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="HomeCodes" asp-action="Index">View Home Codes</a>
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="HomeCodes" asp-action="Create">Create New Home Code</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="nav-item">
-                                    <div class="dropdown">
-                                        <button class="dropbtn">Mobile Users</button>
-                                        <div class="dropdown-content">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="MobileUsers" asp-action="Index">View Mobile Users</a>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+							<ul class="navbar-nav flex-grow-1">
+								<li class="nav-item">
+									<div class="dropdown">
+										<button class="dropbtn">Action Plan</button>
+										<div class="dropdown-content">
+											<a class="nav-link text-dark" asp-area="" asp-controller="ActionPlan" asp-action="Index">View Action Plans</a>
+											<a class="nav-link text-dark" asp-area="" asp-controller="ActionPlan" asp-action="CreateActionPlan">Create New Action Plan</a>
+										</div>
+									</div>
+								</li>
+								<li class="nav-item">
+									<div class="dropdown">
+										<button class="dropbtn">Maintenance Reminders</button>
+										<div class="dropdown-content">
+											<a class="nav-link text-dark" asp-area="" asp-controller="MaintenanceReminders" asp-action="Index">View Maintenance Reminders</a>
+											<a class="nav-link text-dark" asp-area="" asp-controller="MaintenanceReminders" asp-action="Create">Create New Maintenance Reminder</a>
+										</div>
+									</div>
+								</li>
+								<li class="nav-item">
+									<div class="dropdown">
+										<button class="dropbtn">Service Providers</button>
+										<div class="dropdown-content">
+											<a class="nav-link text-dark" asp-area="" asp-controller="ServiceProviderModels" asp-action="Index">View Service Providers</a>
+											<a class="nav-link text-dark" asp-area="" asp-controller="ServiceProviderModels" asp-action="Create">Create New Service Provider</a>
+										</div>
+									</div>
+								</li>
+								<li class="nav-item">
+									<div class="dropdown">
+										<button class="dropbtn">Home Codes</button>
+										<div class="dropdown-content">
+											<a class="nav-link text-dark" asp-area="" asp-controller="HomeCodes" asp-action="Index">View Home Codes</a>
+											<a class="nav-link text-dark" asp-area="" asp-controller="HomeCodes" asp-action="Create">Create New Home Code</a>
+										</div>
+									</div>
+								</li>
+								<li class="nav-item">
+									<div class="dropdown">
+										<button class="dropbtn">Mobile Users</button>
+										<div class="dropdown-content">
+											<a class="nav-link text-dark" asp-area="" asp-controller="MobileUsers" asp-action="Index">View Mobile Users</a>
+										</div>
+									</div>
+								</li>
+							</ul>
                         </div>
                     </div>
                 </nav>

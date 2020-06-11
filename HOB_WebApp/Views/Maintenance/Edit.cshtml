@@ -1,0 +1,44 @@
+﻿@model HOB_WebApp.Models.MaintenanceReminders
+
+@{
+	ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>MaintenanceReminders</h4>
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action="Edit">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="Id" />
+			<div class="form-group">
+				<label asp-for="Reminder" class="control-label"></label>
+				<input asp-for="Reminder" class="form-control" />
+				<span asp-validation-for="Reminder" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Sent" class="control-label"></label>
+				<input asp-for="Sent" class="form-control" />
+				<span asp-validation-for="Sent" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Completed" class="control-label"></label>
+				<input asp-for="Completed" class="form-control" />
+				<span asp-validation-for="Completed" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
