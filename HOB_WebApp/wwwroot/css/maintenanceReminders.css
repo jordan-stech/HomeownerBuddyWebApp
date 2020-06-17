@@ -45,5 +45,5 @@ td {
 }*/
 
 .delete-maintenance-reminder {
-	color: #DC3545;
+	color: #DC3545 !important;
 }
