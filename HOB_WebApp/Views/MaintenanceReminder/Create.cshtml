@@ -11,19 +11,19 @@
 		<form asp-action="Create">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<div class="form-group">
-				<label asp-for="Reminder" class="control-label">Reminder</label>
+				<label asp-for="Reminder" class="control-label"></label>
 				<input asp-for="Reminder" class="form-control" />
 				<span asp-validation-for="Reminder" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<label asp-for="Sent" class="control-label">Sent</label>
-				<input asp-for="Sent" class="form-control" />
-				<span asp-validation-for="Sent" class="text-danger"></span>
+				<label asp-for="Description" class="control-label"></label>
+				<input asp-for="Description" class="form-control" />
+				<span asp-validation-for="Description" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<label asp-for="Completed" class="control-label">Completed</label>
-				<input asp-for="Completed" class="form-control" />
-				<span asp-validation-for="Completed" class="text-danger"></span>
+				<label asp-for="NotificationInterval" class="control-label"></label>
+				<input asp-for="NotificationInterval" class="form-control" />
+				<span asp-validation-for="NotificationInterval" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<input type="submit" value="Create" class="btn btn-primary" />

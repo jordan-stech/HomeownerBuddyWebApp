@@ -24,5 +24,7 @@ namespace HOB_WebApp.Data
         public DbSet<HOB_WebApp.Models.HomeCodes> HomeCodes { get; set; }
 
         public DbSet<HOB_WebApp.Models.MaintenanceReminders> MaintenanceReminders { get; set; }
+
+        public DbSet<HOB_WebApp.Models.UserReminders> UserReminders { get; set; }
     }
 }

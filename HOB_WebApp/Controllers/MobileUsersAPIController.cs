@@ -37,8 +37,8 @@ namespace HOB_WebApp.Controllers
         public async Task<ActionResult<MobileUsers>> PostMobileUsers(MobileUsers mobileUsers)
         {
             var user = await _context.MobileUsers.Where(m => (m.FName == mobileUsers.FName) && (m.Lname == mobileUsers.Lname) && (m.Code == mobileUsers.Code) && (m.date == mobileUsers.date)).ToListAsync();
-            //user = await _context.MobileUsers.Where(m => (m.RegDate == mobileUsers.date)).ToListAsync();
             var homeCode = await _context.HomeCodes.Where(m => m.Code == mobileUsers.Code).ToListAsync();
+
             //Only register a user if they use a valid, pre-exisiting home code
             if (homeCode.Count() != 0 && user.Count() == 0)
             {

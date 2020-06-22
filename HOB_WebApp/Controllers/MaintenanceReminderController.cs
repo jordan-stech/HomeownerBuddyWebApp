@@ -25,6 +25,12 @@ namespace HOB_WebApp.Controllers
             return View(await _context.MaintenanceReminders.ToListAsync());
         }
 
+        // GET: MaintenanceReminders
+        public async Task<IActionResult> Status()
+        {
+            return View(await _context.UserReminders.ToListAsync());
+        }
+
         // GET: MaintenanceReminders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -54,12 +60,31 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Reminder,Sent,Completed")] MaintenanceReminders maintenanceReminders)
+        public async Task<IActionResult> Create([Bind("Id,Reminder,Description,NotificationInterval")] MaintenanceReminders maintenanceReminders)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(maintenanceReminders);
                 await _context.SaveChangesAsync();
+
+                var mobileUserList = await _context.MobileUsers.ToListAsync();
+                var userReminderList = new List<UserReminders>();
+
+                // After the new minatenance reminder has been added to the db, add an entry for that reminder to each current mobile user on the Reminder Status page
+                foreach (MobileUsers mobileUser in mobileUserList)
+                {
+                    UserReminders userReminder = new UserReminders();
+
+                    userReminder.ReminderId = maintenanceReminders.Id;
+                    userReminder.UserId = mobileUser.Id;
+                    userReminder.FName = mobileUser.FName;
+                    userReminder.LName = mobileUser.Lname;
+                    userReminder.Completed = "No";
+                    userReminder.Reminder = maintenanceReminders.Reminder;
+                    _context.UserReminders.Add(userReminder);
+                    await _context.SaveChangesAsync();
+                }
+                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(maintenanceReminders);
@@ -86,7 +111,7 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Reminder,Sent,Completed")] MaintenanceReminders maintenanceReminders)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Reminder,Description,NotificationInterval")] MaintenanceReminders maintenanceReminders)
         {
             if (id != maintenanceReminders.Id)
             {
@@ -140,6 +165,13 @@ namespace HOB_WebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var maintenanceReminders = await _context.MaintenanceReminders.FindAsync(id);
+            var userReminderList = await _context.UserReminders.Where(m => m.ReminderId == id).ToListAsync();
+
+            foreach (UserReminders userReminder in userReminderList)
+            {
+                _context.UserReminders.Remove(userReminder);
+            }
+
             _context.MaintenanceReminders.Remove(maintenanceReminders);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
