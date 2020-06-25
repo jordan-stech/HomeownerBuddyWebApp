@@ -13,9 +13,9 @@ namespace HOB_WebApp.Models
         public int Id { get; set; }
         //The title of the maintenance reminder task
         public string Reminder { get; set; }
-        //The category which the maintenance task belongs to
+        //The description of the maintenance reminder task
         public string Description { get; set; }
-        //Check to see if a homeowner completed a maintenance task
-        public int NotificationInterval { get; set; }
+        //When to set the due date for a maintenance reminder task
+        public string NotificationInterval { get; set; }
     }
 }

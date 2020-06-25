@@ -76,6 +76,7 @@ namespace HOB_WebApp.Controllers
                     reminder.UserId = currentUserId.Id;
                     reminder.FName = currentUserId.FName;
                     reminder.LName = currentUserId.Lname;
+                    reminder.Address = currentUserId.address;
                     reminder.Reminder = currentGlobalReminders[i].Reminder;
                     reminder.Completed = "No";
                     _context.UserReminders.Add(reminder);

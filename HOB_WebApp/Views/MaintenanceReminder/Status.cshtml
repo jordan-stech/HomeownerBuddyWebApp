@@ -13,27 +13,27 @@
     <div class="maintenance-reminder-container">
         <h1 class="maintenance-reminder-header">Reminder Status</h1>
 
-        <form asp-controller="Movies" asp-action="Index">
+        @*<form asp-controller="Movies" asp-action="Index">
             <p>
                 Home Owner ID: <input type="text" name="SearchString">
                 <input type="submit" value="Search" />
             </p>
-        </form>
+        </form>*@
 
         <table class="table">
             <thead>
                 <tr>
                     <th>
-                        Home owner ID
-                    </th>
-                    <th class="text-center">
                         First Name
                     </th>
-                    <th class="text-center">
+                    <th>
                         Last Name
                     </th>
                     <th class="text-center">
-                        Reminder
+                        Address
+                    </th>
+                    <th class="text-center">
+                        Reminder Title
                     </th>
                     <th class="text-center">
                         Completed
@@ -47,13 +47,13 @@
                 {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.UserId)
-                    </td>
-                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.FName)
                     </td>
-                    <td class="text-center">
+                    <td>
                         @Html.DisplayFor(modelItem => item.LName)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Address)
                     </td>
                     <td class="text-center">
                         @Html.DisplayFor(modelItem => item.Reminder)
@@ -62,9 +62,9 @@
                         @Html.DisplayFor(modelItem => item.Completed)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="delete-maintenance-reminder">Delete</a>
+                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                        <a asp-action="UserReminderDetails" asp-route-id="@item.Id">Details</a>
+                        @*<a asp-action="Delete" asp-route-id="@item.Id" class="delete-maintenance-reminder">Delete</a>*@
                     </td>
                 </tr>
                 }

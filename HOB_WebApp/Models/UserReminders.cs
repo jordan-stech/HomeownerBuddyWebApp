@@ -13,10 +13,12 @@ namespace HOB_WebApp.Models
         public int ReminderId { get; set; }
         // The Mobile User Id
         public int UserId { get; set; }
-        // The Mobile User first name
+        // The Mobile User's first name
         public string FName { get; set; }
-        // The Mobile User last name
+        // The Mobile User's last name
         public string LName { get; set; }
+        // The Mobile User's home address
+        public string Address { get; set; }
         // Check to see if a homeowner completed a maintenance task
         public string Completed { get; set; }
         // The title of the Maintenance Reminder

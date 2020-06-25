@@ -28,7 +28,7 @@ namespace HOB_WebApp.Controllers
         // GET: MaintenanceReminders
         public async Task<IActionResult> Status()
         {
-            return View(await _context.UserReminders.ToListAsync());
+            return View(await _context.UserReminders.OrderBy(m => m.UserId).ToListAsync());
         }
 
         // GET: MaintenanceReminders/Details/5
@@ -47,6 +47,24 @@ namespace HOB_WebApp.Controllers
             }
 
             return View(maintenanceReminders);
+        }
+
+        // GET: MaintenanceReminders/Status/Details/5
+        public async Task<IActionResult> UserReminderDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var userReminders = await _context.UserReminders
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (userReminders == null)
+            {
+                return NotFound();
+            }
+
+            return View(userReminders);
         }
 
         // GET: MaintenanceReminders/Create
@@ -68,7 +86,6 @@ namespace HOB_WebApp.Controllers
                 await _context.SaveChangesAsync();
 
                 var mobileUserList = await _context.MobileUsers.ToListAsync();
-                var userReminderList = new List<UserReminders>();
 
                 // After the new minatenance reminder has been added to the db, add an entry for that reminder to each current mobile user on the Reminder Status page
                 foreach (MobileUsers mobileUser in mobileUserList)
@@ -79,11 +96,13 @@ namespace HOB_WebApp.Controllers
                     userReminder.UserId = mobileUser.Id;
                     userReminder.FName = mobileUser.FName;
                     userReminder.LName = mobileUser.Lname;
+                    userReminder.Address = mobileUser.address;
                     userReminder.Completed = "No";
                     userReminder.Reminder = maintenanceReminders.Reminder;
                     _context.UserReminders.Add(userReminder);
                     await _context.SaveChangesAsync();
                 }
+
                 //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -124,6 +143,14 @@ namespace HOB_WebApp.Controllers
                 {
                     _context.Update(maintenanceReminders);
                     await _context.SaveChangesAsync();
+
+                    var userReminderList = await _context.UserReminders.Where(m => m.ReminderId == id).ToListAsync();
+
+                    foreach (UserReminders userReminder in userReminderList)
+                    {
+                        _context.UserReminders.Update(userReminder);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {

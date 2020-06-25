@@ -75,6 +75,13 @@ namespace HOB_WebApp.Controllers
                 return NotFound();
             }
 
+            var userReminderList = await _context.UserReminders.Where(m => m.UserId == id).ToListAsync();
+
+            foreach (UserReminders userReminder in userReminderList)
+            {
+                _context.UserReminders.Remove(userReminder);
+            }
+
             _context.MobileUsers.Remove(mobileUsers);
             await _context.SaveChangesAsync();
 
