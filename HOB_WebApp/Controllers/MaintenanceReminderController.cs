@@ -78,7 +78,7 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Reminder,Description,NotificationInterval")] MaintenanceReminders maintenanceReminders)
+        public async Task<IActionResult> Create([Bind("Id,Reminder,Description,NotificationInterval,SeasonSpring,SeasonSummer,SeasonFall,SeasonWinter")] MaintenanceReminders maintenanceReminders)
         {
             if (ModelState.IsValid)
             {
@@ -130,7 +130,7 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Reminder,Description,NotificationInterval")] MaintenanceReminders maintenanceReminders)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Reminder,Description,NotificationInterval,SeasonSpring,SeasonSummer,SeasonFall,SeasonWinter")] MaintenanceReminders maintenanceReminders)
         {
             if (id != maintenanceReminders.Id)
             {

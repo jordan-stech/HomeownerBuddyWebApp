@@ -17,5 +17,10 @@ namespace HOB_WebApp.Models
         public string Description { get; set; }
         //When to set the due date for a maintenance reminder task
         public string NotificationInterval { get; set; }
+        //Option to determine if a maintenance reminder is seasonal or all-year
+        public string SeasonSpring { get; set; }
+        public string SeasonSummer { get; set; }
+        public string SeasonFall { get; set; }
+        public string SeasonWinter { get; set; }
     }
 }
