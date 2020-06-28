@@ -4,60 +4,89 @@
 	ViewData["Title"] = "Create";
 }
 
-<h1>Create Maintenance Reminder</h1>
-<hr />
-<div class="row">
-	<div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Reminder" class="control-label"></label>
-                    <input asp-for="Reminder" class="form-control" />
-                    <span asp-validation-for="Reminder" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <textarea asp-for="Description" rows="4" class="form-control" style="resize:none"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NotificationInterval" class="control-label">Select the Notification Frequency:</label>
-                    <select asp-for="NotificationInterval" value="Frequency">
-                        <option value="Monthly">Please choose an option</option>
-                        <option value="Weekly">Weekly</option>
-                        <option value="Biweekly">Biweekly</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Quarterly">Quarterly (3 months)</option>
-                        <option value="Semiannually">Semiannually (6 months)</option>
-                        <option value="Yearly">Yearly</option>
-                    </select>
-                    <span asp-validation-for="NotificationInterval" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label>Is this a seasonal task?</label>
-                    <br />
-                    <label asp-for="SeasonSpring" class="control-label">Spring</label>
-                    <input type="checkbox" asp-for="SeasonSpring" value="true">
-                    <label asp-for="SeasonSummer" class="control-label">| Summer</label>
-                    <input type="checkbox" asp-for="SeasonSummer" value="true">
-                    <label asp-for="SeasonFall" class="control-label">| Fall</label>
-                    <input type="checkbox" asp-for="SeasonFall" value="true">
-                    <label asp-for="SeasonWinter" class="control-label">| Winter</label>
-                    <input type="checkbox" asp-for="SeasonWinter" value="true">
-                    <span asp-validation-for="SeasonWinter" class="text-danger"></span>
-                </div>
-                <div></div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-        </form>
-	</div>
-</div>
+    <html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="~/css/Login.css">
+        <link rel="stylesheet" href="~/css/createActionPlan.css" />
+        <link rel="stylesheet" href="~/css/maintenanceReminders.css" />
+    </head>
 
-<div>
-	<a asp-action="Index">Back to List</a>
-</div>
+    <body class="background">
+        <div class="main-container">
+            <h1 class="maintenance-reminder-header">Create Maintenance Reminder</h1>
+            <div class="row">
+                <div class="align">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <div class="centerblock">
+                                    <label asp-for="Reminder" class="control-label">Reminder Title</label>
+                                    <input asp-for="Reminder" class="form-control" />
+                                    <span asp-validation-for="Reminder" class="text-danger"></span>
+                                </div>
+                                </div>
+                            <div class="form-group">
+                                <div class="centerblock">
+                                    <label asp-for="Description" class="control-label"></label>
+                                    <textarea asp-for="Description" rows="4" class="form-control" style="resize:none"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="NotificationInterval" class="control-label">Select the Notification Frequency:</label>
+                                    <select asp-for="NotificationInterval" value="Frequency">
+                                        <option value="Weekly">Weekly</option>
+                                        <option value="Biweekly">Biweekly</option>
+                                        <option value="Monthly">Monthly</option>
+                                        <option value="Quarterly">Quarterly (3 months)</option>
+                                        <option value="Semiannually">Semiannually (6 months)</option>
+                                        <option value="Yearly">Yearly</option>
+                                    </select>
+                                    <span asp-validation-for="NotificationInterval" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ActionPlanTitle" class="control-label">Select an Action Plan for this reminder (if applicable):</label>
+                                    <select asp-for="ActionPlanTitle" value="Plan">
+                                        <option value="None">None</option>
+                                        @foreach (var item in ViewBag.ActionPlans)
+                                {
+                                        <option value="@item.Title.ToString()">@item.Title.ToString()</option>
+                                }
 
-@section Scripts {
-	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+                                    </select>
+                                    <span asp-validation-for="ActionPlanTitle" class="text-danger"></span>
+
+                                </div>
+                                <div class="form-group">
+                                    <label>Is this a seasonal task? (Select all that apply or none for "All Year")</label>
+                                    <br />
+                                    <label asp-for="SeasonSpring" class="control-label">Spring</label>
+                                    <input type="checkbox" asp-for="SeasonSpring" value="true">
+                                    <label asp-for="SeasonSummer" class="control-label">| Summer</label>
+                                    <input type="checkbox" asp-for="SeasonSummer" value="true">
+                                    <label asp-for="SeasonFall" class="control-label">| Fall</label>
+                                    <input type="checkbox" asp-for="SeasonFall" value="true">
+                                    <label asp-for="SeasonWinter" class="control-label">| Winter</label>
+                                    <input type="checkbox" asp-for="SeasonWinter" value="true">
+                                    <span asp-validation-for="SeasonWinter" class="text-danger"></span>
+                                </div>
+                                <div></div>
+                                <div class="form-group">
+                                    <input type="submit" value="Create" class="btn btn-primary" />
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+            @*<div>
+                <a asp-action="Index">Back to List</a>
+            </div>*@
+        </div>
+    </body>
+    </html>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

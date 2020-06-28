@@ -23,6 +23,9 @@
                         Description
                     </th>
                     <th class="text-center">
+                        Action Plan
+                    </th>
+                    <th class="text-center">
                         Notification Frequency
                     </th>
                     <th class="text-center">
@@ -43,41 +46,51 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.ActionPlanTitle)
+                    </td>
+                    <td class="text-center">
                         @Html.DisplayFor(modelItem => item.NotificationInterval)
                     </td>
                     <td class="text-center">
+                        @if (item.SeasonSpring == "false" || item.SeasonSummer == "false" || item.SeasonFall == "false" || item.SeasonWinter == "false") {
                         @if (item.SeasonSpring == "false" && item.SeasonSummer == "false" && item.SeasonFall == "false" && item.SeasonWinter == "false") {
-                            <text>All Year</text>
-                        }
-                        @if (item.SeasonSpring == "true" && (item.SeasonSummer == "true" || item.SeasonFall == "true" || item.SeasonWinter == "true")) {
-                            <text>Spring</text>
-                        }
+                        <text>All Year</text>
+                            }
+                        @if (item.SeasonSpring == "true") {
+                        <text>Spring</text>
+                            }
                         @if (item.SeasonSummer == "true" && (item.SeasonSpring == "true")) {
-                            <text>, Summer</text>
-                        }
-                        else {
-                            if (item.SeasonSummer == "true") {
-                                <text>Summer</text>
+                        <text>, Summer</text>
                             }
-                        }
+                            else {
+                                if (item.SeasonSummer == "true") {
+                        <text>Summer</text>
+                                }
+                            }
                         @if (item.SeasonFall == "true" && (item.SeasonSummer == "true" || item.SeasonSpring == "true")) {
-                            <text>, Fall</text>
-                        }
-                        else {
-                            if (item.SeasonFall == "true") {
-                                <text>Fall</text>
+                        <text>, Fall</text>
+                            }
+                            else {
+                                if (item.SeasonFall == "true") {
+                        <text>Fall</text>
+                                }
+                            }
+                        @if (item.SeasonWinter == "true" && (item.SeasonSummer == "true" || item.SeasonFall == "true" || item.SeasonSpring == "true")) {
+                        <text>, Winter</text>
+                            }
+                            else {
+                                if (item.SeasonWinter == "true") {
+                        <text>Winter</text>
+                                }
                             }
                         }
-                        @if (item.SeasonWinter == "true" && (item.SeasonSummer == "true" || item.SeasonFall == "true" || item.SeasonSpring == "true")) {
-                            <text>, Winter</text>
-                        }
                         else {
-                            if (item.SeasonWinter == "true") {
-                                <text>Winter</text>
+                        @if (item.SeasonSpring == "true" && item.SeasonSummer == "true" && item.SeasonFall == "true" && item.SeasonWinter == "true") {
+                        <text>All Year</text>
                             }
                         }
                     </td>
-                    
+
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

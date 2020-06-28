@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using HOB_WebApp.Data;
@@ -68,8 +69,9 @@ namespace HOB_WebApp.Controllers
         }
 
         // GET: MaintenanceReminders/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.ActionPlans = await _context.ContentModel.ToListAsync();
             return View();
         }
 
@@ -78,10 +80,17 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Reminder,Description,NotificationInterval,SeasonSpring,SeasonSummer,SeasonFall,SeasonWinter")] MaintenanceReminders maintenanceReminders)
+        public async Task<IActionResult> Create([Bind("Id,Reminder,Description,NotificationInterval,ActionPlanId,ActionPlanTitle,ActionPlanCategory,SeasonSpring,SeasonSummer,SeasonFall,SeasonWinter")] MaintenanceReminders maintenanceReminders)
         {
+
             if (ModelState.IsValid)
             {
+                // Grab the selected action plan's ID and Category for later use
+                var currentAPList = await _context.ContentModel.Where(m => m.Title == maintenanceReminders.ActionPlanTitle).ToListAsync();
+                ContentModel currentAP = currentAPList.Find(m => m.Title == maintenanceReminders.ActionPlanTitle);
+                maintenanceReminders.ActionPlanId = currentAP.Id;
+                maintenanceReminders.ActionPlanCategory = currentAP.Category;
+
                 _context.Add(maintenanceReminders);
                 await _context.SaveChangesAsync();
 
@@ -116,6 +125,7 @@ namespace HOB_WebApp.Controllers
             {
                 return NotFound();
             }
+            ViewBag.ActionPlans = await _context.ContentModel.ToListAsync();
 
             var maintenanceReminders = await _context.MaintenanceReminders.FindAsync(id);
             if (maintenanceReminders == null)
@@ -130,7 +140,7 @@ namespace HOB_WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Reminder,Description,NotificationInterval,SeasonSpring,SeasonSummer,SeasonFall,SeasonWinter")] MaintenanceReminders maintenanceReminders)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Reminder,Description,NotificationInterval,ActionPlanId,ActionPlanTitle,ActionPlanCategory,SeasonSpring,SeasonSummer,SeasonFall,SeasonWinter")] MaintenanceReminders maintenanceReminders)
         {
             if (id != maintenanceReminders.Id)
             {
@@ -141,6 +151,12 @@ namespace HOB_WebApp.Controllers
             {
                 try
                 {
+                    // Grab the action plan ID and Category tied to the maintenance reminder to be able to update it
+                    var currentAPList = await _context.ContentModel.Where(m => m.Title == maintenanceReminders.ActionPlanTitle).ToListAsync();
+                    ContentModel currentAP = currentAPList.Find(m => m.Title == maintenanceReminders.ActionPlanTitle);
+                    maintenanceReminders.ActionPlanId = currentAP.Id;
+                    maintenanceReminders.ActionPlanCategory = currentAP.Category;
+
                     _context.Update(maintenanceReminders);
                     await _context.SaveChangesAsync();
 

@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Reminder" class="control-label"></label>
+                <label asp-for="Reminder" class="control-label">Reminder Title</label>
                 <input asp-for="Reminder" class="form-control" />
                 <span asp-validation-for="Reminder" class="text-danger"></span>
             </div>
@@ -36,7 +36,20 @@
                 <span asp-validation-for="NotificationInterval" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label>Is this a seasonal task?</label>
+                <label asp-for="ActionPlanTitle" class="control-label">Select an Action Plan for this reminder (if applicable):</label>
+                <select asp-for="ActionPlanTitle" value="Plan">
+                    <option value="None">None</option>
+                    @foreach (var item in ViewBag.ActionPlans)
+                    {
+                    <option value="@item.Title.ToString()">@item.Title.ToString()</option>
+                    }
+
+                </select>
+                <span asp-validation-for="ActionPlanTitle" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <label>Is this a seasonal task? (Select all that apply or none for "All Year")</label>
                 <br />
                 <label asp-for="SeasonSpring" class="control-label">Spring</label>
                 <input type="checkbox" asp-for="SeasonSpring" value="true">
@@ -46,7 +59,7 @@
                 <input type="checkbox" asp-for="SeasonFall" value="true">
                 <label asp-for="SeasonWinter" class="control-label">| Winter</label>
                 <input type="checkbox" asp-for="SeasonWinter" value="true">
-                
+
             </div>
             <div></div>
             <div class="form-group">
