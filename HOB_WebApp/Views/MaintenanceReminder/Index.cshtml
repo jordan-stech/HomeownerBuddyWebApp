@@ -6,15 +6,24 @@
 
 <html>
 <head>
-	<link rel="stylesheet" href="~/css/maintenanceReminders.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/Login.css">
+    <link rel="stylesheet" href="~/css/createActionPlan.css" />
+    <link rel="stylesheet" href="~/css/maintenanceReminders.css">
 </head>
 
 <body>
-	<div class="maintenance-reminder-container">
-		<h1 class="maintenance-reminder-header">Maintenance Reminders</h1>
-
-		<table class="table">
-			<thead>
+    <div class="page-header">
+        <div class='btn-toolbar float-right'>
+            <div class='btn-group'>
+                <a asp-action="Create"><button id="btnAddTag" type='button' class='btn btn-primary p-3' style="font-size:17px"><i class="fa fa-plus-circle icon"></i>Create New Maintenance Reminder</button></a>
+            </div>
+        </div>
+        <h1 class="maintenance-reminder-header">Maintenance Reminders</h1>
+    </div>
+    <div class="combined-container">
+        <table class="table">
+            <thead>
                 <tr>
                     <th>
                         Reminder Title
@@ -33,10 +42,10 @@
                     </th>
                     <th></th>
                 </tr>
-			</thead>
-			<tbody>
+            </thead>
+            <tbody>
 
-				@foreach (var item in Model)
+                @foreach (var item in Model)
                 {
                 <tr>
                     <td>
@@ -98,9 +107,9 @@
                     </td>
                 </tr>
 				}
-			</tbody>
-		</table>
-	</div>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>

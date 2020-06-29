@@ -29,6 +29,7 @@ namespace HOB_WebApp.Controllers
         // GET: MaintenanceReminders
         public async Task<IActionResult> Status()
         {
+            ViewBag.MobileUsers = await _context.MobileUsers.ToListAsync();
             return View(await _context.UserReminders.OrderBy(m => m.UserId).ToListAsync());
         }
 
@@ -88,8 +89,11 @@ namespace HOB_WebApp.Controllers
                 // Grab the selected action plan's ID and Category for later use
                 var currentAPList = await _context.ContentModel.Where(m => m.Title == maintenanceReminders.ActionPlanTitle).ToListAsync();
                 ContentModel currentAP = currentAPList.Find(m => m.Title == maintenanceReminders.ActionPlanTitle);
-                maintenanceReminders.ActionPlanId = currentAP.Id;
-                maintenanceReminders.ActionPlanCategory = currentAP.Category;
+                if (maintenanceReminders.ActionPlanTitle != "None")
+                {
+                    maintenanceReminders.ActionPlanId = currentAP.Id;
+                    maintenanceReminders.ActionPlanCategory = currentAP.Category;
+                }
 
                 _context.Add(maintenanceReminders);
                 await _context.SaveChangesAsync();
@@ -102,10 +106,19 @@ namespace HOB_WebApp.Controllers
                     UserReminders userReminder = new UserReminders();
 
                     userReminder.ReminderId = maintenanceReminders.Id;
+                    userReminder.ReminderDescription = maintenanceReminders.Description;
                     userReminder.UserId = mobileUser.Id;
                     userReminder.FName = mobileUser.FName;
                     userReminder.LName = mobileUser.Lname;
                     userReminder.Address = mobileUser.address;
+                    userReminder.NotificationInterval = maintenanceReminders.NotificationInterval;
+                    userReminder.SeasonSpring = maintenanceReminders.SeasonSpring;
+                    userReminder.SeasonSummer = maintenanceReminders.SeasonSummer;
+                    userReminder.SeasonFall = maintenanceReminders.SeasonFall;
+                    userReminder.SeasonWinter = maintenanceReminders.SeasonWinter;
+                    userReminder.ActionPlanId = maintenanceReminders.ActionPlanId;
+                    userReminder.ActionPlanTitle = maintenanceReminders.ActionPlanTitle;
+                    userReminder.ActionPlanCategory = maintenanceReminders.ActionPlanCategory;
                     userReminder.Completed = "No";
                     userReminder.Reminder = maintenanceReminders.Reminder;
                     _context.UserReminders.Add(userReminder);
@@ -154,8 +167,11 @@ namespace HOB_WebApp.Controllers
                     // Grab the action plan ID and Category tied to the maintenance reminder to be able to update it
                     var currentAPList = await _context.ContentModel.Where(m => m.Title == maintenanceReminders.ActionPlanTitle).ToListAsync();
                     ContentModel currentAP = currentAPList.Find(m => m.Title == maintenanceReminders.ActionPlanTitle);
-                    maintenanceReminders.ActionPlanId = currentAP.Id;
-                    maintenanceReminders.ActionPlanCategory = currentAP.Category;
+                    if (maintenanceReminders.ActionPlanTitle != "None")
+                    {
+                        maintenanceReminders.ActionPlanId = currentAP.Id;
+                        maintenanceReminders.ActionPlanCategory = currentAP.Category;
+                    }
 
                     _context.Update(maintenanceReminders);
                     await _context.SaveChangesAsync();

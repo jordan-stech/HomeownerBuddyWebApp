@@ -6,12 +6,50 @@ tr:hover {
 	background-color: #eeeeee;
 }
 
-.centerblock {
-	width: 250px;
-	margin-left: auto;
-	margin-right: auto;
+/*.centerblock {
+	background-color: #FFDC00;
+	width: 100px;
+	height: 100px;
+	margin: 0 auto;
+}*/
+
+.combined-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	text-align: center;
+	margin: 50px 0;
+	border: 5px solid #005691;
 }
 
+.maintenance-reminder-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	text-align: center;
+	margin: 50px 0;
+	/*border: 5px solid #005691;*/
+}
+
+.bottom-container {
+	border: 5px solid #005691;
+}
+
+.valign {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.add-tag-button {
+	width: 200px;
+	height: 50px;
+	background-color: #82C91E;
+	border: none;
+	border-radius: 5px;
+	color: white;
+}
 
 .maintenance-reminder-header {
 	margin-top: 20px;

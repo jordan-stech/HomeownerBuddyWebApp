@@ -5,63 +5,64 @@
 }
 
 <html>
-    <head>
-        <link rel="stylesheet" href="~/css/mobileUsers.css">
-    </head>
+<head>
+    <link rel="stylesheet" href="~/css/mobileUsers.css">
+    <link rel="stylesheet" href="~/css/maintenanceReminders.css" />
+</head>
 
-    <body>
-        <div class="mobile-user-container">
-            <h1 class="mobile-user-header">Mobile Users</h1>
+<body>
+    <h1 class="mobile-user-header">Mobile Users</h1>
+    <div class="combined-container">
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            First Name
-                        </th>
-                        <th>
-                            Last Name
-                        </th>
-                        <th>
-                            Home Code
-                        </th>
-                        <th>
-                            Address
-                        </th>
-                        <th>
-                            Move-In Date
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th>
+                        Home Code
+                    </th>
+                    <th>
+                        Address
+                    </th>
+                    <th>
+                        Move-In Date
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.FName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Lname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Code)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.address)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.date)
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="delete-mobile-user">Delete</a>
-                            </td>
-                        </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.date)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="delete-mobile-user">Delete</a>
+                    </td>
+                </tr>
                     }
-                </tbody>
-            </table>
-        </div>
-    </body>
+            </tbody>
+        </table>
+    </div>
+</body>
 </html>

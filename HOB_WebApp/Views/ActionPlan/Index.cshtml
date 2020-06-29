@@ -5,59 +5,69 @@
 }
 
 <html>
-    <head>
-        <link rel="stylesheet" href="~/css/actionPlan.css">
-    </head>
-
-    <body>
-        <div class="action-plan-container">
-            <h1 class="action-plan-header">Action Plans</h1>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Title
-                        </th>
-                        <th class="text-center">
-                            Link
-                        </th>
-                        <th class="text-center">
-                            Category
-                        </th>
-                        <th class="text-center">
-                           Tags
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td class="custom-td-title">
-                                @Html.DisplayFor(modelItem => item.Title)
-                            </td>
-                            <td class="custom-td-link">
-                                <a href=@Html.DisplayFor(modelItem => item.Link) target="_blank" rel="noopener noreferrer">
-                                    @Html.DisplayFor(modelItem => item.Link)
-                                </a>
-                            </td>
-                            <td class="text-center custom-td-category">
-                                @Html.DisplayFor(modelItem => item.Category)
-                            </td>
-                            <td class="text-center custom-td-tags">
-                                @Html.DisplayFor(modelItem => item.Tags)
-                            </td>
-                            <td class="custom-td-buttons">
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">View Steps</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="delete-action-plan">Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/maintenanceReminders.css" />
+    <link rel="stylesheet" href="~/css/actionPlan.css">
+    <link rel="stylesheet" href="~/css/createActionPlan.css" />
+</head>
+<body>
+    <div class="page-header">
+        <div class='btn-toolbar float-right'>
+            <div class='btn-group'>
+                <a asp-action="CreateActionPlan"><button id="btnAddTag" type='button' class='btn btn-primary p-3' style="font-size:17px"><i class="fa fa-plus-circle icon"></i>Create New Action Plan</button></a>
+            </div>
         </div>
-    </body>
+        <h1 class="action-plan-header">Action Plans</h1>
+    </div>
+    <div class="combined-container">
+        @*<h1 class="action-plan-header">Action Plans</h1>*@
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Title
+                    </th>
+                    <th class="text-center">
+                        Link
+                    </th>
+                    <th class="text-center">
+                        Category
+                    </th>
+                    <th class="text-center">
+                        Tags
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                    {
+                <tr>
+                    <td class="custom-td-title">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td class="custom-td-link">
+                        <a href=@Html.DisplayFor(modelItem => item.Link) target="_blank" rel="noopener noreferrer">
+                            @Html.DisplayFor(modelItem => item.Link)
+                        </a>
+                    </td>
+                    <td class="text-center custom-td-category">
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td class="text-center custom-td-tags">
+                        @Html.DisplayFor(modelItem => item.Tags)
+                    </td>
+                    <td class="custom-td-buttons">
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">View Steps</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="delete-action-plan">Delete</a>
+                    </td>
+                </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+</body>
 </html>

@@ -73,10 +73,19 @@ namespace HOB_WebApp.Controllers
                 {
                     UserReminders reminder = new UserReminders();
                     reminder.ReminderId = currentGlobalReminders[i].Id;
+                    reminder.ReminderDescription = currentGlobalReminders[i].Description;
                     reminder.UserId = currentUserId.Id;
                     reminder.FName = currentUserId.FName;
                     reminder.LName = currentUserId.Lname;
                     reminder.Address = currentUserId.address;
+                    reminder.NotificationInterval = currentGlobalReminders[i].NotificationInterval;
+                    reminder.SeasonSpring = currentGlobalReminders[i].SeasonSpring;
+                    reminder.SeasonSummer = currentGlobalReminders[i].SeasonSummer;
+                    reminder.SeasonFall = currentGlobalReminders[i].SeasonFall;
+                    reminder.SeasonWinter = currentGlobalReminders[i].SeasonWinter;
+                    reminder.ActionPlanId = currentGlobalReminders[i].ActionPlanId;
+                    reminder.ActionPlanTitle = currentGlobalReminders[i].ActionPlanTitle;
+                    reminder.ActionPlanCategory = currentGlobalReminders[i].ActionPlanCategory;
                     reminder.Reminder = currentGlobalReminders[i].Reminder;
                     reminder.Completed = "No";
                     _context.UserReminders.Add(reminder);

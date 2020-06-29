@@ -10,7 +10,6 @@
 </head>
 
 <body>
-    <div class="maintenance-reminder-container">
         <h1 class="maintenance-reminder-header">Reminder Status</h1>
 
         @*<form asp-controller="Movies" asp-action="Index">
@@ -19,58 +18,69 @@
                 <input type="submit" value="Search" />
             </p>
         </form>*@
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        First Name
-                    </th>
-                    <th>
-                        Last Name
-                    </th>
-                    <th class="text-center">
-                        Address
-                    </th>
-                    <th class="text-center">
-                        Reminder Title
-                    </th>
-                    <th class="text-center">
-                        Completed
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+        @foreach (var user in ViewBag.MobileUsers) {
+            <div class="combined-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            First Name
+                        </th>
+                        <th>
+                            Last Name
+                        </th>
+                        <th class="text-center">
+                            Address
+                        </th>
+                        <th class="text-center">
+                            Reminder Title
+                        </th>
+                        <th class="text-center">
+                            Due Date
+                        </th>
+                        <th class="text-center">
+                            Completed
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
 
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LName)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.Reminder)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.Completed)
-                    </td>
-                    <td>
-                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                        <a asp-action="UserReminderDetails" asp-route-id="@item.Id">Details</a>
-                        @*<a asp-action="Delete" asp-route-id="@item.Id" class="delete-maintenance-reminder">Delete</a>*@
-                    </td>
-                </tr>
+                    @if (item.UserId == user.Id) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LName)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Reminder)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.DueDate)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Completed)
+                        </td>
+                        <td>
+                            @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                            <a asp-action="UserReminderDetails" asp-route-id="@item.Id">Details</a>
+                            @*<a asp-action="Delete" asp-route-id="@item.Id" class="delete-maintenance-reminder">Delete</a>*@
+                        </td>
+                    </tr>
+                    }
                 }
+                <br />
             </tbody>
         </table>
-    </div>
+                </div>
+        }
 </body>
 
 </html>

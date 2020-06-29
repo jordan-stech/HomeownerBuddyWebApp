@@ -11,8 +11,13 @@ td {
 }
 
 .action-plan-container {
-    margin-left: 10px;
-    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 50px 0;
+    border: 5px solid #005691;
 }
 
 .action-plan-header {
