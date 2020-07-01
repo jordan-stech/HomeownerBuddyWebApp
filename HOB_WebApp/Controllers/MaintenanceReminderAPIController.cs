@@ -27,13 +27,24 @@ namespace HOB_WebApp.Controllers
 
 
         /**
-         * This is what we call to return a JSON of every Action Plan in the DB
+         * This is a placeholder
          **/
         // GET: api/ActionPlanAPI
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MaintenanceReminders>>> GetContentModel()
+        public async Task<ActionResult<IEnumerable<MaintenanceReminders>>> GetMaintenanceReminders()
         {
             return await _context.MaintenanceReminders.ToListAsync();
+        }
+
+        /**
+         * This is what we call to return a JSON of every User Reminder in the DB
+         **/
+        // GET: api/MaintenanceReminderAPI
+        [HttpGet("{UserId}")]
+        public async Task<ActionResult<IEnumerable<UserReminders>>> GetUserReminders(string userId)
+        {
+            int newId = Int32.Parse(userId);
+            return await _context.UserReminders.Where(m => m.UserId == newId).ToListAsync();
         }
 
         /**
@@ -56,10 +67,7 @@ namespace HOB_WebApp.Controllers
             var currentGlobalReminders = await _context.MaintenanceReminders.ToListAsync();
             var currentUserReminders = await _context.UserReminders.Where(m => m.UserId == currentUserId.Id).ToListAsync();
 
-            
-
-            var currentGlobalReminders1 = new List<MaintenanceReminders>();
-            var currentUserReminders1 = new List<UserReminders>();// await _context.UserReminders.Where(m => (m.ReminderId == currentGlobalReminders[0].Id)).ToListAsync();
+      
 
             // currentUserReminders = await _context.UserReminders.Where(m => (m.ReminderId == currentGlobalReminders[0].Id)).ToListAsync();
 
@@ -71,6 +79,35 @@ namespace HOB_WebApp.Controllers
             {
                 for (int i = 0; i < currentGlobalReminders.Count(); i++)
                 {
+                    // Convert the user's registration date to DateTime object to use the AddDays() function based on the NotificationInterval
+                    var date = DateTime.Today;
+                    var newDate = date;
+
+                    if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                    {
+                        newDate = date.AddDays(7);
+                    }
+                    else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                    {
+                        newDate = date.AddDays(14);
+                    }
+                    else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                    {
+                        newDate = date.AddDays(30);
+                    }
+                    else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                    {
+                        newDate = date.AddDays(90);
+                    }
+                    else if (currentGlobalReminders[i].NotificationInterval == "Semiannually")
+                    {
+                        newDate = date.AddDays(180);
+                    }
+                    else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                    {
+                        newDate = date.AddDays(360);
+                    }
+
                     UserReminders reminder = new UserReminders();
                     reminder.ReminderId = currentGlobalReminders[i].Id;
                     reminder.ReminderDescription = currentGlobalReminders[i].Description;
@@ -88,6 +125,7 @@ namespace HOB_WebApp.Controllers
                     reminder.ActionPlanCategory = currentGlobalReminders[i].ActionPlanCategory;
                     reminder.Reminder = currentGlobalReminders[i].Reminder;
                     reminder.Completed = "No";
+                    reminder.DueDate = newDate.ToString("MM/dd/yyyy");
                     _context.UserReminders.Add(reminder);
                     await _context.SaveChangesAsync();
                 }
@@ -163,8 +201,54 @@ namespace HOB_WebApp.Controllers
                         await _context.SaveChangesAsync();
                     }
                 }
-            }    */        
+            }    */
             return NoContent();            
+        }
+
+        /**
+         * This is a PUT request. I do not think we will need it, but I will leave it in just in case. 
+         * The "5" that they use in the sample url below is the id of a specific action plan in the db
+         * In order for this to work, you must know the particular action plan ID ahead of time
+         **/
+        // PUT: api/ActionPlanAPI/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [HttpPut("{Completed}")]
+        public async Task<IActionResult> PutContentModel(string userId)
+        {
+            /*if (id != contentModel.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(contentModel).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ContentModelExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }*/
+
+            int newId = Int32.Parse(userId);
+            var user = await _context.UserReminders.Where(m => m.UserId == newId).ToListAsync();
+
+            var currentUser = user.Find(m => m.UserId == newId);
+            currentUser.Completed = "Done";
+
+            _context.UserReminders.Update(currentUser);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
