@@ -33,15 +33,18 @@
                             Address
                         </th>
                         <th class="text-center">
-                            Reminder Title
+                            Reminder
                         </th>
                         <th class="text-center">
                             Due Date
                         </th>
                         <th class="text-center">
-                            Completed
+                            Last Completed
                         </th>
-                        <th></th>
+                        <th class="text-center">
+                            Completion Status
+                        </th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -60,19 +63,22 @@
                             @Html.DisplayFor(modelItem => item.Address)
                         </td>
                         <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.Reminder)
+                            @Html.DisplayFor(modelItem => item.ReminderItem) - @Html.DisplayFor(modelItem => item.Reminder)
                         </td>
                         <td class="text-center">
                             @Html.DisplayFor(modelItem => item.DueDate)
                         </td>
                         <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.LastCompleted)
+                        </td>
+                        <td class="text-center">
                             @Html.DisplayFor(modelItem => item.Completed)
                         </td>
-                        <td>
+                        <!--<td>-->
                             @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                            <a asp-action="UserReminderDetails" asp-route-id="@item.Id">Details</a>
+                            @*<a asp-action="UserReminderDetails" asp-route-id="@item.Id">Details</a>*@
                             @*<a asp-action="Delete" asp-route-id="@item.Id" class="delete-maintenance-reminder">Delete</a>*@
-                        </td>
+                        <!--</td>-->
                     </tr>
                     }
                 }

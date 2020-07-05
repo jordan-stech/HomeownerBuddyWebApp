@@ -11,6 +11,8 @@ namespace HOB_WebApp.Models
     {
         //Auto generated ID for the plan
         public int Id { get; set; }
+        // Category for the reminder
+        public string ReminderItem { get; set; }
         //The title of the maintenance reminder task
         public string Reminder { get; set; }
         //The description of the maintenance reminder task
@@ -21,6 +23,8 @@ namespace HOB_WebApp.Models
         public int ActionPlanId { get; set; }
         public string ActionPlanTitle { get; set; }
         public string ActionPlanCategory { get; set; }
+        public string ActionPlanLink { get; set; }
+        public string ActionPlanSteps { get; set; }
         //Option to determine if a maintenance reminder is seasonal or all-year
         public string SeasonSpring { get; set; }
         public string SeasonSummer { get; set; }

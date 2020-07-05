@@ -14,12 +14,18 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Reminder" class="control-label">Reminder Title</label>
+                <label asp-for="ReminderItem" class="control-label">Reminder Item</label>
+                <input asp-for="ReminderItem" class="form-control" />
+                <span asp-validation-for="ReminderItem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reminder" class="control-label">Reminder Task</label>
                 <input asp-for="Reminder" class="form-control" />
                 <span asp-validation-for="Reminder" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+
+                <label asp-for="Description" class="control-label">Action To Take</label>
                 <textarea asp-for="Description" rows="4" class="form-control" style="resize:none"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
@@ -30,7 +36,6 @@
                     <option value="Biweekly">Biweekly</option>
                     <option value="Monthly">Monthly</option>
                     <option value="Quarterly">Quarterly (3 months)</option>
-                    <option value="Semiannually">Semiannually (6 months)</option>
                     <option value="Yearly">Yearly</option>
                 </select>
                 <span asp-validation-for="NotificationInterval" class="text-danger"></span>

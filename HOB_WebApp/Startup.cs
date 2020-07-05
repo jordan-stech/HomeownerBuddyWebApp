@@ -28,6 +28,7 @@ namespace HOB_WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+         
             services.AddMvc(o =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -60,6 +61,8 @@ namespace HOB_WebApp
                 app.UseHsts();
             }
 
+            
+
             //app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -75,7 +78,7 @@ namespace HOB_WebApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-            });
+            });            
         }
     }
 }

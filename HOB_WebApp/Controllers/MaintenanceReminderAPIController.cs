@@ -83,34 +83,1083 @@ namespace HOB_WebApp.Controllers
                     var date = DateTime.Today;
                     var newDate = date;
 
-                    if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                    /*DateTime temp1 = DateTime.Today;
+                    DateTime day = new DateTime(temp1.Add(1).Year, temp1.AddMonths(1).Month, 1);
+                    var currD = day.ToString("MM/dd/yyyy");*/
+
+                    // Will be used if a reminder is not currently in season
+                    var noDueDate = "";
+
+                    // Gets the first day of the next week, which is Sunday
+                    var firstdayOfNextWeek = DateTime.Now.LastDayOfWeek();
+
+                    // Gets the first day of the next month
+                    var firstdayOfNextMonth = DateTime.Now.FirstDayOfNextMonth();
+
+                    // Gets the first day of next year
+                    var newYear = DateTime.Now.AddYears(1);
+                    var nextYear = newYear.Year;
+                    var firstDayOfNextYear = new DateTime(nextYear, 1, 1);
+
+                    // Gets the last day of the current year
+                    var lastDayOfYear = new DateTime(DateTime.Now.Year, 12, 31);
+
+                    // First day of last year's winter
+                    var tempWinter1 = new DateTime(DateTime.Now.Year, 12, 1);
+                    var tempWinter2 = tempWinter1.AddYears(-1);
+                    int lastWinter = tempWinter2.Year;
+
+                    // Season date ranges
+                    var startSpring = new DateTime(DateTime.Now.Year, 3, 1);
+                    var endSpring = new DateTime(DateTime.Now.Year, 5, 31);
+                    var startSummer = new DateTime(DateTime.Now.Year, 6, 1);
+                    var endSummer = new DateTime(DateTime.Now.Year, 8, 31);
+                    var startFall = new DateTime(DateTime.Now.Year, 9, 1);
+                    var endFall = new DateTime(DateTime.Now.Year, 11, 30);
+                    var thisYearStartWinter = new DateTime(DateTime.Now.Year, 12, 1);
+                    var lastYearStartWinter = new DateTime(lastWinter, 12, 1);
+                    var nextYearEndWinter = new DateTime(nextYear, 2, 28);
+                    var thisYearEndWinter = new DateTime(DateTime.Now.Year, 2, 28);
+
+                    /*// Grab the first of the month for the next month
+                    DateTime temp2 = DateTime.Today;
+                    DateTime month = new DateTime(temp2.AddMonths(1).Year, temp2.AddMonths(1).Month, 1);
+                    var nextMonth = month.ToString("MM/dd/yyyy");*/
+
+                    // If season is "All year"
+                    if (((currentGlobalReminders[i].SeasonSpring == "false") && (currentGlobalReminders[i].SeasonSummer == "false") && (currentGlobalReminders[i].SeasonFall == "false") && (currentGlobalReminders[i].SeasonWinter == "false")) || ((currentGlobalReminders[i].SeasonSpring == "true") && (currentGlobalReminders[i].SeasonSummer == "true") && (currentGlobalReminders[i].SeasonFall == "true") && (currentGlobalReminders[i].SeasonWinter == "true")))
                     {
-                        newDate = date.AddDays(7);
+                        if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                        {
+                            newDate = firstdayOfNextWeek.AddDays(7);
+                        }
+                        else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                        {
+                            newDate = firstdayOfNextWeek.AddDays(14);
+                        }
+                        else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                        {
+                            newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                        }
+                        else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                        {
+                            newDate = firstdayOfNextMonth.AddMonths(3).AddDays(-1);
+                            // Set to last day of the third month
+
+                        }
+                        else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                        {
+                            if (date.AddMonths(1) <= lastDayOfYear)
+                            {
+                                newDate = lastDayOfYear;
+                            }
+                            else
+                            {
+                                // Set to last day of next year
+                                newDate = new DateTime(nextYear, 12, 31);
+                            }
+                        }
                     }
-                    else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+
+                    // Spring
+                    else if ((currentGlobalReminders[i].SeasonSpring == "true") && (currentGlobalReminders[i].SeasonSummer == "false") && (currentGlobalReminders[i].SeasonFall == "false") && (currentGlobalReminders[i].SeasonWinter == "false"))
                     {
-                        newDate = date.AddDays(14);
+                        if (date >= startSpring && date <= endSpring)
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(7) <= endSpring)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(14) <= endSpring)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring)
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
                     }
-                    else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                    // SpringSummer
+                    else if ((currentGlobalReminders[i].SeasonSpring == "true") && (currentGlobalReminders[i].SeasonSummer == "true") && (currentGlobalReminders[i].SeasonFall == "false") && (currentGlobalReminders[i].SeasonWinter == "false"))
                     {
-                        newDate = date.AddDays(30);
+                        if (date >= startSpring && date <= endSummer)
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(7) <= endSummer)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(14) <= endSummer)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSummer)
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
                     }
-                    else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                    // SpringFall
+                    else if ((currentGlobalReminders[i].SeasonSpring == "true") && (currentGlobalReminders[i].SeasonSummer == "false") && (currentGlobalReminders[i].SeasonFall == "true") && (currentGlobalReminders[i].SeasonWinter == "false"))
                     {
-                        newDate = date.AddDays(90);
+                        if ((date >= startSpring && date <= endSpring) || (date >= startFall && date <= endFall))
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(7) <= endSpring) || (firstdayOfNextWeek.AddDays(7) <= endFall))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(14) <= endSpring) || (firstdayOfNextWeek.AddDays(14) <= endFall))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall))
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
                     }
-                    else if (currentGlobalReminders[i].NotificationInterval == "Semiannually")
+                    // SpringWinter
+                    else if ((currentGlobalReminders[i].SeasonSpring == "true") && (currentGlobalReminders[i].SeasonSummer == "false") && (currentGlobalReminders[i].SeasonFall == "false") && (currentGlobalReminders[i].SeasonWinter == "true"))
                     {
-                        newDate = date.AddDays(180);
+                        if ((date >= startSpring && date <= endSpring) || (date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(7) <= endSpring) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(14) <= endSpring) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
                     }
-                    else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                    // SpringSummerFall
+                    else if ((currentGlobalReminders[i].SeasonSpring == "true") && (currentGlobalReminders[i].SeasonSummer == "true") && (currentGlobalReminders[i].SeasonFall == "true") && (currentGlobalReminders[i].SeasonWinter == "false"))
                     {
-                        newDate = date.AddDays(360);
+                        if (date >= startSpring && date <= endFall)
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(7) <= endFall)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(14) <= endFall)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall)
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endFall;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endFall;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
+                    }
+                    // SpringFallWinter
+                    else if ((currentGlobalReminders[i].SeasonSpring == "true") && (currentGlobalReminders[i].SeasonSummer == "false") && (currentGlobalReminders[i].SeasonFall == "true") && (currentGlobalReminders[i].SeasonWinter == "true"))
+                    {
+                        if ((date >= startSpring && date <= endSpring) || (date >= startFall && date <= endFall) || (date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(7) <= endSpring) || (firstdayOfNextWeek.AddDays(7) <= endFall) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(14) <= endSpring) || (firstdayOfNextWeek.AddDays(14) <= endFall) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endFall;
+                                }
+                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endSpring)
+                                {
+                                    newDate = endSpring;
+                                }
+                                else if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endFall;
+                                }
+                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
+                    }
+                    // Summer
+                    else if ((currentGlobalReminders[i].SeasonSpring == "false") && (currentGlobalReminders[i].SeasonSummer == "true") && (currentGlobalReminders[i].SeasonFall == "false") && (currentGlobalReminders[i].SeasonWinter == "false"))
+                    {
+                        if (date >= startSummer && date <= endSummer)
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(7) <= endSummer)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(14) <= endSummer)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSummer)
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
+                    }
+                    // SummerFall
+                    else if ((currentGlobalReminders[i].SeasonSpring == "false") && (currentGlobalReminders[i].SeasonSummer == "true") && (currentGlobalReminders[i].SeasonFall == "true") && (currentGlobalReminders[i].SeasonWinter == "false"))
+                    {
+                        if (date >= startSummer && date <= endFall)
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(7) <= endFall)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(14) <= endFall)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall)
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endFall;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endFall;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
+                    }
+                    // SummerWinter
+                    else if ((currentGlobalReminders[i].SeasonSpring == "false") && (currentGlobalReminders[i].SeasonSummer == "true") && (currentGlobalReminders[i].SeasonFall == "false") && (currentGlobalReminders[i].SeasonWinter == "true"))
+                    {
+                        if ((date >= startSummer && date <= endSummer) || (date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(7) <= endSummer) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(14) <= endSummer) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSummer) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
+                    }
+                    // SummerFallWinter
+                    else if ((currentGlobalReminders[i].SeasonSpring == "false") && (currentGlobalReminders[i].SeasonSummer == "true") && (currentGlobalReminders[i].SeasonFall == "true") && (currentGlobalReminders[i].SeasonWinter == "true"))
+                    {
+                        if ((date >= startSummer && date <= nextYearEndWinter) || (date >= startSummer.AddYears(-1) && date <= thisYearEndWinter))
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter) || firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter)
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endSummer)
+                                {
+                                    newDate = endSummer;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
+                    }
+                    // Fall
+                    else if ((currentGlobalReminders[i].SeasonSpring == "false") && (currentGlobalReminders[i].SeasonSummer == "false") && (currentGlobalReminders[i].SeasonFall == "true") && (currentGlobalReminders[i].SeasonWinter == "false"))
+                    {
+                        if (date >= startFall && date <= endFall)
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(7) <= endFall)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if (firstdayOfNextWeek.AddDays(14) <= endFall)
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall)
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endFall;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endFall;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
+                    }
+                    // FallWinter
+                    else if ((currentGlobalReminders[i].SeasonSpring == "false") && (currentGlobalReminders[i].SeasonSummer == "false") && (currentGlobalReminders[i].SeasonFall == "true") && (currentGlobalReminders[i].SeasonWinter == "true"))
+                    {
+                        if ((date >= startFall && date <= nextYearEndWinter) || (date >= startFall.AddYears(-1) && date <= thisYearEndWinter))
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter) || firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter)
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endFall;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= endFall)
+                                {
+                                    newDate = endFall;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
+                    }
+                    // Winter
+                    else if ((currentGlobalReminders[i].SeasonSpring == "false") && (currentGlobalReminders[i].SeasonSummer == "false") && (currentGlobalReminders[i].SeasonFall == "false") && (currentGlobalReminders[i].SeasonWinter == "true"))
+                    {
+                        if ((date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
+                        {
+                            if (currentGlobalReminders[i].NotificationInterval == "Weekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
+                            {
+                                if ((firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
+                            {
+                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
+                                {
+                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
+                            {
+                                if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                            else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
+                            {
+                                if (date.AddDays(14) <= thisYearEndWinter)
+                                {
+                                    newDate = thisYearEndWinter;
+                                }
+                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                {
+                                    newDate = nextYearEndWinter;
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            noDueDate = "Not currently due";
+                        }
                     }
 
                     UserReminders reminder = new UserReminders();
                     reminder.ReminderId = currentGlobalReminders[i].Id;
                     reminder.ReminderDescription = currentGlobalReminders[i].Description;
+                    reminder.ReminderItem = currentGlobalReminders[i].ReminderItem;
                     reminder.UserId = currentUserId.Id;
                     reminder.FName = currentUserId.FName;
                     reminder.LName = currentUserId.Lname;
@@ -123,132 +1172,88 @@ namespace HOB_WebApp.Controllers
                     reminder.ActionPlanId = currentGlobalReminders[i].ActionPlanId;
                     reminder.ActionPlanTitle = currentGlobalReminders[i].ActionPlanTitle;
                     reminder.ActionPlanCategory = currentGlobalReminders[i].ActionPlanCategory;
+                    reminder.ActionPlanLink = currentGlobalReminders[i].ActionPlanLink;
+                    reminder.ActionPlanSteps = currentGlobalReminders[i].ActionPlanSteps;
                     reminder.Reminder = currentGlobalReminders[i].Reminder;
-                    reminder.Completed = "No";
-                    reminder.DueDate = newDate.ToString("MM/dd/yyyy");
+                    
+                    if (noDueDate != "Not currently due")
+                    {
+                        reminder.DueDate = newDate.ToString("MM/dd/yyyy");
+                        reminder.Completed = "Due";
+                    }
+                    else
+                    {
+                        reminder.DueDate = noDueDate;
+                        reminder.Completed = "Not in season";
+                    }
                     _context.UserReminders.Add(reminder);
                     await _context.SaveChangesAsync();
                 }
             }
-            // Will be checked each time the current mobile user opens the maintenance reminder page
-            /*else if (currentUserReminders.Count() != 0 && currentGlobalReminders.Count() != 0)
-            {
-                for (int i = 0; i < currentGlobalReminders.Count(); i++)
-                {
-                    for (int j = 0; j < currentUserReminders.Count(); j++)
-                    {
-                        MaintenanceReminders maintenanceReminder = currentGlobalReminders.Find(m => m.Id == currentUserReminders[j].ReminderId);
-                        UserReminders userReminder = currentUserReminders.Find(m => m.UserId == currentUserId.Id);
-
-                        if (maintenanceReminder != null)
-                        {
-                            count++;
-                        }
-                        else
-                        {
-                            currentGlobalReminders1.Add(maintenanceReminder);
-                        }
-                    }
-                }
-            }*/
-
-            /*if (currentGlobalReminders.Count() != 0)
-            {
-                for (int i = 0; i < currentGlobalReminders.Count(); i++)
-                {
-                    for (int j = 0; j < currentUserReminders.Count(); j++)
-                    {
-                        MaintenanceReminders maintenanceReminder = currentGlobalReminders.Find(m => m.Id == currentUserReminders[j].ReminderId);
-                        UserReminders userReminder = currentUserReminders.Find(m => m.UserId == currentUserId.Id);
-
-                        if (maintenanceReminder != null)
-                        {                            
-                            count++;
-                        }
-                        else
-                        {
-                            currentGlobalReminders1.Add(maintenanceReminder);
-                        }
-                    }
-                }
-            }
-
-            if (count < currentGlobalReminders.Count())
-            {
-
-            }
-                
-                //var currentUserReminders1 = 
-
-
-            // Do a foreach loop over each UserReminder before doing the for loop
-            // This foreach loop will
-
-            for (int i = 0; i < currentUserReminders.Count(); i++)
-            {
-                for (int j = 0; j < currentGlobalReminders.Count(); j++)
-                {
-                    if (currentUserReminders[i].ReminderId != currentGlobalReminders[j].Id && (j == currentGlobalReminders.Count() - 1))
-                    {
-                        UserReminders reminder = new UserReminders();
-                        reminder.ReminderId = currentGlobalReminders[i].Id;
-                        reminder.UserId = currentUserId.Id;
-                        reminder.FName = currentUserId.FName;
-                        reminder.LName = currentUserId.Lname;
-                        reminder.Reminder = currentGlobalReminders[i].Reminder;
-                        reminder.Completed = currentGlobalReminders[i].Completed;
-                        _context.UserReminders.Add(reminder);
-                        await _context.SaveChangesAsync();
-                    }
-                }
-            }    */
             return NoContent();            
         }
 
         /**
-         * This is a PUT request. I do not think we will need it, but I will leave it in just in case. 
+         * This is a PUT request.
          * The "5" that they use in the sample url below is the id of a specific action plan in the db
          * In order for this to work, you must know the particular action plan ID ahead of time
          **/
-        // PUT: api/ActionPlanAPI/5
+        // PUT: api/MaintenanceReminderAPI/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{Completed}")]
-        public async Task<IActionResult> PutContentModel(string userId)
+        [HttpPut("{ReminderId}")]
+        public async Task<ActionResult<UserReminders>> PutContentModel(string reminderId)
         {
-            /*if (id != contentModel.Id)
+            int newId = Int32.Parse(reminderId);
+
+            var reminder = await _context.UserReminders.FindAsync(newId);
+            if (reminder == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(contentModel).State = EntityState.Modified;
-
-            try
+            if (reminder.Completed != "Overdue" && reminder.Completed != "Completed" && reminder.Completed != "Not in season")
             {
-                await _context.SaveChangesAsync();
+                reminder.DueDate = "Not currently due";
+                reminder.Completed = "Completed";
+                reminder.LastCompleted = DateTime.Today.ToString("MM/dd/yyyy");
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ContentModelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }*/
-
-            int newId = Int32.Parse(userId);
-            var user = await _context.UserReminders.Where(m => m.UserId == newId).ToListAsync();
-
-            var currentUser = user.Find(m => m.UserId == newId);
-            currentUser.Completed = "Done";
-
-            _context.UserReminders.Update(currentUser);
+                // Code to deal with setting date after marking done while task is overdue
+            }
+            
+            _context.UserReminders.Update(reminder);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
+    }
+    public static partial class DateTimeExtensions
+    {
+        public static DateTime FirstDayOfWeek(this DateTime dt)
+        {
+            var culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+            var diff = dt.DayOfWeek - culture.DateTimeFormat.FirstDayOfWeek;
+
+            if (diff < 0)
+            {
+                diff += 7;
+            }
+
+            return dt.AddDays(-diff).Date;
+        }
+
+        public static DateTime LastDayOfWeek(this DateTime dt) =>
+            dt.FirstDayOfWeek().AddDays(6);
+
+        public static DateTime FirstDayOfMonth(this DateTime dt) =>
+            new DateTime(dt.Year, dt.Month, 1);
+
+        public static DateTime LastDayOfMonth(this DateTime dt) =>
+            dt.FirstDayOfMonth().AddMonths(1).AddDays(-1);
+
+        public static DateTime FirstDayOfNextMonth(this DateTime dt) =>
+            dt.FirstDayOfMonth().AddMonths(1);
     }
 }
