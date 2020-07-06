@@ -8,6 +8,8 @@ using HOB_WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Coravel.Scheduling;
+using Coravel.Queuing.Interfaces;
 
 namespace HOB_WebApp.Controllers
 {
@@ -29,15 +31,21 @@ namespace HOB_WebApp.Controllers
         // GET: UserReminders
         public async Task<IActionResult> Status()
         {
+            /*var provider = app.ApplicationServices;
+            provider.UseScheduler(scheduler =>
+            {
+                scheduler.Schedule<UpdateReminderStatusInBackground>()
+                .EveryFifteenSeconds();
+            });*/
             //RecurringJob.AddOrUpdate("duedate", () => Status(), Cron.Minutely);
 
             ViewBag.MobileUsers = await _context.MobileUsers.ToListAsync();
 
             var reminderList = await _context.UserReminders.ToListAsync();
         
-            foreach (UserReminders reminders in reminderList)
-            {
-                if (reminders.DueDate != "Not currently due")
+            //foreach (UserReminders reminders in reminderList)
+            //{
+                /*if (reminders.DueDate != "Not currently due")
                 {
                     DateTime currDate = DateTime.Now;
                     DateTime dueDate = Convert.ToDateTime(reminders.DueDate);
@@ -52,7 +60,7 @@ namespace HOB_WebApp.Controllers
                         _context.UserReminders.Update(reminders);
                         await _context.SaveChangesAsync();
                     }
-                }
+                }*/
 
                 /*int dateDiff = DateTime.Compare(dueDate, lastCompletedDate);
                 if ((dateDiff > 0) && (reminders.LastCompleted != null) && (reminders.Completed == "Completed"))
@@ -61,7 +69,7 @@ namespace HOB_WebApp.Controllers
                     _context.UserReminders.Update(reminders);
                     await _context.SaveChangesAsync();
                 }*/
-            }
+            //}
             return View(await _context.UserReminders.OrderBy(m => m.UserId).ToListAsync());
         }
 
@@ -1241,6 +1249,35 @@ namespace HOB_WebApp.Controllers
                     {
                         userReminder.DueDate = newDate.ToString("MM/dd/yyyy");
                         userReminder.Completed = "Due";
+
+                        var nextDueDate = "";
+                        var tempNextDueDate = Convert.ToDateTime(userReminder.DueDate);
+
+                        if (userReminder.NotificationInterval == "Weekly")
+                        {
+                            nextDueDate = tempNextDueDate.AddDays(7).ToString("MM/dd/yyyy");
+                        }
+                        else if (userReminder.NotificationInterval == "Biweekly")
+                        {
+                            nextDueDate = tempNextDueDate.AddDays(14).ToString("MM/dd/yyyy");
+                        }
+                        else if (userReminder.NotificationInterval == "Monthly")
+                        {
+                            nextDueDate = tempNextDueDate.AddMonths(1).ToString("MM/dd/yyyy");
+                        }
+                        else if (userReminder.NotificationInterval == "Quarterly")
+                        {
+                            nextDueDate = tempNextDueDate.AddMonths(3).ToString("MM/dd/yyyy");
+                        }
+                        else if (userReminder.NotificationInterval == "Yearly")
+                        {
+                            // Set to last day of next year
+                            nextDueDate = new DateTime(nextYear, 12, 31).ToString("MM/dd/yyyy");
+                        }
+
+                        userReminder.PrevDueDate = userReminder.DueDate;
+                        userReminder.NextDueDate = nextDueDate;
+
                     }
                     else
                     {
@@ -2401,6 +2438,35 @@ namespace HOB_WebApp.Controllers
                         {
                             userReminder.DueDate = newDate.ToString("MM/dd/yyyy");
                             userReminder.Completed = "Due";
+
+                            var nextDueDate = "";
+                            var tempNextDueDate = Convert.ToDateTime(userReminder.DueDate);
+
+                            if (userReminder.NotificationInterval == "Weekly")
+                            {
+                                nextDueDate = tempNextDueDate.AddDays(7).ToString("MM/dd/yyyy");
+                            }
+                            else if (userReminder.NotificationInterval == "Biweekly")
+                            {
+                                nextDueDate = tempNextDueDate.AddDays(14).ToString("MM/dd/yyyy");
+                            }
+                            else if (userReminder.NotificationInterval == "Monthly")
+                            {
+                                nextDueDate = tempNextDueDate.AddMonths(1).ToString("MM/dd/yyyy");
+                            }
+                            else if (userReminder.NotificationInterval == "Quarterly")
+                            {
+                                nextDueDate = tempNextDueDate.AddMonths(3).ToString("MM/dd/yyyy");
+                            }
+                            else if (userReminder.NotificationInterval == "Yearly")
+                            {
+                                // Set to last day of next year
+                                nextDueDate = new DateTime(nextYear, 12, 31).ToString("MM/dd/yyyy");
+                            }
+
+                            userReminder.PrevDueDate = userReminder.DueDate;
+                            userReminder.NextDueDate = nextDueDate;
+
                         }
                         else
                         {

@@ -13,6 +13,9 @@ using HOB_WebApp.Data;
 using HOB_WebApp.Models;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using Coravel;
+using HOB_WebApp.Controllers;
+using System.Diagnostics;
 
 namespace HOB_WebApp
 {
@@ -28,7 +31,10 @@ namespace HOB_WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-         
+            /*services.AddQueue();
+            services.AddScheduler();
+            services.AddTransient<UpdateReminderStatusInBackground>();*/
+
             services.AddMvc(o =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -49,7 +55,7 @@ namespace HOB_WebApp
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        {          
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -61,7 +67,12 @@ namespace HOB_WebApp
                 app.UseHsts();
             }
 
-            
+            /*var provider = app.ApplicationServices;
+            provider.UseScheduler(scheduler =>
+            {
+                scheduler.Schedule<UpdateReminderStatusInBackground>()
+                .EveryTenSeconds();
+            });*/
 
             //app.UseSession();
             app.UseHttpsRedirection();
@@ -78,7 +89,7 @@ namespace HOB_WebApp
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-            });            
+            });
         }
     }
 }

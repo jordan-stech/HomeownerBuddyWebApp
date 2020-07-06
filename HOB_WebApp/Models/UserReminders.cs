@@ -37,5 +37,7 @@ namespace HOB_WebApp.Models
         public string Reminder { get; set; }
         public string DueDate { get; set; }
         public string LastCompleted { get; set; }
+        public string PrevDueDate { get; set; }
+        public string NextDueDate { get; set; }
     }
 }
