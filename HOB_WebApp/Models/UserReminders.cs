@@ -35,9 +35,26 @@ namespace HOB_WebApp.Models
         public string Completed { get; set; }
         // The title of the Maintenance Reminder
         public string Reminder { get; set; }
-        public string DueDate { get; set; }
-        public string LastCompleted { get; set; }
-        public string PrevDueDate { get; set; }
-        public string NextDueDate { get; set; }
+        public DateTime DueDate { get; set; }
+        public string FormattedDueDate
+        {
+            get
+            {
+                return this.DueDate.ToString("MM/dd/yyyy");
+            }
+            
+        }
+        public DateTime LastCompleted { get; set; }
+        public string FormattedLastCompleted
+        {
+            get
+            {
+                return this.LastCompleted.ToString("MM/dd/yyyy");
+            }
+
+        }
+        public DateTime PrevDueDate { get; set; }
+        public DateTime NextStartDate { get; set; }
+        public string Scheduled { get; set; } 
     }
 }

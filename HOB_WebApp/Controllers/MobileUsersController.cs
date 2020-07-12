@@ -140,6 +140,14 @@ namespace HOB_WebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var mobileUsers = await _context.MobileUsers.FindAsync(id);
+            var userReminderList = await _context.UserReminders.Where(m => m.UserId == id).ToListAsync();
+
+            // Remove all associated reminders for this user
+            foreach (UserReminders userReminder in userReminderList)
+            {
+                _context.UserReminders.Remove(userReminder);
+            }
+
             _context.MobileUsers.Remove(mobileUsers);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

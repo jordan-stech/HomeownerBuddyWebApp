@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HOB_WebApp.Data;
 using Microsoft.AspNetCore.Authorization;
 using HOB_WebApp.Models;
+using System.Data.SqlTypes;
 
 namespace HOB_WebApp.Controllers
 {
@@ -110,12 +111,21 @@ namespace HOB_WebApp.Controllers
                     var date = DateTime.Today;
                     var newDate = date;
 
+
+                    /*var timeUtc = DateTime.UtcNow;
+                    var easternZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+                    var timeEST = TimeZoneInfo.ConvertTimeFromUtc(timeUtc, easternZone);
+
+                    var newDate = timeEST;
+                    var date = timeEST;*/
+
+
                     /*DateTime temp1 = DateTime.Today;
                     DateTime day = new DateTime(temp1.Add(1).Year, temp1.AddMonths(1).Month, 1);
                     var currD = day.ToString("MM/dd/yyyy");*/
 
                     // Will be used if a reminder is not currently in season
-                    var noDueDate = "";                  
+                    var noDueDate = "";
 
                     /*// Grab the first of the month for the next month
                     DateTime temp2 = DateTime.Today;
@@ -127,33 +137,23 @@ namespace HOB_WebApp.Controllers
                     {
                         if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                         {
-                            newDate = firstdayOfNextWeek.AddDays(7);
+                            newDate = date.AddDays(7);
                         }
                         else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                         {
-                            newDate = firstdayOfNextWeek.AddDays(14);
+                            newDate = date.AddDays(14);
                         }
                         else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                         {
-                            newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                            newDate = date.AddDays(30);
                         }
                         else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                         {
-                            newDate = firstdayOfNextMonth.AddMonths(3).AddDays(-1);
-                            // Set to last day of the third month
-
+                            newDate = date.AddDays(90);
                         }
                         else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                         {
-                            if (date.AddMonths(1) <= lastDayOfYear)
-                            {
-                                newDate = lastDayOfYear;
-                            }
-                            else
-                            {
-                                // Set to last day of next year
-                                newDate = new DateTime(nextYear, 12, 31);
-                            }
+                            newDate = date.AddDays(365);
                         }
                     }
 
@@ -164,9 +164,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(7) <= endSpring)
+                                if (date.AddDays(7) <= endSpring)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -175,9 +175,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(14) <= endSpring)
+                                if (date.AddDays(14) <= endSpring)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -186,9 +186,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -197,7 +197,7 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
@@ -208,7 +208,7 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
@@ -230,9 +230,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(7) <= endSummer)
+                                if (date.AddDays(7) <= endSummer)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -241,9 +241,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(14) <= endSummer)
+                                if (date.AddDays(14) <= endSummer)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -252,9 +252,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSummer)
+                                if (date.AddDays(20) <= endSummer)
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -263,11 +263,11 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
-                                else if (date.AddDays(14) <= endSummer)
+                                else if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
@@ -278,11 +278,11 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
-                                else if (date.AddDays(14) <= endSummer)
+                                else if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
@@ -304,9 +304,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(7) <= endSpring) || (firstdayOfNextWeek.AddDays(7) <= endFall))
+                                if ((date.AddDays(7) <= endSpring) || (date.AddDays(7) <= endFall))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -315,9 +315,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(14) <= endSpring) || (firstdayOfNextWeek.AddDays(14) <= endFall))
+                                if ((date.AddDays(14) <= endSpring) || (date.AddDays(14) <= endFall))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -326,9 +326,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall))
+                                if ((date.AddDays(20) <= endSpring) || (date.AddDays(20) <= endFall))
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -337,11 +337,11 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
-                                else if (date.AddDays(14) <= endFall)
+                                else if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endSummer;
                                 }
@@ -352,11 +352,11 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
-                                else if (date.AddDays(14) <= endFall)
+                                else if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endSummer;
                                 }
@@ -378,9 +378,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(7) <= endSpring) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
+                                if ((date.AddDays(7) <= endSpring) || (date.AddDays(7) <= thisYearEndWinter) || (date.AddDays(7) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -389,9 +389,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(14) <= endSpring) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
+                                if ((date.AddDays(14) <= endSpring) || (date.AddDays(14) <= thisYearEndWinter) || (date.AddDays(14) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -400,9 +400,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
+                                if ((date.AddDays(20) <= endSpring) || (date.AddDays(20) <= thisYearEndWinter) || (date.AddDays(20) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -411,15 +411,15 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
-                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                else if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
@@ -430,15 +430,15 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
-                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                else if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
@@ -460,9 +460,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(7) <= endFall)
+                                if (date.AddDays(7) <= endFall)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -471,9 +471,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(14) <= endFall)
+                                if (date.AddDays(14) <= endFall)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -482,9 +482,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall)
+                                if (date.AddDays(20) <= endFall)
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -493,15 +493,15 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
-                                else if (date.AddDays(14) <= endSummer)
+                                else if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
-                                else if (date.AddDays(14) <= endFall)
+                                else if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endFall;
                                 }
@@ -512,15 +512,15 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
-                                else if (date.AddDays(14) <= endSummer)
+                                else if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
-                                else if (date.AddDays(14) <= endFall)
+                                else if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endFall;
                                 }
@@ -542,9 +542,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(7) <= endSpring) || (firstdayOfNextWeek.AddDays(7) <= endFall) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
+                                if ((date.AddDays(7) <= endSpring) || (date.AddDays(7) <= endFall) || (date.AddDays(7) <= thisYearEndWinter) || (date.AddDays(7) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -553,9 +553,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(14) <= endSpring) || (firstdayOfNextWeek.AddDays(14) <= endFall) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
+                                if ((date.AddDays(14) <= endSpring) || (date.AddDays(14) <= endFall) || (date.AddDays(14) <= thisYearEndWinter) || (date.AddDays(14) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -564,9 +564,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
+                                if ((date.AddDays(20) <= endSpring) || (date.AddDays(20) <= endFall) || (date.AddDays(20) <= thisYearEndWinter) || (date.AddDays(20) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -575,19 +575,19 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
-                                else if (date.AddDays(14) <= endFall)
+                                else if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endFall;
                                 }
-                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                else if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
@@ -598,19 +598,19 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endSpring)
+                                if (date.AddDays(20) <= endSpring)
                                 {
                                     newDate = endSpring;
                                 }
-                                else if (date.AddDays(14) <= endFall)
+                                else if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endFall;
                                 }
-                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                else if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
@@ -632,9 +632,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(7) <= endSummer)
+                                if (date.AddDays(7) <= endSummer)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -643,9 +643,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(14) <= endSummer)
+                                if (date.AddDays(14) <= endSummer)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -654,9 +654,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSummer)
+                                if (date.AddDays(20) <= endSummer)
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -665,7 +665,7 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endSummer)
+                                if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
@@ -676,7 +676,7 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endSummer)
+                                if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
@@ -698,9 +698,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(7) <= endFall)
+                                if (date.AddDays(7) <= endFall)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -709,9 +709,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(14) <= endFall)
+                                if (date.AddDays(14) <= endFall)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -720,9 +720,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall)
+                                if (date.AddDays(20) <= endFall)
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -731,11 +731,11 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endSummer)
+                                if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
-                                else if (date.AddDays(14) <= endFall)
+                                else if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endFall;
                                 }
@@ -746,11 +746,11 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endSummer)
+                                if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
-                                else if (date.AddDays(14) <= endFall)
+                                else if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endFall;
                                 }
@@ -772,9 +772,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(7) <= endSummer) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
+                                if ((date.AddDays(7) <= endSummer) || (date.AddDays(7) <= thisYearEndWinter) || (date.AddDays(7) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -783,9 +783,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(14) <= endSummer) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
+                                if ((date.AddDays(14) <= endSummer) || (date.AddDays(14) <= thisYearEndWinter) || (date.AddDays(14) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -794,9 +794,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSummer) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
+                                if ((date.AddDays(20) <= endSummer) || (date.AddDays(20) <= thisYearEndWinter) || (date.AddDays(20) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -805,15 +805,15 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endSummer)
+                                if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
-                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                else if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
@@ -824,15 +824,15 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endSummer)
+                                if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
-                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                else if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
@@ -854,9 +854,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter))
+                                if ((date.AddDays(7) <= nextYearEndWinter) || (date.AddDays(7) <= thisYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -865,9 +865,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter))
+                                if ((date.AddDays(14) <= nextYearEndWinter) || (date.AddDays(14) <= thisYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -876,9 +876,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter) || firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter)
+                                if ((date.AddDays(20) <= nextYearEndWinter) || (date.AddDays(20) <= thisYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -887,15 +887,15 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endSummer)
+                                if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                else if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
@@ -906,15 +906,15 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endSummer)
+                                if (date.AddDays(20) <= endSummer)
                                 {
                                     newDate = endSummer;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                else if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
@@ -936,9 +936,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(7) <= endFall)
+                                if (date.AddDays(7) <= endFall)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -947,9 +947,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if (firstdayOfNextWeek.AddDays(14) <= endFall)
+                                if (date.AddDays(14) <= endFall)
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -958,9 +958,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall)
+                                if (date.AddDays(20) <= endFall)
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -969,7 +969,7 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endFall)
+                                if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endFall;
                                 }
@@ -980,7 +980,7 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endFall)
+                                if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endFall;
                                 }
@@ -1002,9 +1002,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter))
+                                if ((date.AddDays(7) <= nextYearEndWinter) || (date.AddDays(7) <= thisYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -1013,9 +1013,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter))
+                                if ((date.AddDays(14) <= nextYearEndWinter) || (date.AddDays(14) <= thisYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -1024,9 +1024,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter) || firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter)
+                                if ((date.AddDays(20) <= nextYearEndWinter) || date.AddDays(20) <= thisYearEndWinter)
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -1035,15 +1035,15 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= endFall)
+                                if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endFall;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                else if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
@@ -1054,15 +1054,15 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= endFall)
+                                if (date.AddDays(20) <= endFall)
                                 {
                                     newDate = endFall;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= thisYearEndWinter)
+                                else if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
@@ -1084,9 +1084,9 @@ namespace HOB_WebApp.Controllers
                         {
                             if (currentGlobalReminders[i].NotificationInterval == "Weekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
+                                if ((date.AddDays(7) <= thisYearEndWinter) || (date.AddDays(7) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(7);
+                                    newDate = date.AddDays(7);
                                 }
                                 else
                                 {
@@ -1095,9 +1095,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Biweekly")
                             {
-                                if ((firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
+                                if ((date.AddDays(14) <= thisYearEndWinter) || (date.AddDays(14) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextWeek.AddDays(14);
+                                    newDate = date.AddDays(14);
                                 }
                                 else
                                 {
@@ -1106,9 +1106,9 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Monthly")
                             {
-                                if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
+                                if ((date.AddDays(20) <= thisYearEndWinter) || (date.AddDays(20) <= nextYearEndWinter))
                                 {
-                                    newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
+                                    newDate = date.AddDays(30);
                                 }
                                 else
                                 {
@@ -1117,11 +1117,11 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Quarterly")
                             {
-                                if (date.AddDays(14) <= thisYearEndWinter)
+                                if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
@@ -1132,11 +1132,11 @@ namespace HOB_WebApp.Controllers
                             }
                             else if (currentGlobalReminders[i].NotificationInterval == "Yearly")
                             {
-                                if (date.AddDays(14) <= thisYearEndWinter)
+                                if (date.AddDays(20) <= thisYearEndWinter)
                                 {
                                     newDate = thisYearEndWinter;
                                 }
-                                else if (date.AddDays(14) <= nextYearEndWinter)
+                                else if (date.AddDays(20) <= nextYearEndWinter)
                                 {
                                     newDate = nextYearEndWinter;
                                 }
@@ -1171,45 +1171,22 @@ namespace HOB_WebApp.Controllers
                     reminder.ActionPlanLink = currentGlobalReminders[i].ActionPlanLink;
                     reminder.ActionPlanSteps = currentGlobalReminders[i].ActionPlanSteps;
                     reminder.Reminder = currentGlobalReminders[i].Reminder;
+                    reminder.DueDate = (DateTime)SqlDateTime.Null;
+                    reminder.LastCompleted = (DateTime)SqlDateTime.Null;
+                    reminder.PrevDueDate = (DateTime)SqlDateTime.Null;
+                    reminder.NextStartDate = (DateTime)SqlDateTime.Null;
 
                     if (noDueDate != "Not currently due")
                     {
-                        reminder.DueDate = newDate.ToString("MM/dd/yyyy");
+                        reminder.Scheduled = "true";
+                        reminder.DueDate = newDate;
                         reminder.Completed = "Due";
-
-                        var nextDueDate = "";
-                        var tempNextDueDate = Convert.ToDateTime(reminder.DueDate);
-
-                        if (reminder.NotificationInterval == "Weekly")
-                        {
-                            nextDueDate = tempNextDueDate.AddDays(7).ToString("MM/dd/yyyy");
-                        }
-                        else if (reminder.NotificationInterval == "Biweekly")
-                        {
-                            nextDueDate = tempNextDueDate.AddDays(14).ToString("MM/dd/yyyy");
-                        }
-                        else if (reminder.NotificationInterval == "Monthly")
-                        {
-                            nextDueDate = tempNextDueDate.AddMonths(1).ToString("MM/dd/yyyy");
-                        }
-                        else if (reminder.NotificationInterval == "Quarterly")
-                        {
-                            nextDueDate = tempNextDueDate.AddMonths(3).ToString("MM/dd/yyyy");
-                        }
-                        else if (reminder.NotificationInterval == "Yearly")
-                        {
-                            // Set to last day of next year
-                            nextDueDate = new DateTime(nextYear, 12, 31).ToString("MM/dd/yyyy");
-                        }
-
-                        reminder.PrevDueDate = reminder.DueDate;
-                        reminder.NextDueDate = nextDueDate;
-
                     }
                     else
                     {
-                        reminder.DueDate = noDueDate;
+                        // Leave DueDate null since it's not in season 
                         reminder.Completed = "Not in season";
+                        reminder.Scheduled = "false";
                     }
                     _context.UserReminders.Add(reminder);
                     await _context.SaveChangesAsync();
@@ -1225,24 +1202,17 @@ namespace HOB_WebApp.Controllers
                     var date = DateTime.Today;
                     var newDate = date;
 
-                    /*DateTime temp1 = DateTime.Today;
-                    DateTime day = new DateTime(temp1.Add(1).Year, temp1.AddMonths(1).Month, 1);
-                    var currD = day.ToString("MM/dd/yyyy");*/
-
                     // Will be used if a reminder is not currently in season
                     var noDueDate = "";
 
-                    // If the reminder is due and the current date is later than the due date, mark it as Overdue
-                    if (userReminder.DueDate != "Not currently due")
+                    // Check if a user's reminder task is overdue
+                    if (userReminder.Scheduled == "true" && userReminder.Completed != "Overdue")
                     {
-                        DateTime currDate = DateTime.Now;
-                        DateTime dueDate = Convert.ToDateTime(userReminder.DueDate);
-                        //DateTime lastCompletedDate = Convert.ToDateTime(reminders.LastCompleted);
+                        var dueDate = userReminder.DueDate;
+                        int dateDiff = DateTime.Compare(dueDate, date);
 
-                        int dateDiff = DateTime.Compare(dueDate, currDate);
-
-                        // If the current date is later than the due date, mark the user's task as Overdue
-                        if (dateDiff < 0)
+                        // If the current date is the same or later than the due date, mark the user's task as Overdue
+                        if (dateDiff < 0 || dateDiff == 0)
                         {
                             userReminder.Completed = "Overdue";
                             _context.UserReminders.Update(userReminder);
@@ -1250,1087 +1220,1050 @@ namespace HOB_WebApp.Controllers
                         }
                     }
 
-                    var lastCompletedDate = Convert.ToDateTime(userReminder.LastCompleted);
-                    int checkDates = (date.Date - lastCompletedDate.Date).Days;
-
-                    //var nextDueDate = string.Concat("hello".Reverse().Skip(3).Reverse());
+                    var nextStartDate = userReminder.NextStartDate;
+                    int newDateDiff = DateTime.Compare(nextStartDate, date);
 
                     // The reminder is waiting for a new due date, so check against the current date to assign it 
-                    if (userReminder.Completed == "Completed" || userReminder.Completed == "Not in season")
+                    if (newDateDiff < 0 || newDateDiff == 0)
                     {
-                        // If season is "All year"
-                        if (((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "false")) || ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "true")))
+                        if (userReminder.Scheduled == "false")
                         {
-                            if (userReminder.NotificationInterval == "Weekly" && (date >= newDate))
+                            if (((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "false")) || ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "true")))
                             {
-                                newDate = firstdayOfNextWeek.AddDays(7);
-                            }
-                            else if (userReminder.NotificationInterval == "Biweekly")
-                            {
-                                newDate = firstdayOfNextWeek.AddDays(14);
-                            }
-                            else if (userReminder.NotificationInterval == "Monthly")
-                            {
-                                newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                            }
-                            else if (userReminder.NotificationInterval == "Quarterly")
-                            {
-                                newDate = firstdayOfNextMonth.AddMonths(3).AddDays(-1);
-                                // Set to last day of the third month
-
-                            }
-                            else if (userReminder.NotificationInterval == "Yearly")
-                            {
-                                if (date.AddMonths(1) <= lastDayOfYear)
+                                if (userReminder.NotificationInterval == "Weekly")
                                 {
-                                    newDate = lastDayOfYear;
+                                    newDate = userReminder.NextStartDate.AddDays(7);
+                                }
+                                else if (userReminder.NotificationInterval == "Biweekly")
+                                {
+                                    newDate = userReminder.NextStartDate.AddDays(14);
+                                }
+                                else if (userReminder.NotificationInterval == "Monthly")
+                                {
+                                    newDate = userReminder.NextStartDate.AddDays(30);
+                                }
+                                else if (userReminder.NotificationInterval == "Quarterly")
+                                {
+                                    newDate = userReminder.NextStartDate.AddDays(90);
+                                }
+                                else if (userReminder.NotificationInterval == "Yearly")
+                                {
+                                    newDate = userReminder.NextStartDate.AddDays(365);
+                                }
+                            }
+
+                            // Spring
+                            else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "false"))
+                            {
+                                if (date >= startSpring && date <= endSpring)
+                                {
+                                    if (userReminder.NotificationInterval == "Weekly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(7) <= endSpring)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Biweekly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(14) <= endSpring)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
                                 }
                                 else
                                 {
-                                    // Set to last day of next year
-                                    newDate = new DateTime(nextYear, 12, 31);
+                                    noDueDate = "Not currently due";
                                 }
                             }
-                        }
-
-                        // Spring
-                        else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "false"))
-                        {
-                            if (date >= startSpring && date <= endSpring)
+                            // SpringSummer
+                            else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "false"))
                             {
-                                if (userReminder.NotificationInterval == "Weekly")
+                                if (date >= startSpring && date <= endSummer)
                                 {
-                                    if (firstdayOfNextWeek.AddDays(7) <= endSpring)
+                                    if (userReminder.NotificationInterval == "Weekly")
                                     {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
+                                        if (userReminder.NextStartDate.AddDays(7) <= endSummer)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
-                                    else
+                                    else if (userReminder.NotificationInterval == "Biweekly")
                                     {
-                                        noDueDate = "Not currently due";
+                                        if (userReminder.NextStartDate.AddDays(14) <= endSummer)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
                                 }
-                                else if (userReminder.NotificationInterval == "Biweekly")
+                                else
                                 {
-                                    if (firstdayOfNextWeek.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring)
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
+                                    noDueDate = "Not currently due";
                                 }
                             }
-                            else
+                            // SpringFall
+                            else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "false"))
                             {
-                                noDueDate = "Not currently due";
+                                if ((date >= startSpring && date <= endSpring) || (date >= startFall && date <= endFall))
+                                {
+                                    if (userReminder.NotificationInterval == "Weekly")
+                                    {
+                                        if ((userReminder.NextStartDate.AddDays(7) <= endSpring) || (userReminder.NextStartDate.AddDays(7) <= endFall))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Biweekly")
+                                    {
+                                        if ((userReminder.NextStartDate.AddDays(14) <= endSpring) || (userReminder.NextStartDate.AddDays(14) <= endFall))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if ((userReminder.NextStartDate.AddDays(20) <= endSpring) || (userReminder.NextStartDate.AddDays(20) <= endFall))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
                             }
-                        }
-                        // SpringSummer
-                        else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "false"))
-                        {
-                            if (date >= startSpring && date <= endSummer)
+                            // SpringWinter
+                            else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "true"))
                             {
-                                if (userReminder.NotificationInterval == "Weekly")
+                                if ((date >= startSpring && date <= endSpring) || (date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
                                 {
-                                    if (firstdayOfNextWeek.AddDays(7) <= endSummer)
+                                    if (userReminder.NotificationInterval == "Weekly")
                                     {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
+                                        if ((userReminder.NextStartDate.AddDays(7) <= endSpring) || (userReminder.NextStartDate.AddDays(7) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(7) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
-                                    else
+                                    else if (userReminder.NotificationInterval == "Biweekly")
                                     {
-                                        noDueDate = "Not currently due";
+                                        if ((userReminder.NextStartDate.AddDays(14) <= endSpring) || (userReminder.NextStartDate.AddDays(14) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(14) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if ((userReminder.NextStartDate.AddDays(20) <= endSpring) || (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
                                 }
-                                else if (userReminder.NotificationInterval == "Biweekly")
+                                else
                                 {
-                                    if (firstdayOfNextWeek.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSummer)
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
+                                    noDueDate = "Not currently due";
                                 }
                             }
-                            else
+                            // SpringSummerFall
+                            else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "false"))
                             {
-                                noDueDate = "Not currently due";
+                                if (date >= startSpring && date <= endFall)
+                                {
+                                    if (userReminder.NotificationInterval == "Weekly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(7) <= endFall)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Biweekly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(14) <= endFall)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endFall;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endFall;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
                             }
-                        }
-                        // SpringFall
-                        else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "false"))
-                        {
-                            if ((date >= startSpring && date <= endSpring) || (date >= startFall && date <= endFall))
+                            // SpringFallWinter
+                            else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "true"))
                             {
-                                if (userReminder.NotificationInterval == "Weekly")
+                                if ((date >= startSpring && date <= endSpring) || (date >= startFall && date <= endFall) || (date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
                                 {
-                                    if ((firstdayOfNextWeek.AddDays(7) <= endSpring) || (firstdayOfNextWeek.AddDays(7) <= endFall))
+                                    if (userReminder.NotificationInterval == "Weekly")
                                     {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
+                                        if ((userReminder.NextStartDate.AddDays(7) <= endSpring) || (userReminder.NextStartDate.AddDays(7) <= endFall) || (userReminder.NextStartDate.AddDays(7) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(7) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
-                                    else
+                                    else if (userReminder.NotificationInterval == "Biweekly")
                                     {
-                                        noDueDate = "Not currently due";
+                                        if ((userReminder.NextStartDate.AddDays(14) <= endSpring) || (userReminder.NextStartDate.AddDays(14) <= endFall) || (userReminder.NextStartDate.AddDays(14) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(14) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if ((userReminder.NextStartDate.AddDays(20) <= endSpring) || (userReminder.NextStartDate.AddDays(20) <= endFall) || (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endFall;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSpring)
+                                        {
+                                            newDate = endSpring;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endFall;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
                                 }
-                                else if (userReminder.NotificationInterval == "Biweekly")
+                                else
                                 {
-                                    if ((firstdayOfNextWeek.AddDays(14) <= endSpring) || (firstdayOfNextWeek.AddDays(14) <= endFall))
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall))
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
+                                    noDueDate = "Not currently due";
                                 }
                             }
-                            else
+                            // Summer
+                            else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "false"))
                             {
-                                noDueDate = "Not currently due";
+                                if (date >= startSummer && date <= endSummer)
+                                {
+                                    if (userReminder.NotificationInterval == "Weekly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(7) <= endSummer)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Biweekly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(14) <= endSummer)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
                             }
-                        }
-                        // SpringWinter
-                        else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "true"))
-                        {
-                            if ((date >= startSpring && date <= endSpring) || (date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
+                            // SummerFall
+                            else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "false"))
                             {
-                                if (userReminder.NotificationInterval == "Weekly")
+                                if (date >= startSummer && date <= endFall)
                                 {
-                                    if ((firstdayOfNextWeek.AddDays(7) <= endSpring) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
+                                    if (userReminder.NotificationInterval == "Weekly")
                                     {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
+                                        if (userReminder.NextStartDate.AddDays(7) <= endFall)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
-                                    else
+                                    else if (userReminder.NotificationInterval == "Biweekly")
                                     {
-                                        noDueDate = "Not currently due";
+                                        if (userReminder.NextStartDate.AddDays(14) <= endFall)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endFall;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endFall;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
                                 }
-                                else if (userReminder.NotificationInterval == "Biweekly")
+                                else
                                 {
-                                    if ((firstdayOfNextWeek.AddDays(14) <= endSpring) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
+                                    noDueDate = "Not currently due";
                                 }
                             }
-                            else
+                            // SummerWinter
+                            else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "true"))
                             {
-                                noDueDate = "Not currently due";
+                                if ((date >= startSummer && date <= endSummer) || (date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
+                                {
+                                    if (userReminder.NotificationInterval == "Weekly")
+                                    {
+                                        if ((userReminder.NextStartDate.AddDays(7) <= endSummer) || (userReminder.NextStartDate.AddDays(7) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(7) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Biweekly")
+                                    {
+                                        if ((userReminder.NextStartDate.AddDays(14) <= endSummer) || (userReminder.NextStartDate.AddDays(14) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(14) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if ((userReminder.NextStartDate.AddDays(20) <= endSummer) || (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
                             }
-                        }
-                        // SpringSummerFall
-                        else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "false"))
-                        {
-                            if (date >= startSpring && date <= endFall)
+                            // SummerFallWinter
+                            else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "true"))
                             {
-                                if (userReminder.NotificationInterval == "Weekly")
+                                if ((date >= startSummer && date <= nextYearEndWinter) || (date >= startSummer.AddYears(-1) && date <= thisYearEndWinter))
                                 {
-                                    if (firstdayOfNextWeek.AddDays(7) <= endFall)
+                                    if (userReminder.NotificationInterval == "Weekly")
                                     {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
+                                        if ((userReminder.NextStartDate.AddDays(7) <= nextYearEndWinter) || (userReminder.NextStartDate.AddDays(7) <= thisYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
-                                    else
+                                    else if (userReminder.NotificationInterval == "Biweekly")
                                     {
-                                        noDueDate = "Not currently due";
+                                        if ((userReminder.NextStartDate.AddDays(14) <= nextYearEndWinter) || (userReminder.NextStartDate.AddDays(14) <= thisYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if ((userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter) || (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endSummer)
+                                        {
+                                            newDate = endSummer;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
                                 }
-                                else if (userReminder.NotificationInterval == "Biweekly")
+                                else
                                 {
-                                    if (firstdayOfNextWeek.AddDays(14) <= endFall)
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall)
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endFall;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endFall;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
+                                    noDueDate = "Not currently due";
                                 }
                             }
-                            else
+                            // Fall
+                            else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "false"))
                             {
-                                noDueDate = "Not currently due";
+                                if (date >= startFall && date <= endFall)
+                                {
+                                    if (userReminder.NotificationInterval == "Weekly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(7) <= endFall)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Biweekly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(14) <= endFall)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endFall;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endFall;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    noDueDate = "Not currently due";
+                                }
                             }
-                        }
-                        // SpringFallWinter
-                        else if ((userReminder.SeasonSpring == "true") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "true"))
-                        {
-                            if ((date >= startSpring && date <= endSpring) || (date >= startFall && date <= endFall) || (date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
+                            // FallWinter
+                            else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "true"))
                             {
-                                if (userReminder.NotificationInterval == "Weekly")
+                                if ((date >= startFall && date <= nextYearEndWinter) || (date >= startFall.AddYears(-1) && date <= thisYearEndWinter))
                                 {
-                                    if ((firstdayOfNextWeek.AddDays(7) <= endSpring) || (firstdayOfNextWeek.AddDays(7) <= endFall) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
+                                    if (userReminder.NotificationInterval == "Weekly")
                                     {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
+                                        if ((userReminder.NextStartDate.AddDays(7) <= nextYearEndWinter) || (userReminder.NextStartDate.AddDays(7) <= thisYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
-                                    else
+                                    else if (userReminder.NotificationInterval == "Biweekly")
                                     {
-                                        noDueDate = "Not currently due";
+                                        if ((userReminder.NextStartDate.AddDays(14) <= nextYearEndWinter) || (userReminder.NextStartDate.AddDays(14) <= thisYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if ((userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter) || userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endFall;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= endFall)
+                                        {
+                                            newDate = endFall;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
                                 }
-                                else if (userReminder.NotificationInterval == "Biweekly")
+                                else
                                 {
-                                    if ((firstdayOfNextWeek.AddDays(14) <= endSpring) || (firstdayOfNextWeek.AddDays(14) <= endFall) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSpring) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endFall;
-                                    }
-                                    else if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endSpring)
-                                    {
-                                        newDate = endSpring;
-                                    }
-                                    else if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endFall;
-                                    }
-                                    else if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
+                                    noDueDate = "Not currently due";
                                 }
                             }
-                            else
+                            // Winter
+                            else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "true"))
                             {
-                                noDueDate = "Not currently due";
-                            }
-                        }
-                        // Summer
-                        else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "false"))
-                        {
-                            if (date >= startSummer && date <= endSummer)
-                            {
-                                if (userReminder.NotificationInterval == "Weekly")
+                                if ((date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
                                 {
-                                    if (firstdayOfNextWeek.AddDays(7) <= endSummer)
+                                    if (userReminder.NotificationInterval == "Weekly")
                                     {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
+                                        if ((userReminder.NextStartDate.AddDays(7) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(7) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(7);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
-                                    else
+                                    else if (userReminder.NotificationInterval == "Biweekly")
                                     {
-                                        noDueDate = "Not currently due";
+                                        if ((userReminder.NextStartDate.AddDays(14) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(14) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(14);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Monthly")
+                                    {
+                                        if ((userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter) || (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter))
+                                        {
+                                            newDate = userReminder.NextStartDate.AddDays(30);
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Quarterly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
+                                    }
+                                    else if (userReminder.NotificationInterval == "Yearly")
+                                    {
+                                        if (userReminder.NextStartDate.AddDays(20) <= thisYearEndWinter)
+                                        {
+                                            newDate = thisYearEndWinter;
+                                        }
+                                        else if (userReminder.NextStartDate.AddDays(20) <= nextYearEndWinter)
+                                        {
+                                            newDate = nextYearEndWinter;
+                                        }
+                                        else
+                                        {
+                                            noDueDate = "Not currently due";
+                                        }
                                     }
                                 }
-                                else if (userReminder.NotificationInterval == "Biweekly")
+                                else
                                 {
-                                    if (firstdayOfNextWeek.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSummer)
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                noDueDate = "Not currently due";
-                            }
-                        }
-                        // SummerFall
-                        else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "false"))
-                        {
-                            if (date >= startSummer && date <= endFall)
-                            {
-                                if (userReminder.NotificationInterval == "Weekly")
-                                {
-                                    if (firstdayOfNextWeek.AddDays(7) <= endFall)
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Biweekly")
-                                {
-                                    if (firstdayOfNextWeek.AddDays(14) <= endFall)
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall)
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endFall;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endFall;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
+                                    noDueDate = "Not currently due";
                                 }
                             }
-                            else
-                            {
-                                noDueDate = "Not currently due";
-                            }
-                        }
-                        // SummerWinter
-                        else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "true"))
-                        {
-                            if ((date >= startSummer && date <= endSummer) || (date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
-                            {
-                                if (userReminder.NotificationInterval == "Weekly")
-                                {
-                                    if ((firstdayOfNextWeek.AddDays(7) <= endSummer) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Biweekly")
-                                {
-                                    if ((firstdayOfNextWeek.AddDays(14) <= endSummer) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endSummer) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                noDueDate = "Not currently due";
-                            }
-                        }
-                        // SummerFallWinter
-                        else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "true") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "true"))
-                        {
-                            if ((date >= startSummer && date <= nextYearEndWinter) || (date >= startSummer.AddYears(-1) && date <= thisYearEndWinter))
-                            {
-                                if (userReminder.NotificationInterval == "Weekly")
-                                {
-                                    if ((firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Biweekly")
-                                {
-                                    if ((firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter) || firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter)
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endSummer)
-                                    {
-                                        newDate = endSummer;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                noDueDate = "Not currently due";
-                            }
-                        }
-                        // Fall
-                        else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "false"))
-                        {
-                            if (date >= startFall && date <= endFall)
-                            {
-                                if (userReminder.NotificationInterval == "Weekly")
-                                {
-                                    if (firstdayOfNextWeek.AddDays(7) <= endFall)
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Biweekly")
-                                {
-                                    if (firstdayOfNextWeek.AddDays(14) <= endFall)
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= endFall)
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endFall;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endFall;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                noDueDate = "Not currently due";
-                            }
-                        }
-                        // FallWinter
-                        else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "true") && (userReminder.SeasonWinter == "true"))
-                        {
-                            if ((date >= startFall && date <= nextYearEndWinter) || (date >= startFall.AddYears(-1) && date <= thisYearEndWinter))
-                            {
-                                if (userReminder.NotificationInterval == "Weekly")
-                                {
-                                    if ((firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Biweekly")
-                                {
-                                    if ((firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter) || firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter)
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endFall;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= endFall)
-                                    {
-                                        newDate = endFall;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                noDueDate = "Not currently due";
-                            }
-                        }
-                        // Winter
-                        else if ((userReminder.SeasonSpring == "false") && (userReminder.SeasonSummer == "false") && (userReminder.SeasonFall == "false") && (userReminder.SeasonWinter == "true"))
-                        {
-                            if ((date >= lastYearStartWinter && date <= thisYearEndWinter) || (date >= thisYearStartWinter && date <= nextYearEndWinter))
-                            {
-                                if (userReminder.NotificationInterval == "Weekly")
-                                {
-                                    if ((firstdayOfNextWeek.AddDays(7) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(7) <= nextYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(7);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Biweekly")
-                                {
-                                    if ((firstdayOfNextWeek.AddDays(14) <= thisYearEndWinter) || (firstdayOfNextWeek.AddDays(14) <= nextYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextWeek.AddDays(14);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Monthly")
-                                {
-                                    if ((firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= thisYearEndWinter) || (firstdayOfNextMonth.AddMonths(1).AddDays(-1) <= nextYearEndWinter))
-                                    {
-                                        newDate = firstdayOfNextMonth.AddMonths(1).AddDays(-1);
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Quarterly")
-                                {
-                                    if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                                else if (userReminder.NotificationInterval == "Yearly")
-                                {
-                                    if (date.AddDays(14) <= thisYearEndWinter)
-                                    {
-                                        newDate = thisYearEndWinter;
-                                    }
-                                    else if (date.AddDays(14) <= nextYearEndWinter)
-                                    {
-                                        newDate = nextYearEndWinter;
-                                    }
-                                    else
-                                    {
-                                        noDueDate = "Not currently due";
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                noDueDate = "Not currently due";
-                            }
-                        }
 
 
-
-                        if (noDueDate != "Not currently due")
-                        {
-                            userReminder.DueDate = newDate.ToString("MM/dd/yyyy");
-                            userReminder.Completed = "Due";
-
-                            var nextDueDate = "";
-                            var tempNextDueDate = Convert.ToDateTime(userReminder.DueDate);
-                            
-                            if (userReminder.NotificationInterval == "Weekly")
+                            if (noDueDate != "Not currently due")
                             {
-                                nextDueDate = tempNextDueDate.AddDays(7).ToString("MM/dd/yyyy");
+                                userReminder.Scheduled = "true";
+                                userReminder.DueDate = newDate;
+                                userReminder.Completed = "Due";
                             }
-                            else if (userReminder.NotificationInterval == "Biweekly")
+                            else
                             {
-                                nextDueDate = tempNextDueDate.AddDays(14).ToString("MM/dd/yyyy");
-                            }
-                            else if (userReminder.NotificationInterval == "Monthly")
-                            {
-                                nextDueDate = tempNextDueDate.AddMonths(1).ToString("MM/dd/yyyy");
-                            }
-                            else if (userReminder.NotificationInterval == "Quarterly")
-                            {
-                                nextDueDate = tempNextDueDate.AddMonths(3).ToString("MM/dd/yyyy");
-                            }
-                            else if (userReminder.NotificationInterval == "Yearly")
-                            {
-                                // Set to last day of next year
-                                nextDueDate = new DateTime(nextYear, 12, 31).ToString("MM/dd/yyyy");
+                                // Leave DueDate null since it's not in season 
+                                userReminder.Completed = "Not in season";
+                                userReminder.Scheduled = "false";
                             }
 
-                            userReminder.PrevDueDate = userReminder.DueDate;
-                            userReminder.NextDueDate = nextDueDate;
-                            
+                            _context.UserReminders.Update(userReminder);
+                            await _context.SaveChangesAsync();
                         }
-                        else
-                        {
-                            userReminder.DueDate = noDueDate;
-                            userReminder.Completed = "Not in season";
-                        }
-                        _context.UserReminders.Add(userReminder);
-                        await _context.SaveChangesAsync();
                     }
                 }
             }
@@ -2343,10 +2276,10 @@ namespace HOB_WebApp.Controllers
          * The "5" that they use in the sample url below is the id of a specific action plan in the db
          * In order for this to work, you must know the particular action plan ID ahead of time
          **/
-        // PUT: api/MaintenanceReminderAPI/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{ReminderId}")]
+                    // PUT: api/MaintenanceReminderAPI/5
+                    // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+                    // more details see https://aka.ms/RazorPagesCRUD.
+                    [HttpPut("{ReminderId}")]
         public async Task<ActionResult<UserReminders>> PutContentModel(string reminderId)
         {
             int newId = Int32.Parse(reminderId);
@@ -2392,45 +2325,42 @@ namespace HOB_WebApp.Controllers
             var nextYearEndWinter = new DateTime(nextYear, 2, 28);
             var thisYearEndWinter = new DateTime(DateTime.Now.Year, 2, 28);
 
-            var tempPrevDueDate = Convert.ToDateTime(reminder.DueDate);
-            var prevDueDate = tempPrevDueDate.AddDays(1);
+            // Set the current due date as the previous due date since it is about to be updated
+            reminder.PrevDueDate = reminder.DueDate;
 
-            if (reminder.Completed != "Overdue" && reminder.Completed != "Completed" && reminder.Completed != "Not in season")
+            reminder.Completed = "Completed";
+            reminder.LastCompleted = date;
+            reminder.Scheduled = "false";
+
+            if (reminder.NotificationInterval == "Weekly")
             {
-                if (reminder.NotificationInterval == "Weekly")
-                {
-                    reminder.DueDate = "Next weekly notification: " + prevDueDate.ToString("MM/dd/yyyy");
-                }
-                else if (reminder.NotificationInterval == "Biweekly")
-                {
-                    reminder.DueDate = "Next biweekly notification: " + prevDueDate.AddDays(7).ToString("MM/dd/yyyy");
-                }
-                else if (reminder.NotificationInterval == "Monthly")
-                {
-                    reminder.DueDate = "Next monthly notification: " + prevDueDate.AddMonths(1).ToString("MM/dd/yyyy");
-                }
-                else if (reminder.NotificationInterval == "Quarterly")
-                {
-                    reminder.DueDate = "Next quarterly notification: " + prevDueDate.AddMonths(3).ToString("MM/dd/yyyy");
-                }
-                else if (reminder.NotificationInterval == "Yearly")
-                {
-                    // Set to last day of next year
-                    //reminder.DueDate = new DateTime(nextYear, 12, 31).ToString("MM/dd/yyyy");
-
-                    reminder.DueDate = "Next yearly notification: " + firstDayOfNextYear.ToString("MM/dd/yyyy");
-                }
-
-                reminder.Completed = "Completed";
-                var timeUtc = DateTime.UtcNow;
-                var easternZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-                reminder.LastCompleted = TimeZoneInfo.ConvertTimeFromUtc(timeUtc, easternZone).ToString("MM/dd/yyyy");
+                reminder.NextStartDate = reminder.LastCompleted.AddDays(7);
             }
-            else
+            else if (reminder.NotificationInterval == "Biweekly")
             {
-                // Code to deal with setting date after marking done while task is overdue
+                reminder.NextStartDate = reminder.LastCompleted.AddDays(14);
             }
-            
+            else if (reminder.NotificationInterval == "Monthly")
+            {
+                reminder.NextStartDate = reminder.LastCompleted.AddDays(30);
+            }
+            else if (reminder.NotificationInterval == "Quarterly")
+            {
+                // If the reminder is "All Year", set it to start 3 months from today. Otherwise, it's seasonal and should 
+                //if (((reminder.SeasonSpring == "false") && (reminder.SeasonSummer == "false") && (reminder.SeasonFall == "false") && (reminder.SeasonWinter == "false")) || ((reminder.SeasonSpring == "true") && (reminder.SeasonSummer == "true") && (reminder.SeasonFall == "true") && (reminder.SeasonWinter == "true")))
+                //{
+                    reminder.NextStartDate = reminder.LastCompleted.AddDays(30);
+                //}
+                //else
+                //{
+                    //reminder.NextStartDate = reminder.LastCompleted.AddDays(7);
+                //}
+            }
+            else if (reminder.NotificationInterval == "Yearly")
+            {
+                reminder.NextStartDate = reminder.LastCompleted.AddDays(30);
+            }
+
             _context.UserReminders.Update(reminder);
             await _context.SaveChangesAsync();
 
