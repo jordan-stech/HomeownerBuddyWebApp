@@ -20,19 +20,29 @@ namespace HOB_WebApp.Controllers
     {
         private readonly HOB_WebAppContext _context;
 
+        public BackgroundAPIController(HOB_WebAppContext context)
+        {
+            _context = context;
+        }
+
         // GET api/<BackgroundAPIController>/5
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MaintenanceReminders>>> GetFirebaseNotifications()
+        public async Task<ActionResult<IEnumerable<UserReminders>>> GetFirebaseNotifications()
         {
+
             var userList = await _context.MobileUsers.ToListAsync();
             var reminderList = await _context.UserReminders.ToListAsync();
 
-            int countTodo = 0;
-            int countOverdue = 0;
+            
+            FireBasePush push = new FireBasePush("AAAAUZUJsVw:APA91bGGHh_Zfzb4Ry3ywy68mcnuqWMdmFFa1YyoYc4EhCiNPiY95KhR-KAHnFbuE55Az3jiaMO-zLHkQK87UFWPyb_sYwv2o5-uR5YVcn71P1J2lB9aeObdeEkpi5ylaX7awaU4ZYvA");
 
             // Create a Firebase notification for each user's reminders
             foreach (MobileUsers user in userList)
             {
+                int countTodo = 0;
+                int countOverdue = 0;
+                string userinstanceid = user.InstanceId;
+
                 foreach (UserReminders userReminder in reminderList)
                 {                   
                     if (user.Id == userReminder.UserId && userReminder.Completed == "Due")
@@ -48,6 +58,16 @@ namespace HOB_WebApp.Controllers
                 }
 
                 // Create Firebase notification here using the count variables
+                push.SendPush(new PushMessage()
+                {
+                    to = userinstanceid,
+                    notification = new PushMessageData
+                    {
+                        title = "You have new maintenance reminders",
+                        text = "You have " + countOverdue + " overdue tasks and " + countTodo + " due tasks.",
+                        //click_action = click_action
+                    }
+                });
             }
 
             return NoContent();
