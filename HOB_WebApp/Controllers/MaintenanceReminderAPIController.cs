@@ -2280,7 +2280,7 @@ namespace HOB_WebApp.Controllers
                     // To protect from overposting attacks, please enable the specific properties you want to bind to, for
                     // more details see https://aka.ms/RazorPagesCRUD.
                     [HttpPut("{ReminderId}")]
-        public async Task<ActionResult<UserReminders>> PutContentModel(string reminderId)
+        public async Task<ActionResult<UserReminders>> PutContentModel(string reminderId, UserReminders userReminder)
         {
             int newId = Int32.Parse(reminderId);
 
@@ -2329,7 +2329,7 @@ namespace HOB_WebApp.Controllers
             reminder.PrevDueDate = reminder.DueDate;
 
             reminder.Completed = "Completed";
-            reminder.LastCompleted = date;
+            reminder.LastCompleted = userReminder.LastCompleted;
             reminder.Scheduled = "false";
 
             if (reminder.NotificationInterval == "Weekly")

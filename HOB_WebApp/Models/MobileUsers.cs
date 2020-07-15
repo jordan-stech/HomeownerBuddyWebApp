@@ -18,5 +18,6 @@ namespace HOB_WebApp.Models
         public string address { get; set; }
         //The date that the user registered
         public string date { get; set; }
+        public string InstanceId { get; set; }
     }
 }

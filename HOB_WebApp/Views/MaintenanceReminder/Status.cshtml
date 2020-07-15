@@ -115,7 +115,8 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
     @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css">*@
-    @*<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+    <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
 
     
@@ -126,9 +127,39 @@
 
     <script>
         $(document).ready(function () {
-            $('#jqueryTable').DataTable( {
-            
+            var table = $('#jqueryTable').DataTable( {
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]               
         });
+
+        var date={};
+        $('#jqueryTable').on( 'click', 'tr', function () {
+            // Get the rows id value
+            //var id = table.row( this ).id();
+            // Filter for only numbers
+            //id = id.replace(/\D/g, '');
+            // Transform to numeric value
+            //id = parseInt(id, 10);
+            // So instead of returning the actual id which is row_1
+            // We get back just the primary key which is 1
+            //alert( 'Clicked row id '+id );
+
+            data = table.row( this ).data();
+            //alert( data[0] +"'s salary is: "+ data[ 5 ] );
+
+            performAction(data);
+        });
+        
+        function performAction(data) {
+          
+          $.ajax({
+              url: '/MaintenanceReminderController/ViewUserStatus',
+              type: "GET",
+              async:true,
+              
+            });
+            alert( data[0] +"'s due date: "+ data[ 4 ] );
+        }
+
         });
     </script>
 }

@@ -29,19 +29,18 @@ namespace HOB_WebApp.Controllers
             return View(await _context.MaintenanceReminders.ToListAsync());
         }
 
-        // GET: UserReminders
-        public async Task<IActionResult> Status(string searchString)
+        // POST: MaintenanceReminders/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        public async Task<IActionResult> ViewUserStatus() 
         {
-            var users = from m in _context.UserReminders
-                         select m;
+            return RedirectToAction(nameof(Index));
+        }
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                users = users.Where(s => s.LName.Contains(searchString));
-                return View(await users.ToListAsync());
-            }
-
-
+        // GET: UserReminders
+        public async Task<IActionResult> Status()
+        {           
             ViewBag.MobileUsers = await _context.MobileUsers.ToListAsync();
 
             var reminderList = await _context.UserReminders.ToListAsync();
