@@ -36,7 +36,7 @@ namespace HOB_WebApp
 
         public static void FirebaseTimerThreadProc()
         {
-            int timeval = 1800 * 1000;
+            int timeval = 60 * 1000;
             System.Timers.Timer timer1 = new System.Timers.Timer
             {
                 Interval = timeval

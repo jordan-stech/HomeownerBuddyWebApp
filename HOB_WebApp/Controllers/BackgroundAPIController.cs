@@ -58,16 +58,19 @@ namespace HOB_WebApp.Controllers
                 }
 
                 // Create Firebase notification here using the count variables
-                push.SendPush(new PushMessage()
+                if (countTodo != 0 && countOverdue != 0)
                 {
-                    to = userinstanceid,
-                    notification = new PushMessageData
+                    push.SendPush(new PushMessage()
                     {
-                        title = "You have new maintenance reminders",
-                        text = "You have " + countOverdue + " overdue tasks and " + countTodo + " due tasks.",
-                        //click_action = click_action
-                    }
-                });
+                        to = userinstanceid,
+                        notification = new PushMessageData
+                        {
+                            title = "You have new maintenance reminders",
+                            text = "You have " + countOverdue + " overdue tasks and " + countTodo + " due tasks.",
+                            //click_action = click_action
+                        }
+                    });
+                }
             }
 
             return NoContent();
