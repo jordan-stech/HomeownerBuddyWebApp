@@ -9,6 +9,9 @@ using HOB_WebApp.Data;
 using Microsoft.AspNetCore.Authorization;
 using HOB_WebApp.Models;
 using System.Data.SqlTypes;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace HOB_WebApp.Controllers
 {
@@ -1252,6 +1255,7 @@ namespace HOB_WebApp.Controllers
 
             // Set the current due date as the previous due date since it is about to be updated
             reminder.PrevDueDate = reminder.DueDate;
+            reminder.DueDate = (DateTime)SqlDateTime.Null;
 
             reminder.Completed = "Completed";
             reminder.LastCompleted = userReminder.LastCompleted;
@@ -1288,6 +1292,32 @@ namespace HOB_WebApp.Controllers
 
             _context.UserReminders.Update(reminder);
             await _context.SaveChangesAsync();
+
+            string userId = "5";
+
+            // Set up new HttpClientHandler and its credentials so we can perform the web request
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            // Create new httpClient using our client handler created above
+            HttpClient httpClient = new HttpClient(clientHandler);
+
+            String apiUrl = "https://habitathomeownerbuddy.azurewebsites.net/api/BackgroundAPI/" + userId;
+
+            // Create new URI with the API url so we can perform the web request
+            var uri = new Uri(string.Format(apiUrl, string.Empty));
+
+            string JSONresult = JsonConvert.SerializeObject(userId);
+            Console.WriteLine(JSONresult);
+
+            var content = new StringContent(JSONresult, Encoding.UTF8, "application/json");
+
+            var putResponse = await httpClient.PutAsync(uri, content);
+
+            if (putResponse.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Success");
+            }
 
             return NoContent();
         }

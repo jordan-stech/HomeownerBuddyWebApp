@@ -48,7 +48,7 @@ namespace HOB_WebApp
 
         public static void DueDateTimerThreadProc()
         {
-            int timeval = 3600000;
+            int timeval = 10000;
             System.Timers.Timer timer1 = new System.Timers.Timer
             {
                 Interval = timeval
@@ -95,7 +95,7 @@ namespace HOB_WebApp
 
         public static async Task DueDateApiCall()
         {
-            string userId = "";
+            string userId = "5";
 
             // Set up new HttpClientHandler and its credentials so we can perform the web request
             HttpClientHandler clientHandler = new HttpClientHandler();

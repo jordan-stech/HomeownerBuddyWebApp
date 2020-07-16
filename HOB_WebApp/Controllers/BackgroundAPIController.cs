@@ -1187,6 +1187,21 @@ namespace HOB_WebApp.Controllers
                         _context.UserReminders.Update(userReminder);
                         await _context.SaveChangesAsync();
                     }
+
+                    // Check if a user's reminder task is overdue after being assigned a new due date
+                    if (userReminder.Scheduled == "true" && userReminder.Completed != "Overdue")
+                    {
+                        var dueDate = userReminder.DueDate;
+                        int dateDiff = DateTime.Compare(dueDate, date);
+
+                        // If the current date is the same or later than the due date, mark the user's task as Overdue
+                        if (dateDiff < 0 || dateDiff == 0)
+                        {
+                            userReminder.Completed = "Overdue";
+                            _context.UserReminders.Update(userReminder);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
                 }
             }
             return NoContent();
