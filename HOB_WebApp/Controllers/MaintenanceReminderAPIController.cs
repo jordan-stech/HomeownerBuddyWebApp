@@ -107,7 +107,7 @@ namespace HOB_WebApp.Controllers
             var nextYearEndWinter = new DateTime(nextYear, 2, 28);
             var thisYearEndWinter = new DateTime(DateTime.Now.Year, 2, 28);
 
-            
+            // If this user's home code equals another user's home code, set this user's reminders to that user's reminders
             var userFound = false;
             if (usersWithSameAddress.Count() > 1)
             {
@@ -120,7 +120,7 @@ namespace HOB_WebApp.Controllers
                         foreach (UserReminders reminderAdded in remindersToAdd)
                         {
                             UserReminders reminder = new UserReminders();
-                            reminder.ReminderId = reminderAdded.Id;
+                            reminder.ReminderId = reminderAdded.ReminderId;
                             reminder.ReminderDescription = reminderAdded.ReminderDescription;
                             reminder.ReminderItem = reminderAdded.ReminderItem;
                             reminder.UserId = currentUserId.Id;
@@ -152,60 +152,9 @@ namespace HOB_WebApp.Controllers
 
                         userFound = true;
                     }
-                }
-
-                    
-
+                }                   
             }
-
-            // If this user's home code equals another user's home code, set this user's reminders to that user's reminders
-            /*foreach (MobileUsers user in allUsers) 
-            {
-                if (userFound == true)
-                {
-                    break;
-                }
-
-                if (currentUserId.Code == user.Code && currentUserId.Id != user.Id)
-                {
-                    userFound = true;
-                    foreach (UserReminders userReminder in allUserReminders)
-                    {
-                        if (userReminder.UserId == user.Id)
-                        {
-                            UserReminders reminder = new UserReminders();
-                            reminder.ReminderId = userReminder.Id;
-                            reminder.ReminderDescription = userReminder.ReminderDescription;
-                            reminder.ReminderItem = userReminder.ReminderItem;
-                            reminder.UserId = currentUserId.Id;
-                            reminder.FName = currentUserId.FName;
-                            reminder.LName = currentUserId.Lname;
-                            reminder.Address = currentUserId.address;
-                            reminder.NotificationInterval = userReminder.NotificationInterval;
-                            reminder.SeasonSpring = userReminder.SeasonSpring;
-                            reminder.SeasonSummer = userReminder.SeasonSummer;
-                            reminder.SeasonFall = userReminder.SeasonFall;
-                            reminder.SeasonWinter = userReminder.SeasonWinter;
-                            reminder.ActionPlanId = userReminder.ActionPlanId;
-                            reminder.ActionPlanTitle = userReminder.ActionPlanTitle;
-                            reminder.ActionPlanCategory = userReminder.ActionPlanCategory;
-                            reminder.ActionPlanLink = userReminder.ActionPlanLink;
-                            reminder.ActionPlanSteps = userReminder.ActionPlanSteps;
-                            reminder.Reminder = userReminder.Reminder;
-                            reminder.DueDate = userReminder.DueDate;
-                            reminder.LastCompleted = userReminder.LastCompleted;
-                            reminder.PrevDueDate = userReminder.PrevDueDate;
-                            reminder.NextStartDate = userReminder.NextStartDate;
-                            reminder.Scheduled = userReminder.Scheduled;
-                            reminder.Completed = userReminder.Completed;
-
-                            
-                            _context.UserReminders.Add(reminder);
-                            await _context.SaveChangesAsync();
-                        }
-                    }
-                }
-            }*/
+            
 
             // If the current mobile user is accessing the maintenance reminder page for the first time, create individualized reminders for each current maintenance reminder
             if (currentUserReminders.Count() == 0 && currentGlobalReminders.Count() != 0 && userFound == false)
@@ -1320,6 +1269,8 @@ namespace HOB_WebApp.Controllers
                 return NotFound();
             }
 
+            var matchingUserReminders = await _context.UserReminders.Where(m => (m.ReminderId == reminder.ReminderId) && (m.Address == reminder.Address)).ToListAsync();
+
             // Convert the user's registration date to DateTime object to use the AddDays() function based on the NotificationInterval
             var date = DateTime.Today;
             var newDate = date;
@@ -1355,45 +1306,48 @@ namespace HOB_WebApp.Controllers
             var nextYearEndWinter = new DateTime(nextYear, 2, 28);
             var thisYearEndWinter = new DateTime(DateTime.Now.Year, 2, 28);
 
-            // Set the current due date as the previous due date since it is about to be updated
-            reminder.PrevDueDate = reminder.DueDate;
-            reminder.DueDate = (DateTime)SqlDateTime.Null;
+            foreach (UserReminders reminders in matchingUserReminders)
+            {
+                // Set the current due date as the previous due date since it is about to be updated
+                reminders.PrevDueDate = reminders.DueDate;
+                reminders.DueDate = (DateTime)SqlDateTime.Null;
 
-            reminder.Completed = "Completed";
-            reminder.LastCompleted = userReminder.LastCompleted;
-            reminder.Scheduled = "false";
+                reminders.Completed = "Completed";
+                reminders.LastCompleted = userReminder.LastCompleted;
+                reminders.Scheduled = "false";
 
-            if (reminder.NotificationInterval == "Weekly")
-            {
-                reminder.NextStartDate = reminder.LastCompleted.AddDays(7);
-            }
-            else if (reminder.NotificationInterval == "Biweekly")
-            {
-                reminder.NextStartDate = reminder.LastCompleted.AddDays(14);
-            }
-            else if (reminder.NotificationInterval == "Monthly")
-            {
-                reminder.NextStartDate = reminder.LastCompleted.AddDays(30);
-            }
-            else if (reminder.NotificationInterval == "Quarterly")
-            {
-                // If the reminder is "All Year", set it to start 3 months from today. Otherwise, it's seasonal and should 
-                //if (((reminder.SeasonSpring == "false") && (reminder.SeasonSummer == "false") && (reminder.SeasonFall == "false") && (reminder.SeasonWinter == "false")) || ((reminder.SeasonSpring == "true") && (reminder.SeasonSummer == "true") && (reminder.SeasonFall == "true") && (reminder.SeasonWinter == "true")))
-                //{
-                    reminder.NextStartDate = reminder.LastCompleted.AddDays(30);
-                //}
-                //else
-                //{
+                if (reminders.NotificationInterval == "Weekly")
+                {
+                    reminders.NextStartDate = reminders.LastCompleted.AddDays(7);
+                }
+                else if (reminders.NotificationInterval == "Biweekly")
+                {
+                    reminders.NextStartDate = reminders.LastCompleted.AddDays(14);
+                }
+                else if (reminders.NotificationInterval == "Monthly")
+                {
+                    reminders.NextStartDate = reminders.LastCompleted.AddDays(30);
+                }
+                else if (reminders.NotificationInterval == "Quarterly")
+                {
+                    // If the reminder is "All Year", set it to start 3 months from today. Otherwise, it's seasonal and should 
+                    //if (((reminder.SeasonSpring == "false") && (reminder.SeasonSummer == "false") && (reminder.SeasonFall == "false") && (reminder.SeasonWinter == "false")) || ((reminder.SeasonSpring == "true") && (reminder.SeasonSummer == "true") && (reminder.SeasonFall == "true") && (reminder.SeasonWinter == "true")))
+                    //{
+                    reminders.NextStartDate = reminders.LastCompleted.AddDays(30);
+                    //}
+                    //else
+                    //{
                     //reminder.NextStartDate = reminder.LastCompleted.AddDays(7);
-                //}
-            }
-            else if (reminder.NotificationInterval == "Yearly")
-            {
-                reminder.NextStartDate = reminder.LastCompleted.AddDays(30);
-            }
+                    //}
+                }
+                else if (reminders.NotificationInterval == "Yearly")
+                {
+                    reminders.NextStartDate = reminders.LastCompleted.AddDays(30);
+                }
 
-            _context.UserReminders.Update(reminder);
-            await _context.SaveChangesAsync();
+                _context.UserReminders.Update(reminders);
+                await _context.SaveChangesAsync();
+            }
 
             return NoContent();
         }
