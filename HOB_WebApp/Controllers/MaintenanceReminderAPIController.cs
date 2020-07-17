@@ -64,13 +64,16 @@ namespace HOB_WebApp.Controllers
         public async Task<ActionResult<MobileUsers>> PostMaintenanceReminders(MobileUsers mobileUsers)
         {
             // Grab the current mobile user so their id can be used
-            var currentUser = await _context.MobileUsers.Where(m => (m.FName == mobileUsers.FName) && (m.Lname == mobileUsers.Lname) && (m.Code == mobileUsers.Code) && (m.date == mobileUsers.date)).ToListAsync();
-            MobileUsers currentUserId = currentUser.Find(m => m.Code == mobileUsers.Code);
+            var usersWithSameAddress = await _context.MobileUsers.Where(m => m.Code == mobileUsers.Code).ToListAsync();
+            //MobileUsers currentUserId = currentUser.Find(m => m.Id == mobileUsers.Id);
+
+            MobileUsers currentUserId = usersWithSameAddress.Find(m => m.Id == mobileUsers.Id);
 
             // Grab the current maintenance reminders and store them in a list
             var currentGlobalReminders = await _context.MaintenanceReminders.ToListAsync();
             var currentUserReminders = await _context.UserReminders.Where(m => m.UserId == currentUserId.Id).ToListAsync();
             var allUserReminders = await _context.UserReminders.ToListAsync();
+            var allUsers = await _context.MobileUsers.ToListAsync();
 
 
             // Gets the first day of the next week, which is Sunday
@@ -104,9 +107,108 @@ namespace HOB_WebApp.Controllers
             var nextYearEndWinter = new DateTime(nextYear, 2, 28);
             var thisYearEndWinter = new DateTime(DateTime.Now.Year, 2, 28);
 
+            
+            var userFound = false;
+            if (usersWithSameAddress.Count() > 1)
+            {
+                for (int i = 0; i < usersWithSameAddress.Count(); i++)
+                {                   
+                    if (usersWithSameAddress[i].Id != currentUserId.Id && userFound == false)
+                    {
+                        var remindersToAdd = await _context.UserReminders.Where(m => m.UserId == usersWithSameAddress[i].Id).ToListAsync();
+
+                        foreach (UserReminders reminderAdded in remindersToAdd)
+                        {
+                            UserReminders reminder = new UserReminders();
+                            reminder.ReminderId = reminderAdded.Id;
+                            reminder.ReminderDescription = reminderAdded.ReminderDescription;
+                            reminder.ReminderItem = reminderAdded.ReminderItem;
+                            reminder.UserId = currentUserId.Id;
+                            reminder.FName = currentUserId.FName;
+                            reminder.LName = currentUserId.Lname;
+                            reminder.Address = currentUserId.address;
+                            reminder.NotificationInterval = reminderAdded.NotificationInterval;
+                            reminder.SeasonSpring = reminderAdded.SeasonSpring;
+                            reminder.SeasonSummer = reminderAdded.SeasonSummer;
+                            reminder.SeasonFall = reminderAdded.SeasonFall;
+                            reminder.SeasonWinter = reminderAdded.SeasonWinter;
+                            reminder.ActionPlanId = reminderAdded.ActionPlanId;
+                            reminder.ActionPlanTitle = reminderAdded.ActionPlanTitle;
+                            reminder.ActionPlanCategory = reminderAdded.ActionPlanCategory;
+                            reminder.ActionPlanLink = reminderAdded.ActionPlanLink;
+                            reminder.ActionPlanSteps = reminderAdded.ActionPlanSteps;
+                            reminder.Reminder = reminderAdded.Reminder;
+                            reminder.DueDate = reminderAdded.DueDate;
+                            reminder.LastCompleted = reminderAdded.LastCompleted;
+                            reminder.PrevDueDate = reminderAdded.PrevDueDate;
+                            reminder.NextStartDate = reminderAdded.NextStartDate;
+                            reminder.Scheduled = reminderAdded.Scheduled;
+                            reminder.Completed = reminderAdded.Completed;
+
+
+                            _context.UserReminders.Add(reminder);
+                            await _context.SaveChangesAsync();
+                        }
+
+                        userFound = true;
+                    }
+                }
+
+                    
+
+            }
+
+            // If this user's home code equals another user's home code, set this user's reminders to that user's reminders
+            /*foreach (MobileUsers user in allUsers) 
+            {
+                if (userFound == true)
+                {
+                    break;
+                }
+
+                if (currentUserId.Code == user.Code && currentUserId.Id != user.Id)
+                {
+                    userFound = true;
+                    foreach (UserReminders userReminder in allUserReminders)
+                    {
+                        if (userReminder.UserId == user.Id)
+                        {
+                            UserReminders reminder = new UserReminders();
+                            reminder.ReminderId = userReminder.Id;
+                            reminder.ReminderDescription = userReminder.ReminderDescription;
+                            reminder.ReminderItem = userReminder.ReminderItem;
+                            reminder.UserId = currentUserId.Id;
+                            reminder.FName = currentUserId.FName;
+                            reminder.LName = currentUserId.Lname;
+                            reminder.Address = currentUserId.address;
+                            reminder.NotificationInterval = userReminder.NotificationInterval;
+                            reminder.SeasonSpring = userReminder.SeasonSpring;
+                            reminder.SeasonSummer = userReminder.SeasonSummer;
+                            reminder.SeasonFall = userReminder.SeasonFall;
+                            reminder.SeasonWinter = userReminder.SeasonWinter;
+                            reminder.ActionPlanId = userReminder.ActionPlanId;
+                            reminder.ActionPlanTitle = userReminder.ActionPlanTitle;
+                            reminder.ActionPlanCategory = userReminder.ActionPlanCategory;
+                            reminder.ActionPlanLink = userReminder.ActionPlanLink;
+                            reminder.ActionPlanSteps = userReminder.ActionPlanSteps;
+                            reminder.Reminder = userReminder.Reminder;
+                            reminder.DueDate = userReminder.DueDate;
+                            reminder.LastCompleted = userReminder.LastCompleted;
+                            reminder.PrevDueDate = userReminder.PrevDueDate;
+                            reminder.NextStartDate = userReminder.NextStartDate;
+                            reminder.Scheduled = userReminder.Scheduled;
+                            reminder.Completed = userReminder.Completed;
+
+                            
+                            _context.UserReminders.Add(reminder);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+            }*/
 
             // If the current mobile user is accessing the maintenance reminder page for the first time, create individualized reminders for each current maintenance reminder
-            if (currentUserReminders.Count() == 0 && currentGlobalReminders.Count() != 0)
+            if (currentUserReminders.Count() == 0 && currentGlobalReminders.Count() != 0 && userFound == false)
             {
                 for (int i = 0; i < currentGlobalReminders.Count(); i++)
                 {
@@ -1292,32 +1394,6 @@ namespace HOB_WebApp.Controllers
 
             _context.UserReminders.Update(reminder);
             await _context.SaveChangesAsync();
-
-            string userId = "5";
-
-            // Set up new HttpClientHandler and its credentials so we can perform the web request
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
-            // Create new httpClient using our client handler created above
-            HttpClient httpClient = new HttpClient(clientHandler);
-
-            String apiUrl = "https://habitathomeownerbuddy.azurewebsites.net/api/BackgroundAPI/" + userId;
-
-            // Create new URI with the API url so we can perform the web request
-            var uri = new Uri(string.Format(apiUrl, string.Empty));
-
-            string JSONresult = JsonConvert.SerializeObject(userId);
-            Console.WriteLine(JSONresult);
-
-            var content = new StringContent(JSONresult, Encoding.UTF8, "application/json");
-
-            var putResponse = await httpClient.PutAsync(uri, content);
-
-            if (putResponse.IsSuccessStatusCode)
-            {
-                Console.WriteLine("Success");
-            }
 
             return NoContent();
         }
