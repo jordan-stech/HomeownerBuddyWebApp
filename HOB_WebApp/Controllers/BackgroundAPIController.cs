@@ -58,7 +58,7 @@ namespace HOB_WebApp.Controllers
                 }
 
                 // Create Firebase notification here using the count variables
-                if (countTodo != 0 && countOverdue != 0)
+                if (countTodo > 0 || countOverdue > 0)
                 {
                     push.SendPush(new PushMessage()
                     {

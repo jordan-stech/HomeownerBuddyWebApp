@@ -48,7 +48,7 @@ namespace HOB_WebApp
 
         public static void DueDateTimerThreadProc()
         {
-            int timeval = 3600000;
+            int timeval = 10000;
             System.Timers.Timer timer1 = new System.Timers.Timer
             {
                 Interval = timeval
