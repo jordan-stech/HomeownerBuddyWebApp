@@ -63,11 +63,14 @@ namespace HOB_WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult<MobileUsers>> PostMaintenanceReminders(MobileUsers mobileUsers)
         {
-            // Grab the current mobile user so their id can be used
+            // Grab the current users with the same address
             var usersWithSameAddress = await _context.MobileUsers.Where(m => m.Code == mobileUsers.Code).ToListAsync();
-            //MobileUsers currentUserId = currentUser.Find(m => m.Id == mobileUsers.Id);
+            MobileUsers currentMatchedUser = usersWithSameAddress.Find(m => m.Id == mobileUsers.Id);
 
-            MobileUsers currentUserId = usersWithSameAddress.Find(m => m.Id == mobileUsers.Id);
+            // Grab the current mobile user so their id can be used
+            var currentUser = await _context.MobileUsers.Where(m => (m.FName == mobileUsers.FName) && (m.Lname == mobileUsers.Lname) && (m.Code == mobileUsers.Code) && (m.date == mobileUsers.date)).ToListAsync();
+            MobileUsers currentUserId = currentUser.Find(m => m.Code == mobileUsers.Code);
+
 
             // Grab the current maintenance reminders and store them in a list
             var currentGlobalReminders = await _context.MaintenanceReminders.ToListAsync();
@@ -113,7 +116,7 @@ namespace HOB_WebApp.Controllers
             {
                 for (int i = 0; i < usersWithSameAddress.Count(); i++)
                 {                   
-                    if (usersWithSameAddress[i].Id != currentUserId.Id && userFound == false)
+                    if (usersWithSameAddress[i].Id != currentMatchedUser.Id && userFound == false)
                     {
                         var remindersToAdd = await _context.UserReminders.Where(m => m.UserId == usersWithSameAddress[i].Id).ToListAsync();
 
@@ -123,10 +126,10 @@ namespace HOB_WebApp.Controllers
                             reminder.ReminderId = reminderAdded.ReminderId;
                             reminder.ReminderDescription = reminderAdded.ReminderDescription;
                             reminder.ReminderItem = reminderAdded.ReminderItem;
-                            reminder.UserId = currentUserId.Id;
-                            reminder.FName = currentUserId.FName;
-                            reminder.LName = currentUserId.Lname;
-                            reminder.Address = currentUserId.address;
+                            reminder.UserId = currentMatchedUser.Id;
+                            reminder.FName = currentMatchedUser.FName;
+                            reminder.LName = currentMatchedUser.Lname;
+                            reminder.Address = currentMatchedUser.address;
                             reminder.NotificationInterval = reminderAdded.NotificationInterval;
                             reminder.SeasonSpring = reminderAdded.SeasonSpring;
                             reminder.SeasonSummer = reminderAdded.SeasonSummer;
