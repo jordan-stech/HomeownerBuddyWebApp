@@ -95,7 +95,7 @@ namespace HOB_WebApp
 
         public static async Task DueDateApiCall()
         {
-            string userId = "5";
+            string userId = "noId";
 
             // Set up new HttpClientHandler and its credentials so we can perform the web request
             HttpClientHandler clientHandler = new HttpClientHandler();

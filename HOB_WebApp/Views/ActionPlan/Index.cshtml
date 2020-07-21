@@ -23,7 +23,7 @@
     <div class="combined-container">
         @*<h1 class="action-plan-header">Action Plans</h1>*@
 
-        <table class="table">
+        <table class="display responsive" id="jqueryTable">
             <thead>
                 <tr>
                     <th>
@@ -43,31 +43,57 @@
             </thead>
             <tbody>
                 @foreach (var item in Model)
-                    {
-                <tr>
-                    <td class="custom-td-title">
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td class="custom-td-link">
-                        <a href=@Html.DisplayFor(modelItem => item.Link) target="_blank" rel="noopener noreferrer">
-                            @Html.DisplayFor(modelItem => item.Link)
-                        </a>
-                    </td>
-                    <td class="text-center custom-td-category">
-                        @Html.DisplayFor(modelItem => item.Category)
-                    </td>
-                    <td class="text-center custom-td-tags">
-                        @Html.DisplayFor(modelItem => item.Tags)
-                    </td>
-                    <td class="custom-td-buttons">
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">View Steps</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="delete-action-plan">Delete</a>
-                    </td>
-                </tr>
-                    }
+                {
+                    <tr>
+                        <td class="custom-td-title">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td class="custom-td-link">
+                            <a href=@Html.DisplayFor(modelItem => item.Link) target="_blank" rel="noopener noreferrer">
+                                @Html.DisplayFor(modelItem => item.Link)
+                            </a>
+                        </td>
+                        <td class="text-center custom-td-category">
+                            @Html.DisplayFor(modelItem => item.Category)
+                        </td>
+                        <td class="text-center custom-td-tags">
+                            @Html.DisplayFor(modelItem => item.Tags)
+                        </td>
+                        <td class="custom-td-buttons">
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">View Steps</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="delete-action-plan">Delete</a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
 </body>
 </html>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css">*@
+    @*<script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+
+
+    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>*@
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('#jqueryTable').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+        });
+    </script>
+}

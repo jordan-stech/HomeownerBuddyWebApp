@@ -4,57 +4,57 @@
     ViewData["Title"] = "Index";
 }
 
-    <html>
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="~/css/serviceProvider.css">
-        <link rel="stylesheet" href="~/css/maintenanceReminders.css" />
-        <link rel="stylesheet" href="~/css/createActionPlan.css" />
-    </head>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/serviceProvider.css">
+    <link rel="stylesheet" href="~/css/maintenanceReminders.css" />
+    <link rel="stylesheet" href="~/css/createActionPlan.css" />
+</head>
 
-    <body>
-        <div class="page-header">
-            <div class='btn-toolbar float-right'>
-                <div class='btn-group'>
-                    <a asp-action="Create"><button id="btnAddTag" type='button' class='btn btn-primary p-3' style="font-size:17px"><i class="fa fa-plus-circle icon"></i>Create New Service Provider</button></a>
-                </div>
+<body>
+    <div class="page-header">
+        <div class='btn-toolbar float-right'>
+            <div class='btn-group'>
+                <a asp-action="Create"><button id="btnAddTag" type='button' class='btn btn-primary p-3' style="font-size:17px"><i class="fa fa-plus-circle icon"></i>Create New Service Provider</button></a>
             </div>
-            <h1 class="service-provider-header">Service Providers</h1>
         </div>
-        <div class="combined-container">
+        <h1 class="service-provider-header">Service Providers</h1>
+    </div>
+    <div class="combined-container">
 
-            <table class="table">
-                <thead>
+        <table class="display responsive" id="jqueryTable">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th class="text-center">
+                        Type of Service
+                    </th>
+                    <th class="text-center">
+                        Phone Number
+                    </th>
+                    <th class="text-center">
+                        Website Link
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
                     <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th class="text-center">
-                            Type of Service
-                        </th>
-                        <th class="text-center">
-                            Phone Number
-                        </th>
-                        <th class="text-center">
-                            Website Link
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                    <tr>
-                        <td class="custom-td-name">
+                        <td>
                             @Html.DisplayFor(modelItem => item.name)
                         </td>
-                        <td class="custom-td-service text-center">
+                        <td>
                             @Html.DisplayFor(modelItem => item.service)
                         </td>
-                        <td class="custom-td-phone-number text-center">
+                        <td>
                             @Html.DisplayFor(modelItem => item.phone_number)
                         </td>
-                        <td class="custom-td-link">
+                        <td>
                             <a href=@Html.DisplayFor(modelItem => item.url) target="_blank" rel="noopener noreferrer">
                                 @Html.DisplayFor(modelItem => item.url)
                             </a>
@@ -65,9 +65,35 @@
                             <a asp-action="Delete" asp-route-id="@item.id" class="delete-service-provider">Delete</a>
                         </td>
                     </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </body>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
 </html>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css">*@
+    @*<script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+
+
+    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>*@
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('#jqueryTable').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+        });
+    </script>
+}

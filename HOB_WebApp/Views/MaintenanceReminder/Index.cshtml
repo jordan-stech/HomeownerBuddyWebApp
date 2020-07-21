@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<HOB_WebApp.Models.MaintenanceReminders>
 
 @{
-	ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";
 }
 
 <html>
@@ -22,7 +22,7 @@
         <h1 class="maintenance-reminder-header">Maintenance Reminders</h1>
     </div>
     <div class="combined-container">
-        <table class="table">
+        <table class="display responsive" id="jqueryTable">
             <thead>
                 <tr>
                     <th>
@@ -50,86 +50,112 @@
 
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReminderItem)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Reminder)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.ActionPlanTitle)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.NotificationInterval)
-                    </td>
-                    <td class="text-center">
-                        @if (item.SeasonSpring == "false" || item.SeasonSummer == "false" || item.SeasonFall == "false" || item.SeasonWinter == "false")
-                        {
-                            @if (item.SeasonSpring == "false" && item.SeasonSummer == "false" && item.SeasonFall == "false" && item.SeasonWinter == "false")
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReminderItem)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Reminder)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.ActionPlanTitle)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.NotificationInterval)
+                        </td>
+                        <td class="text-center">
+                            @if (item.SeasonSpring == "false" || item.SeasonSummer == "false" || item.SeasonFall == "false" || item.SeasonWinter == "false")
                             {
-                                <text>All Year</text>
-                            }
-                            @if (item.SeasonSpring == "true")
-                            {
-                                <text>Spring</text>
-                            }
-                            @if (item.SeasonSummer == "true" && (item.SeasonSpring == "true"))
-                            {
-                                <text>, Summer</text>
+                                @if (item.SeasonSpring == "false" && item.SeasonSummer == "false" && item.SeasonFall == "false" && item.SeasonWinter == "false")
+                                {
+                                    <text>All Year</text>
+                                }
+                                @if (item.SeasonSpring == "true")
+                                {
+                                    <text>Spring</text>
+                                }
+                                @if (item.SeasonSummer == "true" && (item.SeasonSpring == "true"))
+                                {
+                                    <text>, Summer</text>
+                                }
+                                else
+                                {
+                                    if (item.SeasonSummer == "true")
+                                    {
+                                        <text>Summer</text>
+                                    }
+                                }
+                                @if (item.SeasonFall == "true" && (item.SeasonSummer == "true" || item.SeasonSpring == "true"))
+                                {
+                                    <text>, Fall</text>
+                                }
+                                else
+                                {
+                                    if (item.SeasonFall == "true")
+                                    {
+                                        <text>Fall</text>
+                                    }
+                                }
+                                @if (item.SeasonWinter == "true" && (item.SeasonSummer == "true" || item.SeasonFall == "true" || item.SeasonSpring == "true"))
+                                {
+                                    <text>, Winter</text>
+                                }
+                                else
+                                {
+                                    if (item.SeasonWinter == "true")
+                                    {
+                                        <text>Winter</text>
+                                    }
+                                }
                             }
                             else
                             {
-                                if (item.SeasonSummer == "true")
+                                @if (item.SeasonSpring == "true" && item.SeasonSummer == "true" && item.SeasonFall == "true" && item.SeasonWinter == "true")
                                 {
-                                    <text>Summer</text>
+                                    <text>All Year</text>
                                 }
                             }
-                            @if (item.SeasonFall == "true" && (item.SeasonSummer == "true" || item.SeasonSpring == "true"))
-                            {
-                                <text>, Fall</text>
-                            }
-                            else
-                            {
-                                if (item.SeasonFall == "true")
-                                {
-                                    <text>Fall</text>
-                                }
-                            }
-                            @if (item.SeasonWinter == "true" && (item.SeasonSummer == "true" || item.SeasonFall == "true" || item.SeasonSpring == "true"))
-                            {
-                                <text>, Winter</text>
-                            }
-                            else
-                            {
-                                if (item.SeasonWinter == "true")
-                                {
-                                    <text>Winter</text>
-                                }
-                            }
-                        }
-                        else
-                        {
-                            @if (item.SeasonSpring == "true" && item.SeasonSummer == "true" && item.SeasonFall == "true" && item.SeasonWinter == "true")
-                            {
-                                <text>All Year</text>
-                            }
-                        }
-                    </td>
+                        </td>
 
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="delete-maintenance-reminder">Delete</a>
-                    </td>
-                </tr>
-				}
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="delete-maintenance-reminder">Delete</a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
 </body>
 
 </html>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css">*@
+    @*<script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+
+
+    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>*@
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('#jqueryTable').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+        });
+    </script>
+}
