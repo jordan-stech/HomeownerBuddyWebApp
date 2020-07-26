@@ -20,6 +20,9 @@
                         <th class="never">
                             User Id
                         </th>
+                        <th class="never">
+                            Overdues
+                        </th>
                         <th class="all">
                             First Name
                         </th>
@@ -46,7 +49,30 @@
                     <tr>
                         <td>
                             @Html.Raw(user.Id)
-                        </td>
+                        </td>         
+                        @{int counter = 0;}
+                        @{bool overdue = false;}
+                        @{bool notOverdue = false;}
+                        @foreach (var item in Model)
+                        {
+                            @if (overdue != true)
+                            {
+                                @if (item.UserId == user.Id && item.Completed == "Overdue")
+                                {
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Completed)                                       
+                                    </td>
+                                    overdue = true;
+                                    counter++;
+                                }                                     
+                            }
+                        }
+                        @if (counter == 0) 
+                        {
+                            <td>
+                                @Model.FirstOrDefault(x => x.Completed != "Overdue")
+                            </td>
+                        }
                         <td>
                             @Html.Raw(user.FName)
                         </td>
@@ -77,9 +103,19 @@
                             None overdue
                         </td>
                             }
-                        <td>
+                        @if (count > 0)
+                        {
+                        <td class="all">
                             @*Empty for the Reminder Notification column*@
                         </td>
+                        }
+                        @if (count == 0)
+                        {
+                        <td id="hide">
+                            @*Empty for the Reminder Notification column*@
+                        </td>
+                        }
+
 
 
                         <!--<td>-->
@@ -117,16 +153,20 @@
                 "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                 "columns": [
                     { "id": "Id" },
+                    { "id": "Completed" },
                     { "id": "FName" },
                     { "id": "Lname" },
                     { "id": "address" },
-                    { "id": "Completed" },
-                    { "id": "DueDate" },
+                    { "id": null },
+                    { "id": null },
                 ],
                 "columnDefs": [{
-                    "targets": -1,
-                    "data": null,
-                    "defaultContent": "<button>Send Notification</button>"
+                    targets: [-1], render: function (a, b, data, d) {
+                        if (data[1] == "Overdue") {
+                            return "<button type='button'>Send Notification</button>";
+                        }
+                        return "";
+                    }
                 }]
             });
 
