@@ -78,8 +78,51 @@ namespace HOB_WebApp.Controllers
 
         // POST api/<BackgroundAPIController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async void Post()
         {
+
+            var userList = await _context.MobileUsers.ToListAsync();
+            var reminderList = await _context.UserReminders.ToListAsync();
+
+
+            FireBasePush push = new FireBasePush("AAAAUZUJsVw:APA91bGGHh_Zfzb4Ry3ywy68mcnuqWMdmFFa1YyoYc4EhCiNPiY95KhR-KAHnFbuE55Az3jiaMO-zLHkQK87UFWPyb_sYwv2o5-uR5YVcn71P1J2lB9aeObdeEkpi5ylaX7awaU4ZYvA");
+
+            // Create a Firebase notification for each user's reminders
+            foreach (MobileUsers user in userList)
+            {
+                int countTodo = 0;
+                int countOverdue = 0;
+                string userinstanceid = user.InstanceId;
+
+                foreach (UserReminders userReminder in reminderList)
+                {
+                    if (user.Id == userReminder.UserId && userReminder.Completed == "Due")
+                    {
+                        countTodo++;
+                    }
+
+                    else if (user.Id == userReminder.UserId && userReminder.Completed == "Overdue")
+                    {
+                        countOverdue++;
+                    }
+
+                }
+
+                // Create Firebase notification here using the count variables
+                if (countTodo > 0 || countOverdue > 0)
+                {
+                    push.SendPush(new PushMessage()
+                    {
+                        to = userinstanceid,
+                        notification = new PushMessageData
+                        {
+                            title = "You have new maintenance reminders",
+                            text = "You have " + countOverdue + " overdue tasks and " + countTodo + " due tasks.",
+                        }
+                    });
+                }
+            }
+
         }
 
         // PUT api/<BackgroundAPIController>/5

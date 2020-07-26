@@ -1,0 +1,117 @@
+﻿@model IEnumerable<HOB_WebApp.Models.UserReminders>
+
+@{
+    ViewData["Title"] = "ViewUserStatus";
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/maintenanceReminders.css">
+</head>
+
+<body>
+    
+    <h1 class="maintenance-reminder-header">@Model.First().FName @Model.First().LName</h1>
+    <h2>@Model.First().Address</h2>
+    
+
+    <div class="combined-container">
+        <table class="display responsive" id="jqueryTable">
+            <thead>
+                <tr>                   
+                    <th>
+                        Reminder
+                    </th>
+                    <th>
+                        Due Date
+                    </th>
+                    <th>
+                        Last Completed
+                    </th>
+                    <th>
+                        Completion Status
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+
+                <tr>                   
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.ReminderItem) - @Html.DisplayFor(modelItem => item.Reminder)
+                    </td>
+                    @if (item.FormattedDueDate == "01/01/1900" || item.Scheduled == "false")
+                    {
+                    <td class="text-center">
+                        <text>Not currently due</text>
+                    </td>
+                    }
+                    else
+                    {
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.FormattedDueDate)
+                    </td>
+                     }
+                    @if (item.FormattedLastCompleted == "01/01/1900")
+                    {
+                    <td class="text-center">
+                        <text></text>
+                    </td>
+                    }
+                    else
+                    {
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.FormattedLastCompleted)
+                    </td>
+                    }
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Completed)
+                    </td>
+                    <!--<td>-->
+                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                    @*<a asp-action="UserReminderDetails" asp-route-id="@item.Id">Details</a>*@
+                    @*<a asp-action="Delete" asp-route-id="@item.Id" class="delete-maintenance-reminder">Delete</a>*@
+                    <!--</td>-->
+                </tr>
+
+                }
+                <br />
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
+
+<div>
+    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
+    <a asp-action="Status">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css">*@
+    <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+
+
+    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>*@
+
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#jqueryTable').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+            });
+        });
+    </script>
+}

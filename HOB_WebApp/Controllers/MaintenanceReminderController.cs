@@ -29,13 +29,24 @@ namespace HOB_WebApp.Controllers
             return View(await _context.MaintenanceReminders.ToListAsync());
         }
 
-        // POST: MaintenanceReminders/Create
+        // POST: MaintenanceReminders/ViewUserStatus
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        
-        public async Task<IActionResult> ViewUserStatus() 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.       
+        public async Task<IActionResult> ViewUserStatus(int? id) 
         {
-            return RedirectToAction(nameof(Index));
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var userReminders = await _context.UserReminders
+                .Where(m => m.UserId == id).ToListAsync();
+            if (userReminders == null)
+            {
+                return NotFound();
+            }
+
+            return View(await _context.UserReminders.Where(m => m.UserId == id).ToListAsync());
         }
 
         // GET: UserReminders
@@ -43,7 +54,7 @@ namespace HOB_WebApp.Controllers
         {           
             ViewBag.MobileUsers = await _context.MobileUsers.ToListAsync();
 
-            return View(await _context.UserReminders.OrderBy(m => m.UserId).ToListAsync());
+            return View(await _context.UserReminders.OrderBy(m => m.Address).ToListAsync());
         }
 
         // GET: MaintenanceReminders/Details/5

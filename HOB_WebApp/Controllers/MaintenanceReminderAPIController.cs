@@ -1258,10 +1258,10 @@ namespace HOB_WebApp.Controllers
          * The "5" that they use in the sample url below is the id of a specific action plan in the db
          * In order for this to work, you must know the particular action plan ID ahead of time
          **/
-                    // PUT: api/MaintenanceReminderAPI/5
-                    // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-                    // more details see https://aka.ms/RazorPagesCRUD.
-                    [HttpPut("{ReminderId}")]
+        // PUT: api/MaintenanceReminderAPI/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [HttpPut("{ReminderId}")]
         public async Task<ActionResult<UserReminders>> PutContentModel(string reminderId, UserReminders userReminder)
         {
             int newId = Int32.Parse(reminderId);

@@ -11,93 +11,87 @@
 
 <body>
     <h1 class="maintenance-reminder-header">Reminder Status</h1>
+    <h4><i>Click a user to view their reminder tasks</i></h4>
     
-    <div class="combined-container">
-        <table class="display responsive" id="jqueryTable">
-            <thead>
-                <tr>
-                    <th class="all">
-                        First Name
-                    </th>
-                    <th class="all">
-                        Last Name
-                    </th>
-                    <th class="all" class="text-center">
-                        Address
-                    </th>
-                    <th class="none" class="text-center">
-                        Reminder
-                    </th>
-                    <th class="none" class="text-center">
-                        Due Date
-                    </th>
-                    <th class="none" class="text-center">
-                        Last Completed
-                    </th>
-                    <th class="none" class="text-center">
-                        Completion Status
-                    </th>
+        <div class="combined-container">
+            <table class="display responsive" id="jqueryTable">               
+                <thead>
+                    <tr>
+                        <th class="never">
+                            User Id
+                        </th>
+                        <th class="all">
+                            First Name
+                        </th>
+                        <th class="all">
+                            Last Name
+                        </th>
+                        <th class="all">
+                            Address
+                        </th>
+                        <th class="all">
+                            Reminder Status
+                        </th>
+                        <th class="all">
+                            Remind Them!
+                        </th>
+                    </tr>
+                </thead>
 
-                </tr>
-            </thead>
-            <tbody>
+                <tbody>
 
-                @foreach (var item in Model)
-                {
-                
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LName)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.ReminderItem) - @Html.DisplayFor(modelItem => item.Reminder)
-                    </td>
-                    @if (item.FormattedDueDate == "01/01/1900" || item.Scheduled == "false")
+
+                    @foreach (var user in ViewBag.MobileUsers) 
                     {
-                        <td class="text-center">
-                            <text>Not currently due</text>
+                    <tr>
+                        <td>
+                            @Html.Raw(user.Id)
                         </td>
+                        <td>
+                            @Html.Raw(user.FName)
+                        </td>
+                        <td>
+                            @Html.Raw(user.Lname)
+                        </td>
+                        <td>
+                            @Html.Raw(user.address)
+                        </td>
+
+                        @{int count = 0;}
+                        @foreach (var item in Model)
+                            {
+                        @if (item.UserId == user.Id && item.Completed == "Overdue")
+                                {
+                                    count++;
+                                }
+                            }
+                        @if (count > 0)
+                            {
+                        <td>
+                            @count Overdue
+                        </td>
+                            }
+                        @if (count == 0)
+                            {
+                        <td>
+                            None overdue
+                        </td>
+                            }
+                        <td>
+                            @*Empty for the Reminder Notification column*@
+                        </td>
+
+
+                        <!--<td>-->
+                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                        @*<a asp-action="UserReminderDetails" asp-route-id="@item.Id">Details</a>*@
+                        @*<a asp-action="Delete" asp-route-id="@item.Id" class="delete-maintenance-reminder">Delete</a>*@
+                        <!--</td>-->
+                    </tr>
                     }
-                    else
-                    {
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.FormattedDueDate)
-                        </td>
-                     }
-                    @if (item.FormattedLastCompleted == "01/01/1900")
-                    {
-                        <td class="text-center">
-                            <text></text>
-                        </td>
-                    }
-                    else
-                    {
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.FormattedLastCompleted)
-                        </td>
-                    }
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.Completed)
-                    </td>
-                    <!--<td>-->
-                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                    @*<a asp-action="UserReminderDetails" asp-route-id="@item.Id">Details</a>*@
-                    @*<a asp-action="Delete" asp-route-id="@item.Id" class="delete-maintenance-reminder">Delete</a>*@
-                    <!--</td>-->
-                </tr>
-                        
-                }
-                <br />
-            </tbody>
-        </table>
-    </div>
-    
+                </tbody>
+            </table>
+        </div>
 </body>
 </html>
 
@@ -107,52 +101,62 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css">*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css">
     <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
 
-    
 
-    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>*@
 
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
 
 
     <script>
         $(document).ready(function () {
-            var table = $('#jqueryTable').DataTable( {
-                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]               
-        });
-
-        var date={};
-        $('#jqueryTable').on( 'click', 'tr', function () {
-            // Get the rows id value
-            //var id = table.row( this ).id();
-            // Filter for only numbers
-            //id = id.replace(/\D/g, '');
-            // Transform to numeric value
-            //id = parseInt(id, 10);
-            // So instead of returning the actual id which is row_1
-            // We get back just the primary key which is 1
-            //alert( 'Clicked row id '+id );
-
-            data = table.row( this ).data();
-            //alert( data[0] +"'s salary is: "+ data[ 5 ] );
-
-            performAction(data);
-        });
-        
-        function performAction(data) {
-          
-          $.ajax({
-              url: '/MaintenanceReminderController/ViewUserStatus',
-              type: "GET",
-              async:true,
-              
+            var table = $('#jqueryTable').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "columns": [
+                    { "id": "Id" },
+                    { "id": "FName" },
+                    { "id": "Lname" },
+                    { "id": "address" },
+                    { "id": "Completed" },
+                    { "id": "DueDate" },
+                ],
+                "columnDefs": [{
+                    "targets": -1,
+                    "data": null,
+                    "defaultContent": "<button>Send Notification</button>"
+                }]
             });
-            alert( data[0] +"'s due date: "+ data[ 4 ] );
-        }
 
+            $('#jqueryTable').on('click', 'tr', function () {
+                $(this).closest('tr').toggleClass('selected');
+                data = table.row(this).data();
+                performAction(data[0]);
+            });
+
+            $('#jqueryTable tbody').on('click', 'button', function (e) {
+                e.stopPropagation();
+                var userInfo = table.row($(this).parents('tr')).data();
+                sendNotification(userInfo[0], userInfo[1], userInfo[2]);
+            });
+
+            function performAction(data) {
+                window.location.href = '@Url.Action("ViewUserStatus", "MaintenanceReminder")/' + data;
+            }
+
+            function sendNotification(userId, userFName, userLName) {                
+                // Send a GET request to the ManualNotificationAPI to create a notification for the specific user
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://habitathomeownerbuddy.azurewebsites.net/api/ManualNotificationAPI?id=' + userId,
+                    contentType: 'json',
+                    success: function () {
+                        alert('Notification sent to ' + userFName + ' ' + userLName + '!');
+                    }
+                });
+            }
         });
     </script>
 }
