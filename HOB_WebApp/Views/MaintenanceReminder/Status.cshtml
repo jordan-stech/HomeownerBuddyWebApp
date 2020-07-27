@@ -163,7 +163,7 @@
                 "columnDefs": [{
                     targets: [-1], render: function (a, b, data, d) {
                         if (data[1] == "Overdue") {
-                            return "<button type='button'>Send Notification</button>";
+                            return "<button type='button' class='btn btn-primary p-1'>Send Notification</button>";
                         }
                         return "";
                     }
@@ -179,7 +179,7 @@
             $('#jqueryTable tbody').on('click', 'button', function (e) {
                 e.stopPropagation();
                 var userInfo = table.row($(this).parents('tr')).data();
-                sendNotification(userInfo[0], userInfo[1], userInfo[2]);
+                sendNotification(userInfo[0], userInfo[2], userInfo[3]);
             });
 
             function performAction(data) {
