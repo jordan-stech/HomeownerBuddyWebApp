@@ -36,6 +36,12 @@
                             Reminder Status
                         </th>
                         <th class="all">
+                            Notification Title
+                        </th>
+                        <th class="all">
+                            Notification Text
+                        </th>
+                        <th class="all">
                             Remind Them!
                         </th>
                     </tr>
@@ -49,29 +55,29 @@
                     <tr>
                         <td>
                             @Html.Raw(user.Id)
-                        </td>         
+                        </td>
                         @{int counter = 0;}
                         @{bool overdue = false;}
                         @{bool notOverdue = false;}
                         @foreach (var item in Model)
                         {
-                            @if (overdue != true)
+                        @if (overdue != true)
                             {
-                                @if (item.UserId == user.Id && item.Completed == "Overdue")
+                        @if (item.UserId == user.Id && item.Completed == "Overdue")
                                 {
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Completed)                                       
-                                    </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Completed)
+                        </td>
                                     overdue = true;
                                     counter++;
-                                }                                     
+                                }
                             }
                         }
-                        @if (counter == 0) 
+                        @if (counter == 0)
                         {
-                            <td>
-                                @Model.FirstOrDefault(x => x.Completed != "Overdue")
-                            </td>
+                        <td>
+                            @Model.FirstOrDefault(x => x.Completed != "Overdue")
+                        </td>
                         }
                         <td>
                             @Html.Raw(user.FName)
@@ -103,14 +109,19 @@
                             None overdue
                         </td>
                             }
+
                         @if (count > 0)
                         {
+                        <td><input type="text" id="titleInput" name="titleInput"></td>
+                        <td><input type="text" id="bodyInput" name="bodyInput"></td>
                         <td class="all">
                             @*Empty for the Reminder Notification column*@
                         </td>
                         }
                         @if (count == 0)
                         {
+                        <td></td>
+                        <td></td>
                         <td id="hide">
                             @*Empty for the Reminder Notification column*@
                         </td>
@@ -159,6 +170,8 @@
                     { "id": "address" },
                     { "id": null },
                     { "id": null },
+                    { "id": null },
+                    { "id": null },
                 ],
                 "columnDefs": [{
                     targets: [-1], render: function (a, b, data, d) {
@@ -170,27 +183,42 @@
                 }]
             });
 
-            $('#jqueryTable').on('click', 'tr', function () {
+            $('#jqueryTable').on('click', 'tr', function (evt) {
+                if ($(evt.target).is("input")) {
+                    return;
+                }
                 $(this).closest('tr').toggleClass('selected');
                 data = table.row(this).data();
                 performAction(data[0]);
             });
 
             $('#jqueryTable tbody').on('click', 'button', function (e) {
+                // Prevent the entire row being click when the button is pressed
                 e.stopPropagation();
+                var currRow = table.row($(this).parents('tr'));
+                var notificationTitle = table.cell(currRow, 6).nodes().to$().find('input').val();
+                var notificationBody = table.cell(currRow, 7).nodes().to$().find('input').val();
                 var userInfo = table.row($(this).parents('tr')).data();
-                sendNotification(userInfo[0], userInfo[2], userInfo[3]);
+
+                if (notificationTitle != "" || notificationBody != "") {
+                    sendNotification(userInfo[0], userInfo[2], userInfo[3], notificationTitle, notificationBody);
+                }
+                else {
+                    alert('You must enter a notification title or body text.');
+                }
             });
 
             function performAction(data) {
                 window.location.href = '@Url.Action("ViewUserStatus", "MaintenanceReminder")/' + data;
             }
 
-            function sendNotification(userId, userFName, userLName) {                
+            function sendNotification(userId, userFName, userLName, title, body) {  
+                var data = "?id=" + userId + '&title=' + title + '&body=' + body;
+
                 // Send a GET request to the ManualNotificationAPI to create a notification for the specific user
                 $.ajax({
                     type: 'GET',
-                    url: 'https://habitathomeownerbuddy.azurewebsites.net/api/ManualNotificationAPI?id=' + userId,
+                    url: 'https://habitathomeownerbuddy.azurewebsites.net/api/ManualNotificationAPI' + data,
                     contentType: 'json',
                     success: function () {
                         alert('Notification sent to ' + userFName + ' ' + userLName + '!');

@@ -27,7 +27,7 @@ namespace HOB_WebApp.Controllers
 
         // GET api/<ManualNotificationAPIController>/5
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserReminders>>> GetNotification(int id)
+        public async Task<ActionResult<IEnumerable<UserReminders>>> GetNotification(int id, string title, string body)
         {
             var currentUser = await _context.MobileUsers
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -48,30 +48,18 @@ namespace HOB_WebApp.Controllers
             FireBasePush push = new FireBasePush("AAAAUZUJsVw:APA91bGGHh_Zfzb4Ry3ywy68mcnuqWMdmFFa1YyoYc4EhCiNPiY95KhR-KAHnFbuE55Az3jiaMO-zLHkQK87UFWPyb_sYwv2o5-uR5YVcn71P1J2lB9aeObdeEkpi5ylaX7awaU4ZYvA");
 
             // Create and send notification
-            if (countOverdue > 1)
+            
+            push.SendPush(new PushMessage()
             {
-                push.SendPush(new PushMessage()
+                to = userinstanceid,
+                notification = new PushMessageData
                 {
-                    to = userinstanceid,
-                    notification = new PushMessageData
-                    {
-                        title = "You have " + countOverdue + " OVERDUE maintenance tasks",
-                        text = "Please review your overdue tasks as soon as possible.",
-                    }
-                });
-            }
-            else
-            {
-                push.SendPush(new PushMessage()
-                {
-                    to = userinstanceid,
-                    notification = new PushMessageData
-                    {
-                        title = "You have " + countOverdue + " OVERDUE maintenance task",
-                        text = "Please review your overdue tasks as soon as possible.",
-                    }
-                });
-            }
+                    title = title,
+                    text = body,
+                }
+            });
+            
+            
 
             return NoContent();
         }

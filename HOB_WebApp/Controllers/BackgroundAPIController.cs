@@ -177,8 +177,8 @@ namespace HOB_WebApp.Controllers
                     var dueDate = userReminder.DueDate;
                     int dateDiff = DateTime.Compare(dueDate, date);
 
-                    // If the current date is the same or later than the due date, mark the user's task as Overdue
-                    if (dateDiff < 0 || dateDiff == 0)
+                    // If the current date is later than the due date, mark the user's task as Overdue
+                    if (dateDiff < 0)
                     {
                         userReminder.Completed = "Overdue";
                         _context.UserReminders.Update(userReminder);
