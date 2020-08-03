@@ -36,7 +36,8 @@ namespace HOB_WebApp
 
         public static void FirebaseTimerThreadProc()
         {
-            int timeval = 60 * 1000;
+            // Set to once per week
+            int timeval = 604800000;
             System.Timers.Timer timer1 = new System.Timers.Timer
             {
                 Interval = timeval
@@ -48,6 +49,7 @@ namespace HOB_WebApp
 
         public static void DueDateTimerThreadProc()
         {
+            // Set to once every hour
             int timeval = 10000;
             System.Timers.Timer timer1 = new System.Timers.Timer
             {
