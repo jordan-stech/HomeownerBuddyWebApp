@@ -18,6 +18,15 @@ namespace HOB_WebApp.Models
         public string address { get; set; }
         //The date that the user registered
         public string date { get; set; }
+        public string FormattedDate
+        {
+            get
+            {
+                DateTime currDate = Convert.ToDateTime(this.date);
+                return currDate.ToString("yyyy/MM/dd");
+            }
+
+        }
         public string InstanceId { get; set; }
     }
 }

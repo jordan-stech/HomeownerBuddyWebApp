@@ -46,6 +46,8 @@ namespace HOB_WebApp.Controllers
                 return NotFound();
             }
 
+            ViewBag.MobileUsers = await _context.MobileUsers.ToListAsync();
+
             return View(await _context.UserReminders.Where(m => m.UserId == id).ToListAsync());
         }
 

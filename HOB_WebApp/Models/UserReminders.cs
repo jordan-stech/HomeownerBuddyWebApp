@@ -40,7 +40,7 @@ namespace HOB_WebApp.Models
         {
             get
             {
-                return this.DueDate.ToString("MM/dd/yyyy");
+                return this.DueDate.ToString("yyyy/MM/dd");
             }
             
         }
@@ -49,7 +49,7 @@ namespace HOB_WebApp.Models
         {
             get
             {
-                return this.LastCompleted.ToString("MM/dd/yyyy");
+                return this.LastCompleted.ToString("yyyy/MM/dd");
             }
 
         }

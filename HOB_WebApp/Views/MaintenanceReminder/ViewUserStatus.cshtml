@@ -10,15 +10,39 @@
 </head>
 
 <body>
-    
-    <h1 class="maintenance-reminder-header">@Model.First().FName @Model.First().LName</h1>
+
+    @{List<string> names = new List<string>();}
+    @foreach (var user in ViewBag.MobileUsers)
+    {
+        
+            @if (user.address == @Model.First().Address)
+            {
+                names.Add(user.FName + " " + user.Lname);
+            }
+        
+    }
+
+    @{names.Sort();}
+    <h1 class="maintenance-reminder-header">
+        @for (int i = 0; i < names.Count(); i++)
+        {
+            @if (i == names.Count() - 1) 
+            {
+                @names[i];
+            }
+            else 
+            {
+                @names[i]@:, 
+            }
+        }
+    </h1>
     <h2>@Model.First().Address</h2>
-    
+
 
     <div class="combined-container">
         <table class="display responsive" id="jqueryTable">
             <thead>
-                <tr>                   
+                <tr>
                     <th>
                         Reminder
                     </th>
@@ -39,7 +63,7 @@
                 @foreach (var item in Model)
                 {
 
-                <tr>                   
+                <tr>
                     <td class="text-center">
                         @Html.DisplayFor(modelItem => item.ReminderItem) - @Html.DisplayFor(modelItem => item.Reminder)
                     </td>
@@ -55,7 +79,7 @@
                         @Html.DisplayFor(modelItem => item.FormattedDueDate)
                     </td>
                      }
-                    @if (item.FormattedLastCompleted == "01/01/1900")
+                    @if (item.FormattedLastCompleted == "1900/01/01")
                     {
                     <td class="text-center">
                         <text></text>
